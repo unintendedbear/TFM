@@ -8,12 +8,12 @@ use strict;
 my $hola = "mundo!";
 print "Hola $hola\n";
 
-# String with names inside square brackets
-my $string = "Hello [Peter] , [Sophie] and [Jack] are here.";
+my @a = (0, 1, 2, 3, 4, 5, 6);
+my @b = ();
 
-pos($string) = 0;
-while (my $string =~ m{\G.*\[([^\]+)\]}cg)
-{
-    my $name = $1;
-    print "Found name $name .\n";
+foreach (@a) {
+	print "$_\n";
+	$b[$_] = ($_/3)%3;
 }
+
+print "@b\n";
