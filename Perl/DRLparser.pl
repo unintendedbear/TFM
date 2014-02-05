@@ -28,11 +28,28 @@ my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools
 #   },
 #);
 
+my %reglas = (); #Inicializar el hash
+my $orden = "";
+
+
 open (IN, "<$drlfile") or die "No existe el fichero ".$drlfile; #Abrir y leerlo
 while (<IN>)
 {
-	next unless s/^(.*?):\s*//;
-	print $_;
+	if ($_ =~ /^\D+\.(.+)\(\)\;/) {
+		$orden = $1;
+		print "$orden\n";
+	} #PROBLEMAZO: el deny() o allow() SE LEE DESPUÉS T_T
+	if ($_ =~ /^\D+:\D+\((.+)\)/) {
+		for my $i (my @condiciones = split /,/, $1) {
+			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "(.+)"/) {
+				print "$1\n";
+				print "$2\n";
+				print "$3\n";
+			}
+		}		
+	}
+
+#	$reglas{$orden}{$campo} = $valor;
 }
 close IN;
 
