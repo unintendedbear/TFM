@@ -1,0 +1,80 @@
+Política 1
+
+Cualquier ejecución de streaming de video en oficina será denegada por el sistema.
+
+rule "policy-1 FLV"
+when
+	squid:Squid(dif_MCT=="video",dif_content=="video/x-flv")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-1 MP4"
+when
+	squid:Squid(dif_MCT=="video",dif_content=="video/mp4")
+then
+	PolicyDecisionPoint.deny();
+end
+
+
+Política 2
+
+Cualquier descarga de videos en oficina será denegada por el sistema.
+
+rule "policy-2 Download"
+when
+	squid:Squid(dif_MCT=="video",bytes>1000000)
+then
+	PolicyDecisionPoint.deny();
+end
+
+Política 3
+
+La utilización de aplicaciones de la blacklist será denegada por la organización.
+
+rule "policy-3 Blacklist Dropbox"
+when
+	squid:Squid(url matches "*.dropbox.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Blacklist Logmein"
+when
+	squid:Squid(url matches "*.logmein.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Blacklist Gmail"
+when
+	squid:Squid(url matches "*.gmail.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Blacklist Google Drive"
+when
+	squid:Squid(url matches "*.googledrive.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Exception Youtube"
+when
+	squid:Squid(url matches "*.youtube.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+Política 4
+
+Por defecto, cualquier acceso de tipo PUT, será denegado
+
+rule "policy-4 Request PUT"
+when
+	squid:Squid(http_method=="PUT")
+then
+	PolicyDecisionPoint.deny();
+end
+
