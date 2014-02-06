@@ -17,3 +17,17 @@ foreach (@a) {
 }
 
 print "@b\n";
+
+my $file = "data_100k_instances_url_log_redux.csv";
+
+open (IN, "<$file") or die "No existe el fichero ".$file; #Abrir y leerlo
+
+    my @fichero = <IN>;
+    shift @fichero;
+    my $variable = join '',@fichero;
+
+for my $i (my @datoslog = split /;/, $variable) {
+		print "$i\n\n";
+	}
+
+
