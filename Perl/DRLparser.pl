@@ -16,23 +16,21 @@ my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools
 #end
 #Entonces 
 #%reglas = (
-#   deny => {
-#       dif_MCT		=> {
-#			relacion => "==",
-#			valor => "video",
-#			},
-#       dif_content	=> {
-#			relacion => "==",
-#			valor => "video/x-flv",
-#			},
+#   regla => {
+#       accion	  => deny/allow, 
+#       campo0	  => dif_MCT/bytes/url,...
+#	relacion0 => ==/matches/</>
+#	valor0	  => ...
+#       campo1	  => dif_MCT/bytes/url,...
+#	relacion1 => ==/matches/</>
+#	valor1	  => ...
 #   },
 #);
 #
-# Problema: ¿y la relación entre ellas? ~ pues hash de hash de hash
 
 my %reglas = (); #Inicializar el hash
 my @keys = ("accion", "campo", "relacion", "valor");
-my $ind_regla = -1;
+my $ind_regla = 0;
 my $orden = "";
 
 
@@ -41,10 +39,13 @@ while (<IN>)
 {
 	my @argumentos = ();
 	if ($_ =~ /^\D+\.(.+)\(\)\;/) {
-		$orden = $1;		
-	} #PROBLEMAZO: el deny() o allow() SE LEE DESPUÉS T_T
-	if ($_ =~ /^\D+:\D+\((.+)\)/) {
+		$orden = $1;
+		$reglas{"regla".$ind_regla}{$keys[0]} = $orden;
 		$ind_regla++;
+		print "$_\n";		
+	} #PROBLEMAZO: el deny() o allow() SE LEE DESPUÉS T_T #Fixed
+	if ($_ =~ /^\D+:\D+\((.+)\)/) {
+		print "$_\n";
 		for my $i (my @condiciones = split /,/, $1) {
 			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "(.+)"/) {
 				my @argtemp = ($1, $2, $3);
@@ -57,15 +58,13 @@ while (<IN>)
 	for my $j (0 .. $#argumentos) {
 		my $temp = ($j/3)%3;
 		$reglas{"regla".$ind_regla}{$keys[$ind_keys].$temp} = $argumentos[$j];
-#		print "regla".$ind_regla." ".$keys[$ind_keys].$temp." ".$argumentos[$j]."\n";
 		$ind_keys++;
 		if ($ind_keys == 4) {$ind_keys = 1;} 
-		$reglas{"regla".$ind_regla}{$keys[0]} = $orden;
-		print Dumper(\%reglas); #A ver como se va rellenando el hash
+#		print Dumper(\%reglas); #A ver como se va rellenando el hash
 	}
 }
 close IN;
 
-#print Dumper(\%reglas);
+print Dumper(\%reglas);
 
 
