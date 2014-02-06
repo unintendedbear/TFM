@@ -28,18 +28,18 @@ my $count = 0;
 
 while (<IN>) {
 
-print "$_\n";
+#print "$_\n";
 my @datoslog = split /;/, $_;
-print "@keys\n";
-
-#print "dato: $datoslog[$count]\n";
+for my $d (0 .. $#datoslog) { 
+	if ($datoslog[$d] =~ /"(.+)"/) { $datoslog[$d] = $1; }
+}
 
 	for my $i (0 .. $#keys) {
-		$logentradas{"entrada".$numentrada}{$keys[$i]} = $datoslog[$count];
+		$count = $count + $i;
+		$logentradas{"entrada".$numentrada}{$keys[$i]} = $datoslog[$i];
 #		print "cuenta: $count\n";
 #		print "entrada".$numentrada."\n$_\n".$datoslog[$count]."\n";
-#		print "dato: $datoslog[$count]\n";
-		$count = $count + $i;
+#		print "dato: $datoslog[$i]\n";
 	}
 
 	$numentrada++;
@@ -48,4 +48,4 @@ print "@keys\n";
 
 close IN;
 
-#print Dumper(\%logentradas);
+print Dumper(\%logentradas);
