@@ -81,22 +81,25 @@ close IN;
 #	squid_hierarchy		=> DEFAULT_PARENT,
 #	bytes			=> 106961,
 #	url			=> http://...,
-#	client_address		=> 10.159.76.30
+#	client_address		=> 10.159.76.30,
+#	content_type_MCT	=> application
 #   },
 #);
 #
+# NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
 my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
 #my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 my %logentradas = (); #Inicializar el hash de entradas de log
 
-open (IN2, "<$logfile") or die "No existe el fichero ".$logfile;
+open (IN2, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
 
 my @keys = split /;/, <IN2>;     #Extraer las claves de la primera línea del fichero
 for my $k (0 .. $#keys) { 
 	$keys[$k] =~ /"(.+)"/;
 	$keys[$k] = $1;
 }
+push (@keys, 'content_type_MCT'); # Entonces content_type_MCT está en $keys[$#keys]
 
 my $numentrada = 0;
 my $count = 0;
@@ -105,10 +108,15 @@ while (<IN2>) {
 
 my @datoslog = split /;/, $_;
 for my $d (0 .. $#datoslog) { 
-	if ($datoslog[$d] =~ /"(.+)"/) { $datoslog[$d] = $1; }
+	if ($datoslog[$d] =~ /"(.+)"/) { 
+		$datoslog[$d] = $1;
+		if ($1 =~ /^(\w+-*\w+)[\/?]\w+/) {
+			$logentradas{"entrada".$numentrada}{$keys[$#keys]} = $1;
+		}
+	}
 }
 
-	for my $i (0 .. $#keys) {
+	for my $i (0 .. $#keys-1) {
 		$count = $count + $i;
 		$logentradas{"entrada".$numentrada}{$keys[$i]} = $datoslog[$i];
 	}
@@ -127,12 +135,19 @@ close IN2;
 #
 # dif_code	= http_code
 # dif_met	= http_method
-# dif_MCT	= MCT del content_type (en application/octet-stream el MCT = application)
+# dif_MCT	= content_type_MCT
 # dif_content	= content_type
 # dif_squid	= squid_hierarchy
 # url		= url
 # bytes		= bytes
 #
 
-
+my %diccionario;
+$diccionario{"dif_code"} = "http_code";
+$diccionario{"dif_met"} = "http_method";
+$diccionario{"dif_MCT"} = "content_type_MCT";
+$diccionario{"dif_content"} = "content_type";
+$diccionario{"dif_squid"} = "squid_hierarchy";
+$diccionario{"url"} = "url";
+$diccionario{"bytes"} = "bytes";
 

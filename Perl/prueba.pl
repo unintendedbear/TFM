@@ -4,9 +4,12 @@
 
 use warnings;
 use strict;
+use Data::Dumper;
 
 my $hola = "mundo!";
 print "Hola $hola\n";
+
+print "-------\n";
 
 my @a = (0, 1, 2, 3, 4, 5, 6);
 my @b = ();
@@ -18,16 +21,27 @@ foreach (@a) {
 
 print "@b\n";
 
-my $file = "data_100k_instances_url_log_redux.csv";
+print "-------\n";
 
-open (IN, "<$file") or die "No existe el fichero ".$file; #Abrir y leerlo
+print "$#aº valor de a: $a[$#a]\n";
 
-    my @fichero = <IN>;
-    shift @fichero;
-    my $variable = join '',@fichero;
+print "-------\n";
 
-for my $i (my @datoslog = split /;/, $variable) {
-		print "$i\n\n";
-	}
+for my $i (0 .. $#a-1) {
+	print "contador $i\n";
+}
+
+print "-------\n";
+
+my %diccionario;
+$diccionario{"dif_code"} = "http_code";
+$diccionario{"dif_met"} = "http_method";
+$diccionario{"dif_MCT"} = "content_type";
+$diccionario{"dif_content"} = "content_type";
+$diccionario{"dif_squid"} = "squid_hierarchy";
+$diccionario{"url"} = "url";
+$diccionario{"bytes"} = "bytes";
+
+print Dumper(\%diccionario);
 
 
