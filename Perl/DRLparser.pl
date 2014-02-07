@@ -41,11 +41,9 @@ while (<IN>)
 	if ($_ =~ /^\D+\.(.+)\(\)\;/) {
 		$orden = $1;
 		$reglas{"regla".$ind_regla}{$keys[0]} = $orden;
-		$ind_regla++;
-		print "$_\n";		
+		$ind_regla++;	
 	} #PROBLEMAZO: el deny() o allow() SE LEE DESPUÉS T_T #Fixed
 	if ($_ =~ /^\D+:\D+\((.+)\)/) {
-		print "$_\n";
 		for my $i (my @condiciones = split /,/, $1) {
 			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "(.+)"/) {
 				my @argtemp = ($1, $2, $3);
@@ -66,5 +64,3 @@ while (<IN>)
 close IN;
 
 print Dumper(\%reglas);
-
-

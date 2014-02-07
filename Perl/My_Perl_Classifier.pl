@@ -4,7 +4,22 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-# Este programa intenta clasificar una serie de datos de log parseados en función de unas reglas en Drools también parseadas.
+####################################################################################################################################
+# Este programa intenta clasificar una serie de datos de log parseados en función de unas reglas en Drools también parseadas.	   #
+#																   #
+# Como resultado quiero obtener un hash que sea:										   #
+#																   #
+#%datos_etiquetados = (														   #
+#   			entrada0 => deny,											   #
+#			entrada1 => deny,											   #
+#			entrada2 => allow,											   #
+#			...											   		   #
+#			entrada99998 => deny,											   #
+#			entrada99999 => allow,											   #
+#			entrada100000 => deny											   #
+#   		      },											   		   #
+#);											   					   #
+####################################################################################################################################
 # Las reglas de políticas son del tipo:
 #
 #rule "policy-1 FLV"
@@ -151,3 +166,27 @@ $diccionario{"dif_squid"} = "squid_hierarchy";
 $diccionario{"url"} = "url";
 $diccionario{"bytes"} = "bytes";
 
+# Así que si la regla dice dif_MCT=="video", tenemos que buscar la clave $diccionario{"dif_MCT"} en el hash de entradas de log y ver si su valor es # "video".
+
+# Para extraer cosas de un hash, hay que saber en qué orden se obtienen cuando se usa 'sort keys'. Obtenemos:
+# regla0, accion: deny			# entrada0, bytes: 106961
+# regla0, campo0: dif_MCT		# entrada0, client_address: 10.159.76.30
+# regla0, campo1: dif_content		# entrada0, content_type: application/octet-stream
+# regla0, relacion0: ==			# entrada0, content_type_MCT: application
+# regla0, relacion1: ==			# entrada0, duration_milliseconds: 1114
+# regla0, valor0: video			# entrada0, http_method: GET
+# regla0, valor1: video/x-flv		# entrada0, http_reply_code: 200
+					# entrada0, server_or_cache_address: 192.168.4.4
+					# entrada0, squid_hierarchy: DEFAULT_PARENT
+					# entrada0, time: 08:30:08
+					# entrada0, url: http://au.download.windowsupdate.com/msdownload/update/software/uprl/2013/02/wu-windows6.1-kb2729094-v2-x64_7d08944484d693e51abaf9c37ec5b54019309e22.exe
+#
+# Es decir, por orden alfabético.
+#
+
+my $ind_reglas;  # Este índice es para ver cuántas reglas hemos comprobado ya.
+my $ind_campos;  # Este índice es para ir sacando las condiciones de la regla, sabiendo que primero obtenemos los dos campos, luego
+		 # lo que tienen que cumplir y por último los dos valores.
+my $ind_entrada; # Este índice es para saber qué entrada estamos comprobando.
+
+for my $ind (0 .. $#keys-1)
