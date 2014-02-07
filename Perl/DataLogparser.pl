@@ -4,7 +4,8 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 my %logentradas = (); #Inicializar el hash de entradas de log
 
 open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
