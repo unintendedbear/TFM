@@ -42,6 +42,9 @@ $diccionario{"dif_squid"} = "squid_hierarchy";
 $diccionario{"url"} = "url";
 $diccionario{"bytes"} = "bytes";
 
-print Dumper(\%diccionario);
+#print Dumper(\%diccionario);
 
+
+#print $diccionario{"dif_code"}."=="."http_code"."\n";
+if (eval("\$diccionario{'dif_code'} eq 'http_code'")) {print "yes\n";}
 

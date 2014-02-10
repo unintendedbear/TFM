@@ -60,10 +60,8 @@ while (<IN>)
 		$orden = $1;
 		$reglas{"regla".$ind_regla}{$keys[0]} = $orden; # Como la acción se lee después de las condiciones, hay que meterlo en el 
 		$ind_regla++;					# hash antes de que pare a la siguiente regla.
-		print "$_\n";		
 	}
 	if ($_ =~ /^\D+:\D+\((.+)\)/) {
-		print "$_\n";
 		for my $i (my @condiciones = split /,/, $1) {
 			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "(.+)"/) {
 				my @argtemp = ($1, $2, $3);
@@ -109,12 +107,12 @@ my %logentradas = (); #Inicializar el hash de entradas de log
 
 open (IN2, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
 
-my @keys = split /;/, <IN2>;     #Extraer las claves de la primera línea del fichero
+my @keys2 = split /;/, <IN2>;     #Extraer las claves de la primera línea del fichero
 for my $k (0 .. $#keys) { 
-	$keys[$k] =~ /"(.+)"/;
-	$keys[$k] = $1;
+	$keys2[$k] =~ /"(.+)"/;
+	$keys2[$k] = $1;
 }
-push (@keys, 'content_type_MCT'); # Entonces content_type_MCT está en $keys[$#keys]
+push (@keys2, 'content_type_MCT'); # Entonces content_type_MCT está en $keys[$#keys]
 
 my $numentrada = 0;
 my $count = 0;
@@ -126,14 +124,14 @@ for my $d (0 .. $#datoslog) {
 	if ($datoslog[$d] =~ /"(.+)"/) { 
 		$datoslog[$d] = $1;
 		if ($1 =~ /^(\w+-*\w+)[\/?]\w+/) {
-			$logentradas{"entrada".$numentrada}{$keys[$#keys]} = $1;
+			$logentradas{"entrada".$numentrada}{$keys2[$#keys2]} = $1;
 		}
 	}
 }
 
-	for my $i (0 .. $#keys-1) {
+	for my $i (0 .. $#keys2-1) {
 		$count = $count + $i;
-		$logentradas{"entrada".$numentrada}{$keys[$i]} = $datoslog[$i];
+		$logentradas{"entrada".$numentrada}{$keys2[$i]} = $datoslog[$i];
 	}
 
 	$numentrada++;
@@ -189,4 +187,67 @@ my $ind_campos;  # Este índice es para ir sacando las condiciones de la regla, 
 		 # lo que tienen que cumplir y por último los dos valores.
 my $ind_entrada; # Este índice es para saber qué entrada estamos comprobando.
 
-for my $ind (0 .. $#keys-1)
+my @total_reglas = sort keys %reglas; # regla0 regla1 regla2 regla3 regla4 regla5 regla6 regla7 regla8
+my @total_entradas = sort keys %logentradas; # entrada0 ... entrada999999
+
+my @etiquetas = ();
+my %datos_etiquetados = ();
+
+for $ind_reglas (0 .. $#total_reglas) {
+
+	my $etiqueta = $reglas{$total_reglas[$ind_reglas]}{"accion"}; # Aquí sabremos si vamos a etiquetar las entradas como "Deny" o "Allow"
+
+	my @total_campos = sort keys %{$reglas{$total_reglas[$ind_reglas]}};
+	my $salto = $#total_campos/3; # Esto es para tener en cuenta cómo están ordenadas las claves en el hash de reglas.
+				      # Es decir, $salto es igual al número de condiciones en una regla.
+
+	my @flags = ();
+	for my $posicion (0 .. $#total_entradas) { $flags[$posicion] = 0; } # Contadores de condiciones a 0
+
+	for $ind_campos (1 .. $#total_campos) {
+
+		my $nombre_campo = $reglas{$total_reglas[$ind_reglas]}{$total_campos[$ind_campos]}; #ind_campos = 1...4...7 
+		$ind_campos = $ind_campos + $salto;						   #ind_campos = 2...5...8
+		my $relacion = $reglas{$total_reglas[$ind_reglas]}{$total_campos[$ind_campos]};
+		$ind_campos = $ind_campos + $salto;						   #ind_campos = 3...6...9
+		my $nombre_valor = $reglas{$total_reglas[$ind_reglas]}{$total_campos[$ind_campos]};
+		$ind_campos++;									   #ind_campos = 4...7...10
+
+		# Ya tenemos la condición extraída: $nombre_campo tiene que ser $relacion a $nombre_valor
+		# Ahora obtenemos la traducción.
+
+		my $nombre_campo2 = $diccionario{$nombre_campo}; # Obtenemos la clave para buscar en el hash de logs
+
+		for $ind_entrada (0 .. $#total_entradas) {
+
+			my $nombre_valor2 = $logentradas{$total_entradas[$ind_entrada]}{$nombre_campo2}; # Este es el valor que hay comparar
+
+			# Hay que tener en cuenta que $relación es un string y que hay que realizar distintas operaciones
+			# Si la condición se cumple, se aumentará el flag en 1 para comprobar al final si se cumplen todas las condiciones para que 				# se aplique la regla y así etiquetar la entrada.
+
+			if ($relacion =~ /==/) {
+				if ($nombre_valor eq $nombre_valor2) { $flags[$ind_entrada]++; }
+			}
+			if ($relacion =~ />/) {
+				if ($nombre_valor2 > $nombre_valor) { $flags[$ind_entrada]++; }
+			}
+			if ($relacion =~ /</)  {
+				if ($nombre_valor2 < $nombre_valor) { $flags[$ind_entrada]++; }
+			}
+			if ($relacion =~ /matches/) {
+				$nombre_valor2 =~ /http:\/\/(.+).(.+).(.+)/;
+				if ($nombre_valor eq $1 || $nombre_valor eq $2 || $nombre_valor eq $3) { $flags[$ind_entrada]++; }
+			}
+		}
+	}
+
+	# Ahora miramos qué entradas cumplen las condiciones para aplicarle la etiqueta
+
+	for my $temp (0 .. $#flags) {
+		if ($flags[$temp] == $salto) { # Se compara con $salto porque $salto es igual al número de condiciones que se tienen que dar para 						       # que se aplique la regla. Cada posición en @flags que sea igual al número de condiciones, será una 						       # entrada que se pueda etiquetar.
+
+			$datos_etiquetados{$total_entradas[$temp]} = $etiqueta;
+		}
+	}
+
+}

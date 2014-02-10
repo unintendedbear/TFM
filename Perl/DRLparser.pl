@@ -64,3 +64,11 @@ while (<IN>)
 close IN;
 
 print Dumper(\%reglas);
+
+my @total_reglas = sort keys %reglas;
+
+print "@total_reglas\n";
+
+my @total_campos = sort keys %{$reglas{"regla0"}};
+
+print "@total_campos\n";
