@@ -45,7 +45,7 @@ while (<IN>)
 	} #PROBLEMAZO: el deny() o allow() SE LEE DESPUÉS T_T #Fixed
 	if ($_ =~ /^\D+:\D+\((.+)\)/) {
 		for my $i (my @condiciones = split /,/, $1) {
-			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "(.+)"/) {
+			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "\*\.(.+)\.\*"/) {
 				my @argtemp = ($1, $2, $3);
 				push(@argumentos, @argtemp);
 			}
@@ -64,11 +64,3 @@ while (<IN>)
 close IN;
 
 print Dumper(\%reglas);
-
-my @total_reglas = sort keys %reglas;
-
-print "@total_reglas\n";
-
-my @total_campos = sort keys %{$reglas{"regla0"}};
-
-print "@total_campos\n";

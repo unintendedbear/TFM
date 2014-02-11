@@ -4,8 +4,8 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 my %logentradas = (); #Inicializar el hash de entradas de log
 
 open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
@@ -43,8 +43,11 @@ for my $d (0 .. $#datoslog) {
 
 close IN;
 
-#print Dumper(\%logentradas);
+print Dumper(\%logentradas);
 
-my @total_entradas = sort keys %logentradas;
+#foreach my $name (sort keys %logentradas) {
+#print "$name: $logentradas{$name}{'url'}\n";
+#$logentradas{$name}{'url'} =~ /^http:\/\/(\w+).(\w+).(\w+)[\/*]/;
+#print "$1 - $2 - $3 \n";
 
-print "@total_entradas\n";
+#}
