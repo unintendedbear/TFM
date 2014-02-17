@@ -4,8 +4,8 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 my %logentradas = (); #Inicializar el hash de entradas de log
 
 open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
@@ -26,16 +26,18 @@ my @datoslog = split /;/, $_;
 for my $d (0 .. $#datoslog) { 
 	if ($datoslog[$d] =~ /"(.+)"/) { 
 		$datoslog[$d] = $1;
-		if ($1 =~ /^(\w+-*\w+)[\/?]\w+/) {
-			$logentradas{"entrada".$numentrada}{$keys[$#keys]} = $1;
-		}
 	}
 }
 
 	for my $i (0 .. $#keys-1) {
 		$count = $count + $i;
 		$logentradas{"entrada".$numentrada}{$keys[$i]} = $datoslog[$i];
+		if ($datoslog[$i] =~ /^(\w+-*\w+)[\/?]\w+/) {
+			$logentradas{"entrada".$numentrada}{$keys[$#keys]} = $1;
+		}
 	}
+
+	if (!$logentradas{"entrada".$numentrada}{$keys[$#keys]}) { $logentradas{"entrada".$numentrada}{$keys[$#keys]} = $logentradas{"entrada".$numentrada}{"content_type"}; }
 
 	$numentrada++;
 
@@ -46,8 +48,7 @@ close IN;
 print Dumper(\%logentradas);
 
 #foreach my $name (sort keys %logentradas) {
-#print "$name: $logentradas{$name}{'url'}\n";
-#$logentradas{$name}{'url'} =~ /^http:\/\/(\w+).(\w+).(\w+)[\/*]/;
-#print "$1 - $2 - $3 \n";
+#my $jarl = 'youtube';
+#if ($logentradas{$name}{'url'} =~ m/$jarl/) {print "$name: $logentradas{$name}{'url'}\n";}
 
 #}

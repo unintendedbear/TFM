@@ -101,8 +101,8 @@ close IN;
 #
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
-my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 my %logentradas = (); #Inicializar el hash de entradas de log
 
 open (IN2, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
@@ -123,16 +123,18 @@ my @datoslog = split /;/, $_;
 for my $d (0 .. $#datoslog) { 
 	if ($datoslog[$d] =~ /"(.+)"/) { 
 		$datoslog[$d] = $1;
-		if ($1 =~ /^(\w+-*\w+)[\/?]\w+/) {
-			$logentradas{"entrada".$numentrada}{$keys2[$#keys2]} = $1;
-		}
 	}
 }
 
 	for my $i (0 .. $#keys2-1) {
 		$count = $count + $i;
 		$logentradas{"entrada".$numentrada}{$keys2[$i]} = $datoslog[$i];
+		if ($datoslog[$i] =~ /^(\w+-*\w+)[\/?]\w+/) {
+			$logentradas{"entrada".$numentrada}{$keys2[$#keys2]} = $1;
+		}
 	}
+
+	if (!$logentradas{"entrada".$numentrada}{$keys2[$#keys2]}) { $logentradas{"entrada".$numentrada}{$keys2[$#keys2]} = $logentradas{"entrada".$numentrada}{"content_type"}; }
 
 	$numentrada++;
 
@@ -160,7 +162,7 @@ $diccionario{"dif_code"} = "http_code";
 $diccionario{"dif_met"} = "http_method";
 $diccionario{"dif_MCT"} = "content_type_MCT";
 $diccionario{"dif_content"} = "content_type";
-$diccionario{"diff_content"} = "content_type";
+$diccionario{"diff_content"} = "content_type_MCT";
 $diccionario{"dif_squid"} = "squid_hierarchy";
 $diccionario{"url"} = "url";
 $diccionario{"bytes"} = "bytes";
@@ -194,6 +196,10 @@ my @total_entradas = sort keys %logentradas; # entrada0 ... entrada999999
 
 my @etiquetas = ();
 my %datos_etiquetados = ();
+
+my $allowed = 0;
+my $denied = 0;
+my $unlabelled = 0;
 
 
 #print "Lista\n";
@@ -257,6 +263,7 @@ for $ind_reglas (0 .. $#total_reglas) {
 			my $nombre_valor2 = $logentradas{$total_entradas[$ind_entrada]}{$nombre_campo2}; # Este es el valor que hay comparar
 
 			#print "$ind_entrada :::: El valor de $nombre_campo2 es $nombre_valor2\n";
+			#print "Comparamos $nombre_valor con $nombre_valor2\n";
 
 			# Hay que tener en cuenta que $relación es un string y que hay que realizar distintas operaciones
 			# Si la condición se cumple, se aumentará el flag en 1 para comprobar al final si se cumplen todas las condiciones para que 				# se aplique la regla y así etiquetar la entrada.
@@ -271,10 +278,9 @@ for $ind_reglas (0 .. $#total_reglas) {
 				if ($nombre_valor2 < $nombre_valor) { $flags[$ind_entrada]++; }
 			}
 			if ($relacion =~ /matches/) {
-				if ($nombre_valor2 =~ /^http:\/\/(\w+).(\w+).(\w+)[\/*]/) {
-					if ($nombre_valor eq $1 || $nombre_valor eq $2 || $nombre_valor eq $3) {
-						$flags[$ind_entrada]++;
-					}
+				if ($nombre_valor2 =~ m/$nombre_valor/) {
+					#print "Encontrado $nombre_valor\n";
+					$flags[$ind_entrada]++;
 				} else { if ($nombre_valor eq $nombre_valor2) { print "$nombre_valor\n"; $flags[$ind_entrada]++; } }
 			}
 			
@@ -288,12 +294,18 @@ for $ind_reglas (0 .. $#total_reglas) {
 		if ($flags[$temp] >= $salto) { # Se compara con $salto porque $salto es igual al número de condiciones que se tienen que dar para 						       # que se aplique la regla. Cada posición en @flags que sea igual al número de condiciones, será una 						       # entrada que se pueda etiquetar.
 
 			$datos_etiquetados{$total_entradas[$temp]} = $etiqueta;
-			print "\n\n------------------ $etiqueta ------------------------\n\n";
-			print Dumper(\%{$logentradas{$total_entradas[$temp]}});
+			if ($etiqueta =~ /allow/) { $allowed++; }
+			if ($etiqueta =~ /deny/) { $denied++; }
+			#print "\n\n------------------ $etiqueta ------------------------\n\n";
+			#print Dumper(\%{$logentradas{$total_entradas[$temp]}});
 		}
+
+		# Etiquetamos con "no label" las entradas que no hayan sido etiquetadas con "allow" ni con "deny"
+
+		if (!$datos_etiquetados{$total_entradas[$temp]}) {$datos_etiquetados{$total_entradas[$temp]} = "no label"; $unlabelled++;}
 	}
-	#print "-------------\n";
 
 }
 
 print Dumper(\%datos_etiquetados);
+print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
