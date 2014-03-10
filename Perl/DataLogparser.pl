@@ -7,66 +7,80 @@ use Data::Dumper;
 #my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
 my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 my $arfffile = "salida.arff";
+#my $arfffile = "salida2.arff";
+my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
+my @keys = ();
 
-open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
+open (KEYS, "<$keysfile") or die "No existe el fichero ".$keysfile; #Abrir y leerlo
 
-my @keys = split /;/, <IN>;     #Extraer las claves de la primera línea del fichero
-for my $k (0 .. $#keys) { 
-	$keys[$k] =~ /"(.+)"/;
-	$keys[$k] = $1;
+while (<KEYS>) {
+	push @keys, split (/\s+/, $_);     #Extraer las claves del fichero logkeys.txt
 }
-push (@keys, 'content_type_MCT'); # Entonces content_type_MCT está en $keys[$#keys]
+
+# Claves:
+# 0 http_reply_code
+# 1 http_method
+# 2 duration_milliseconds
+# 3 content_type_MCT
+# 4 content_type
+# 5 server_or_cache_address
+# 6 time_hh
+# 7 time_mm
+# 8 time_ss
+# 9 squid_hierarchy
+# 10 bytes
+# 11 url
+# 12 client_address
+
+close KEYS;
 
 my $numentrada = 0;
 my $count = 0;
 
 my @rows;
 
+open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
+my @firstrow = split /;/, <IN>; #No necesitamos la primera fila
+
 while (<IN>) {
 
 my @datoslog = split /;/, $_;
+my @row = ();
+
 for my $d (0 .. $#datoslog) { 
+
 	if ($datoslog[$d] =~ /"(.+)"/) { 
 		$datoslog[$d] = $1;
 	}
-}
-	my $urltemp;
-	my @row = ();
 
-	
-
-	for my $i (0 .. $#keys-1) {
-		$count = $count + $i;
-		$logentradas{"entrada".$numentrada}{$keys[$i]} = $datoslog[$i];
-		if ($datoslog[$i] =~ /^(\w+-*\w+)[\/?]\w+/) {
-			$logentradas{"entrada".$numentrada}{$keys[$#keys]} = $1;
+	if ($d == 3) {
+		if ($datoslog[$d] =~ /^(\w+-*\w+)[\/?]\w+/) {
+			push @row, $1;
+			push @row, $datoslog[$d];
+		} else {
+			push @row, $1;
+			push @row, $datoslog[$d];
 		}
-#/^(ht|f)tps?:\/\/((\w*-*\w*-*\w*).?(\w+).?(\w+)).(\w+)\/[\/*\w*]/i || 
-# /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
-# /^(ht|f)tps?:\/\/((\w*-*\w*-*\w*).?(\w*-*\w*-*\w*).?(\w*-*\w*-*\w*).?(\w*-*\w*-*\w*))\.(\w+)\/[\/*\w*]/i
-		if ($datoslog[$i] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$i] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/) {
-			#print "$2 - $3\n";
-			$urltemp = $3;
-			push @row, $3;
-		} elsif ($i == 8){
-			$urltemp = $datoslog[$i];
-			push @row, $datoslog[$i];
-		} else { 
-			push @row, $datoslog[$i];
-		}
+	} elsif ($datoslog[$d] =~ /(\w+)\:(\w+)\:(\w+)/) {
+		push @row, $1;
+		push @row, $2;
+		push @row, $3;
+	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/) {
+		push @row, $3;
+	} else { 
+		push @row, $datoslog[$d];
 	}
-	$logentradas{"entrada".$numentrada}{"url"} = $urltemp;
+}		
 
-	if (!$logentradas{"entrada".$numentrada}{$keys[$#keys]}) {
-		$logentradas{"entrada".$numentrada}{$keys[$#keys]} = $logentradas{"entrada".$numentrada}{"content_type"};
+	for my $i (0 .. $#keys) {
+		
+		$logentradas{"entrada".$numentrada}{$keys[$i]} = $row[$i];
 	}
-
-	push @row, $logentradas{"entrada".$numentrada}{$keys[$#keys]};
 
 	$numentrada++;
-
 	push @rows, \@row;
+	
 }
 
 close IN;
@@ -117,29 +131,45 @@ my @MCTs = keys %MCTs;
 #print Dumper(\%MCTs);
 #print Dumper(\%coredomains);
 
-#http_reply_code, http_method, duration_milliseconds, content_type, server_or_cache_address, time, squid_hierarchy, bytes, url, client_address, content_type_MCT
+# http_reply_code 		CAT
+# http_method 			CAT
+# duration_milliseconds		REAL
+# content_type_MCT 		CAT
+# content_type 			CAT
+# server_or_cache_address	CAT
+# time_hh			REAL
+# time_mm			REAL
+# time_ss			REAL
+# squid_hierarchy		CAT
+# bytes				REAL
+# url				CAT
+# client_address		CAT
 
 my $header=<<EOC;
 \@RELATION logsUrl
 
 EOC
-  $header .= "\@ATTRIBUTE http_reply_code\n{ ".join(",", @respuestas ).
-    " }\n\@ATTRIBUTE http_method\n{ ".join(",", @metodos).
+  $header .= "\@ATTRIBUTE http_reply_code { ".join(",", @respuestas ).
+    " }\n\@ATTRIBUTE http_method { ".join(",", @metodos).
       " }\n\@ATTRIBUTE duration_milliseconds REAL".
-	"\n\@ATTRIBUTE content_type\n{ ".join(",", @ctype ).
-	" }\n\@ATTRIBUTE server_or_cache_address\n{ ".join(",", @serveradd ).
-	" }\n\@ATTRIBUTE time REAL".
-	"\n\@ATTRIBUTE squid_hierarchy\n{ ".join(",", @squidh ).
+	"\n\@ATTRIBUTE content_type_MCT { ".join(",", @MCTs ).
+	" }\n\@ATTRIBUTE content_type { ".join(",", @ctype ).
+	" }\n\@ATTRIBUTE server_or_cache_address { ".join(",", @serveradd ).
+	" }\n\@ATTRIBUTE time_hh REAL".
+	"\n\@ATTRIBUTE time_mm REAL".
+	"\n\@ATTRIBUTE time_ss REAL".
+	"\n\@ATTRIBUTE squid_hierarchy { ".join(",", @squidh ).
 	" }\n\@ATTRIBUTE bytes REAL".
-	"\n\@ATTRIBUTE url\n{ ".join(",", @coredomains ).
-	" }\n\@ATTRIBUTE client_address\n{ ".join(",", @clientadd ).
-	" }\n\@ATTRIBUTE content_type_MCT\n{ ".join(",", @MCTs ).
+	"\n\@ATTRIBUTE url { ".join(",", @coredomains ).
+	" }\n\@ATTRIBUTE client_address { ".join(",", @clientadd ).
 	" }\n\n\@DATA\n";
 
 my $salida = "$header\n";
-  for my $r (@rows ) {
-    $salida .= join(", ", @$r )."\n";
-  }
+for my $r (@rows ) {
+	$salida .= join(", ", @$r )."\n";
+}
+
+#print "$salida\n";
 
 
 open (OUT, ">$arfffile") or die "No existe el fichero ".$arfffile; #Abrir y leerlo
