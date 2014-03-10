@@ -48,6 +48,8 @@ while (<IN>) {
 my @datoslog = split /;/, $_;
 my @row = ();
 
+#if ($numentrada == 25838 || $numentrada == 25839 || $numentrada == 25840 || $numentrada == 25841 || $numentrada == 25842 || $numentrada == 25843 || $numentrada == 25844) { print "$numentrada-----@datoslog\n"; }
+
 for my $d (0 .. $#datoslog) { 
 
 	if ($datoslog[$d] =~ /"(.+)"/) { 
@@ -62,7 +64,7 @@ for my $d (0 .. $#datoslog) {
 			push @row, $1;
 			push @row, $datoslog[$d];
 		}
-	} elsif ($datoslog[$d] =~ /(\w+)\:(\w+)\:(\w+)/) {
+	} elsif ($datoslog[$d] =~ /^(\d{2})\:(\d{2})\:(\d{2})/) {
 		push @row, $1;
 		push @row, $2;
 		push @row, $3;
@@ -71,7 +73,8 @@ for my $d (0 .. $#datoslog) {
 	} else { 
 		push @row, $datoslog[$d];
 	}
-}		
+}
+	#print "@row\n";		
 
 	for my $i (0 .. $#keys) {
 		
@@ -117,6 +120,10 @@ foreach my $name (sort keys %logentradas) {
 
 }
 
+
+
+
+
 my @respuestas = keys %respuestas;
 my @metodos = keys %metodos;
 my @ctype = keys %ctype;
@@ -130,6 +137,7 @@ my @MCTs = keys %MCTs;
 #print Dumper(\%respuestas);
 #print Dumper(\%MCTs);
 #print Dumper(\%coredomains);
+#print Dumper(\%clientadd);
 
 # http_reply_code 		CAT
 # http_method 			CAT
@@ -177,13 +185,23 @@ print OUT $salida;
 close OUT;
 
 
-#for my $x (0 .. $#leidasurl) {
-#	if ($leidasurl[$x+1] - $leidasurl[$x] > 1) {
-		#print "$leidasurl[$x]\n";
-		#print "....................\n";
-		#for my $y (0 .. $#keys) {
-		#	print $logentradas{"entrada".$leidasurl[$x+1]}{$keys[$y]};
-		#	print "\n";
-		#}
-#	}
+#my $file = "pruebas.txt";
+#open (OUT2, ">$file") or die "No existe el fichero ".$file; #Abrir y leerlo
+
+#foreach my $name (sort keys %logentradas) {
+
+#	my $comp = $logentradas{$name}{'client_address'};
+#	if ($comp =~ /(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/){print "holas que bien\n";} else {print OUT2 "$name ---- $logentradas{$name}{'client_address'}\n";}
+
 #}
+
+
+#	print OUT2 Dumper(\%{$logentradas{"entrada25838"}});
+#	print OUT2 Dumper(\%{$logentradas{"entrada25839"}});
+#	print OUT2 Dumper(\%{$logentradas{"entrada25840"}});
+#	print OUT2 Dumper(\%{$logentradas{"entrada25841"}});
+#	print OUT2 Dumper(\%{$logentradas{"entrada25842"}});
+#	print OUT2 Dumper(\%{$logentradas{"entrada25843"}});
+#	print OUT2 Dumper(\%{$logentradas{"entrada10328"}});
+
+#close OUT2;

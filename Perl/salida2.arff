@@ -11,7 +11,7 @@
 @ATTRIBUTE time_ss REAL
 @ATTRIBUTE squid_hierarchy { DIRECT,DEFAULT_PARENT }
 @ATTRIBUTE bytes REAL
-@ATTRIBUTE url { google,ytimg,elpais,gstatic,NONE://,adform,dropbox,serving-sys,youtube,doubleclick,mundodeportivo,rackcdn,windowsupdate,54 }
+@ATTRIBUTE url { google,ytimg,NONE://,atemda,serving-sys,mundodeportivo,windowsupdate,amazon,adform,gstatic,elpais,dropbox,youtube,doubleclick,rackcdn,54 }
 @ATTRIBUTE client_address { 10.159.194.18,10.159.170.18,10.159.13.68,10.159.146.56,10.159.46.201,10.159.232.20,10.159.155.5,10.159.76.30,192.168.4.4 }
 
 @DATA
@@ -48,4 +48,7 @@
 200, GET, 49, image, image/jpeg, 90.84.53.83, 10, 26, 09, DIRECT, 1838, mundodeportivo, 10.159.194.18
 200, GET, 94, image, image/gif, 195.54.49.9, 10, 26, 09, DIRECT, 2286, NONE://, 192.168.4.4
 200, GET, 94, null, null, 195.54.49.9, 10, 26, 09, DIRECT, 2286, gstatic, 192.168.4.4
+200, GET, 94, image, image, 195.54.49.9, 10, 26, 09, DIRECT, 2286, rackcdn, 192.168.4.4
+200, GET, 94, image, image, 195.54.49.9, 10, 26, 09, DIRECT, 2286, amazon, 192.168.4.4
+200, GET, 94, image, image, 195.54.49.9, 10, 26, 09, DIRECT, 2286, atemda, 192.168.4.4
 200, GET, 94, image, image, 195.54.49.9, 10, 26, 09, DIRECT, 2286, rackcdn, 192.168.4.4
