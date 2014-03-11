@@ -4,9 +4,7 @@ duration_milliseconds
 content_type_MCT
 content_type
 server_or_cache_address
-time_hh
-time_mm
-time_ss
+time
 squid_hierarchy
 bytes
 url

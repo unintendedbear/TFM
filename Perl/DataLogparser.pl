@@ -18,20 +18,18 @@ while (<KEYS>) {
 	push @keys, split (/\s+/, $_);     #Extraer las claves del fichero logkeys.txt
 }
 
-# Claves:
-# 0 http_reply_code
-# 1 http_method
-# 2 duration_milliseconds
-# 3 content_type_MCT
-# 4 content_type
-# 5 server_or_cache_address
-# 6 time_hh
-# 7 time_mm
-# 8 time_ss
-# 9 squid_hierarchy
-# 10 bytes
-# 11 url
-# 12 client_address
+# Claves:				Datos:
+# 0 http_reply_code			0 http_reply_code
+# 1 http_method				1 http_method
+# 2 duration_milliseconds		2 duration_milliseconds
+# 3 content_type_MCT			3 content_type
+# 4 content_type			4 server_or_cache_address
+# 5 server_or_cache_address		5 time
+# 6 time				6 squid_hierarchy
+# 7 squid_hierarchy			7 bytes
+# 8 bytes				8 url
+# 9 url					9 client_address
+# 10 client_address
 
 close KEYS;
 
@@ -64,10 +62,8 @@ for my $d (0 .. $#datoslog) {
 			push @row, $1;
 			push @row, $datoslog[$d];
 		}
-	} elsif ($datoslog[$d] =~ /^(\d{2})\:(\d{2})\:(\d{2})/) {
-		push @row, $1;
-		push @row, $2;
-		push @row, $3;
+	} elsif ($datoslog[$d] =~ /^\d{2}\:\d{2}\:\d{2}/) {
+		push @row, "\"".$datoslog[$d]."\"";
 	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/) {
 		push @row, $3;
 	} else { 
@@ -145,9 +141,7 @@ my @MCTs = keys %MCTs;
 # content_type_MCT 		CAT
 # content_type 			CAT
 # server_or_cache_address	CAT
-# time_hh			REAL
-# time_mm			REAL
-# time_ss			REAL
+# time				DATE
 # squid_hierarchy		CAT
 # bytes				REAL
 # url				CAT
@@ -163,9 +157,7 @@ EOC
 	"\n\@ATTRIBUTE content_type_MCT { ".join(",", @MCTs ).
 	" }\n\@ATTRIBUTE content_type { ".join(",", @ctype ).
 	" }\n\@ATTRIBUTE server_or_cache_address { ".join(",", @serveradd ).
-	" }\n\@ATTRIBUTE time_hh REAL".
-	"\n\@ATTRIBUTE time_mm REAL".
-	"\n\@ATTRIBUTE time_ss REAL".
+	" }\n\@ATTRIBUTE time DATE \"HH:mm:ss\"".
 	"\n\@ATTRIBUTE squid_hierarchy { ".join(",", @squidh ).
 	" }\n\@ATTRIBUTE bytes REAL".
 	"\n\@ATTRIBUTE url { ".join(",", @coredomains ).
