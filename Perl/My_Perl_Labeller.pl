@@ -101,9 +101,9 @@ close IN;
 #
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
-#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
 #my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
-my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
+#my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
 my @keys2 = (); #Inicializar el array de claves 
@@ -337,15 +337,15 @@ for $ind_reglas (0 .. $#total_reglas) {
 		# Etiquetamos con "no label" las entradas que no hayan sido etiquetadas con "allow" ni con "deny"
 
 		if (!$datos_etiquetados{$total_entradas[$temp]}) {
-			$datos_etiquetados{$total_entradas[$temp]} = "no label";
-			$logentradas{$total_entradas[$temp]}{"etiqueta"} = "no label";
+			$datos_etiquetados{$total_entradas[$temp]} = "no_label";
+			$logentradas{$total_entradas[$temp]}{"etiqueta"} = "no_label";
 			$unlabelled++;
 		}
 	}
 
 }
 
-print Dumper(\%datos_etiquetados);
+#print Dumper(\%datos_etiquetados);
 #print Dumper(\%logentradas);
 print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
 
@@ -442,3 +442,43 @@ for my $r (@rows ) {
 open (OUT, ">$arfffile") or die "No existe el fichero ".$arfffile; #Abrir y leerlo
 print OUT $salida;
 close OUT;
+
+
+#################################################
+# CSV
+#################################################
+
+my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
+
+open (INCSV, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
+open (OUTCSV, ">$label_logfile") or die "No existe el fichero ".$label_logfile; #Abrir y leerlo
+
+my @row1 = split /;/, <INCSV>;
+
+for my $u (0 .. $#row1) { 
+	if ($row1[$u] =~ /"(.+)"/) { 
+		$row1[$u] = "\"$1"."\"";
+	}
+}
+
+push @row1, "\"etiqueta\"";
+print OUTCSV "".join(";", @row1)."\n";
+print "@row1\n";
+my $rowwhat = 0;
+
+while (<INCSV>) {
+	my @row2 = split /;/, $_;
+
+	for my $w (0 .. $#row2) { 
+		if ($row2[$w] =~ /"(.+)"/) { 
+			$row2[$w] = "\"$1"."\"";
+		}
+	}
+
+	push @row2, "\"".$logentradas{$total_entradas[$rowwhat]}{"etiqueta"}."\"";
+	print OUTCSV "".join(";", @row2)."\n";
+	$rowwhat++;
+}
+
+close INCSV;
+close OUTCSV;
