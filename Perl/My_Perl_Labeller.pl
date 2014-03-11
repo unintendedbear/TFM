@@ -88,56 +88,90 @@ close IN;
 #       http_reply_code		=> 200, 
 #       http_method		=> GET,
 #	duration_miliseconds	=> 1114,
+#	content_type_MCT	=> application,
 #	content_type		=> application/octet-stream,
 #       server_or_cache_address	=> 192.168.4.4,
 #	time 			=> 08:30:08,
 #	squid_hierarchy		=> DEFAULT_PARENT,
 #	bytes			=> 106961,
 #	url			=> http://...,
-#	client_address		=> 10.159.76.30,
-#	content_type_MCT	=> application
+#	client_address		=> 10.159.76.30
 #   },
 #);
 #
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
 #my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
+my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
+my @keys2 = (); #Inicializar el array de claves 
 
-open (IN2, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
+open (KEYS, "<$keysfile") or die "No existe el fichero ".$keysfile; #Abrir y leerlo
 
-my @keys2 = split /;/, <IN2>;     #Extraer las claves de la primera línea del fichero
-for my $k (0 .. $#keys2) { 
-	$keys2[$k] =~ /"(.+)"/;
-	$keys2[$k] = $1;
+while (<KEYS>) {
+	push @keys2, split (/\s+/, $_);     #Extraer las claves del fichero logkeys.txt
 }
-push (@keys2, 'content_type_MCT'); # Entonces content_type_MCT está en $keys[$#keys]
+
+# Claves:				Datos:
+# 0 http_reply_code			0 http_reply_code
+# 1 http_method				1 http_method
+# 2 duration_milliseconds		2 duration_milliseconds
+# 3 content_type_MCT			3 content_type
+# 4 content_type			4 server_or_cache_address
+# 5 server_or_cache_address		5 time
+# 6 time				6 squid_hierarchy
+# 7 squid_hierarchy			7 bytes
+# 8 bytes				8 url
+# 9 url					9 client_address
+# 10 client_address
+
+close KEYS;
 
 my $numentrada = 0;
-my $count = 0;
+my @rows;
+
+open (IN2, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
+my @firstrow = split /;/, <IN2>; #No necesitamos la primera fila
 
 while (<IN2>) {
 
 my @datoslog = split /;/, $_;
+my @row = ();
+
 for my $d (0 .. $#datoslog) { 
+
 	if ($datoslog[$d] =~ /"(.+)"/) { 
 		$datoslog[$d] = $1;
 	}
-}
 
-	for my $i (0 .. $#keys2-1) {
-		$count = $count + $i;
-		$logentradas{"entrada".$numentrada}{$keys2[$i]} = $datoslog[$i];
-		if ($datoslog[$i] =~ /^(\w+-*\w+)[\/?]\w+/) {
-			$logentradas{"entrada".$numentrada}{$keys2[$#keys2]} = $1;
+	if ($d == 3) {
+		if ($datoslog[$d] =~ /^(\w+-*\w+)[\/?]\w+/) {
+			push @row, $1;
+			push @row, $datoslog[$d];
+		} else {
+			push @row, $1;
+			push @row, $datoslog[$d];
 		}
+	} elsif ($datoslog[$d] =~ /^\d{2}\:\d{2}\:\d{2}/) {
+		push @row, "\"".$datoslog[$d]."\"";
+	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/) {
+		push @row, $3;
+	} else { 
+		push @row, $datoslog[$d];
+	}
+}
+	#print "@row\n";		
+
+	for my $i (0 .. $#keys2) {
+		
+		$logentradas{"entrada".$numentrada}{$keys2[$i]} = $row[$i];
 	}
 
-	if (!$logentradas{"entrada".$numentrada}{$keys2[$#keys2]}) { $logentradas{"entrada".$numentrada}{$keys2[$#keys2]} = $logentradas{"entrada".$numentrada}{"content_type"}; }
-
 	$numentrada++;
-
+	push @rows, \@row;
+	
 }
 
 close IN2;
@@ -194,7 +228,6 @@ my $ind_entrada = 0; # Este índice es para saber qué entrada estamos comproban
 my @total_reglas = sort keys %reglas; # regla0 regla1 regla2 regla3 regla4 regla5 regla6 regla7 regla8
 my @total_entradas = sort keys %logentradas; # entrada0 ... entrada999999
 
-my @etiquetas = ();
 my %datos_etiquetados = ();
 
 my $allowed = 0;
@@ -294,6 +327,7 @@ for $ind_reglas (0 .. $#total_reglas) {
 		if ($flags[$temp] >= $salto) { # Se compara con $salto porque $salto es igual al número de condiciones que se tienen que dar para 						       # que se aplique la regla. Cada posición en @flags que sea igual al número de condiciones, será una 						       # entrada que se pueda etiquetar.
 
 			$datos_etiquetados{$total_entradas[$temp]} = $etiqueta;
+			$logentradas{$total_entradas[$temp]}{"etiqueta"} = $etiqueta;
 			if ($etiqueta =~ /allow/) { $allowed++; }
 			if ($etiqueta =~ /deny/) { $denied++; }
 			#print "\n\n------------------ $etiqueta ------------------------\n\n";
@@ -302,10 +336,109 @@ for $ind_reglas (0 .. $#total_reglas) {
 
 		# Etiquetamos con "no label" las entradas que no hayan sido etiquetadas con "allow" ni con "deny"
 
-		if (!$datos_etiquetados{$total_entradas[$temp]}) {$datos_etiquetados{$total_entradas[$temp]} = "no label"; $unlabelled++;}
+		if (!$datos_etiquetados{$total_entradas[$temp]}) {
+			$datos_etiquetados{$total_entradas[$temp]} = "no label";
+			$logentradas{$total_entradas[$temp]}{"etiqueta"} = "no label";
+			$unlabelled++;
+		}
 	}
 
 }
 
 print Dumper(\%datos_etiquetados);
+#print Dumper(\%logentradas);
 print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
+
+
+#################################################
+# WEKA
+#################################################
+
+#my $arfffile = "salida.arff";  #100k
+#my $arfffile = "salida2.arff"; #redux (32~)
+my $arfffile = "salida3.arff"; #100
+
+my %respuestas; #http_reply_code
+my %metodos;	#http_method
+my %ctype;	#content_type
+my %serveradd;	#server_or_cache_address
+my %squidh;	#squid_hierarchy
+my %coredomains;#url
+my %clientadd;	#client_address
+my %MCTs;	#content_type_MCT
+my %etiquetas;	#etiqueta
+
+foreach my $name (sort keys %logentradas) {
+
+	$respuestas{$logentradas{$name}{'http_reply_code'}}++;
+	$metodos{$logentradas{$name}{'http_method'}}++;
+	$ctype{$logentradas{$name}{'content_type'}}++;
+	$serveradd{$logentradas{$name}{'server_or_cache_address'}}++;
+	$squidh{$logentradas{$name}{'squid_hierarchy'}}++;
+	$coredomains{$logentradas{$name}{'url'}}++;
+	$clientadd{$logentradas{$name}{'client_address'}}++;
+	$MCTs{$logentradas{$name}{'content_type_MCT'}}++;
+	$etiquetas{$logentradas{$name}{'etiqueta'}}++;
+
+}
+
+my @respuestas = keys %respuestas;
+my @metodos = keys %metodos;
+my @ctype = keys %ctype;
+my @serveradd = keys %serveradd;
+my @squidh = keys %squidh;
+my @clientadd = keys %clientadd;
+my @coredomains = keys %coredomains;
+my @MCTs = keys %MCTs;
+my @etiquetas = keys %etiquetas;
+
+#print Dumper(\%metodos);
+#print Dumper(\%respuestas);
+#print Dumper(\%MCTs);
+#print Dumper(\%coredomains);
+#print Dumper(\%clientadd);
+
+# http_reply_code 		CAT
+# http_method 			CAT
+# duration_milliseconds		REAL
+# content_type_MCT 		CAT
+# content_type 			CAT
+# server_or_cache_address	CAT
+# time				DATE
+# squid_hierarchy		CAT
+# bytes				REAL
+# url				CAT
+# client_address		CAT
+# label				CAT
+
+my $header=<<EOC;
+\@RELATION logsUrl
+
+EOC
+  $header .= "\@ATTRIBUTE http_reply_code { ".join(",", @respuestas ).
+    " }\n\@ATTRIBUTE http_method { ".join(",", @metodos).
+      " }\n\@ATTRIBUTE duration_milliseconds REAL".
+	"\n\@ATTRIBUTE content_type_MCT { ".join(",", @MCTs ).
+	" }\n\@ATTRIBUTE content_type { ".join(",", @ctype ).
+	" }\n\@ATTRIBUTE server_or_cache_address { ".join(",", @serveradd ).
+	" }\n\@ATTRIBUTE time DATE \"HH:mm:ss\"".
+	"\n\@ATTRIBUTE squid_hierarchy { ".join(",", @squidh ).
+	" }\n\@ATTRIBUTE bytes REAL".
+	"\n\@ATTRIBUTE url { ".join(",", @coredomains ).
+	" }\n\@ATTRIBUTE client_address { ".join(",", @clientadd ).
+	" }\n\@ATTRIBUTE label { ".join(",", @etiquetas ).
+	" }\n\n\@DATA\n";
+
+my $salida = "$header\n";
+my $count = 0;
+for my $r (@rows ) {
+	$salida .= join(", ", @$r ).", ".$logentradas{$total_entradas[$count]}{"etiqueta"}."\n";
+	$count++;
+}
+
+#print "$salida\n";
+
+
+open (OUT, ">$arfffile") or die "No existe el fichero ".$arfffile; #Abrir y leerlo
+print OUT $salida;
+close OUT;

@@ -4,10 +4,10 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
-my $arfffile = "salida.arff";
-#my $arfffile = "salida2.arff";
+my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+#my $arfffile = "salida.arff";
+my $arfffile = "salida2.arff";
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
 my @keys = ();
@@ -34,8 +34,6 @@ while (<KEYS>) {
 close KEYS;
 
 my $numentrada = 0;
-my $count = 0;
-
 my @rows;
 
 open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
@@ -45,8 +43,6 @@ while (<IN>) {
 
 my @datoslog = split /;/, $_;
 my @row = ();
-
-#if ($numentrada == 25838 || $numentrada == 25839 || $numentrada == 25840 || $numentrada == 25841 || $numentrada == 25842 || $numentrada == 25843 || $numentrada == 25844) { print "$numentrada-----@datoslog\n"; }
 
 for my $d (0 .. $#datoslog) { 
 
@@ -84,7 +80,7 @@ for my $d (0 .. $#datoslog) {
 
 close IN;
 
-#print Dumper(\%logentradas);
+print Dumper(\%logentradas);
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
@@ -97,14 +93,6 @@ my %MCTs;	#content_type_MCT
 
 foreach my $name (sort keys %logentradas) {
 
-
-	#if ($logentradas{$name}{'url'} =~ /^(ht|f)tps?:\/\/(\w+).(\w+).(\w+)[\/*\w*]/i) {
-		#print "$2 - $3 - $4\n";
-		#$coredomains{$2}++;
-		#$coredomains{$3}++;
-		#$coredomains{$4}++;
-	#}
-
 	$respuestas{$logentradas{$name}{'http_reply_code'}}++;
 	$metodos{$logentradas{$name}{'http_method'}}++;
 	$ctype{$logentradas{$name}{'content_type'}}++;
@@ -115,10 +103,6 @@ foreach my $name (sort keys %logentradas) {
 	$MCTs{$logentradas{$name}{'content_type_MCT'}}++;
 
 }
-
-
-
-
 
 my @respuestas = keys %respuestas;
 my @metodos = keys %metodos;

@@ -1,0 +1,7 @@
+"data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+"data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+"data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
+
+"salida.arff";  #100k
+"salida2.arff"; #redux (32~)
+"salida3.arff"; #100
