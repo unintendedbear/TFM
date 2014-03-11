@@ -101,8 +101,8 @@ close IN;
 #
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
-my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 #my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
@@ -448,7 +448,8 @@ close OUT;
 # CSV
 #################################################
 
-my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
+#my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
+my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
 
 open (INCSV, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
 open (OUTCSV, ">$label_logfile") or die "No existe el fichero ".$label_logfile; #Abrir y leerlo
