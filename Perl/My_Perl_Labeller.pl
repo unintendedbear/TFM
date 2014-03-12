@@ -104,6 +104,7 @@ close IN;
 #my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
 my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 #my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
+
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
 my @keys2 = (); #Inicializar el array de claves 
@@ -356,7 +357,8 @@ print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
 
 #my $arfffile = "salida.arff";  #100k
 #my $arfffile = "salida2.arff"; #redux (32~)
-my $arfffile = "salida3.arff"; #100
+#my $arfffile = "salida3.arff"; #100
+my $arfffile = "data_100k_instances_url_log.arff";
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
