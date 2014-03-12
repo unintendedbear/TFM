@@ -4,10 +4,12 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
 #my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+my $logfile = "data_100k_instances_url_log_Allow-Deny_labels.csv";
 #my $arfffile = "salida.arff";
-my $arfffile = "salida2.arff";
+#my $arfffile = "salida2.arff";
+my $arfffile = "data_100k_instances_url_log_Allow-Deny_labels.arff";
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
 my @keys = ();
@@ -17,6 +19,7 @@ open (KEYS, "<$keysfile") or die "No existe el fichero ".$keysfile; #Abrir y lee
 while (<KEYS>) {
 	push @keys, split (/\s+/, $_);     #Extraer las claves del fichero logkeys.txt
 }
+push @keys, "etiqueta";
 
 # Claves:				Datos:
 # 0 http_reply_code			0 http_reply_code
@@ -80,7 +83,7 @@ for my $d (0 .. $#datoslog) {
 
 close IN;
 
-print Dumper(\%logentradas);
+#print Dumper(\%logentradas);
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
@@ -90,6 +93,7 @@ my %squidh;	#squid_hierarchy
 my %coredomains;#url
 my %clientadd;	#client_address
 my %MCTs;	#content_type_MCT
+my %etiquetas;	#etiqueta
 
 foreach my $name (sort keys %logentradas) {
 
@@ -101,6 +105,7 @@ foreach my $name (sort keys %logentradas) {
 	$coredomains{$logentradas{$name}{'url'}}++;
 	$clientadd{$logentradas{$name}{'client_address'}}++;
 	$MCTs{$logentradas{$name}{'content_type_MCT'}}++;
+	$etiquetas{$logentradas{$name}{'etiqueta'}}++;
 
 }
 
@@ -112,6 +117,7 @@ my @squidh = keys %squidh;
 my @clientadd = keys %clientadd;
 my @coredomains = keys %coredomains;
 my @MCTs = keys %MCTs;
+my @etiquetas = keys %etiquetas;
 
 #print Dumper(\%metodos);
 #print Dumper(\%respuestas);
@@ -146,6 +152,7 @@ EOC
 	" }\n\@ATTRIBUTE bytes REAL".
 	"\n\@ATTRIBUTE url { ".join(",", @coredomains ).
 	" }\n\@ATTRIBUTE client_address { ".join(",", @clientadd ).
+	" }\n\@ATTRIBUTE label { ".join(",", @etiquetas ).
 	" }\n\n\@DATA\n";
 
 my $salida = "$header\n";
