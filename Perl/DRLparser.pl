@@ -1,10 +1,10 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use warnings;
 use strict;
 use Data::Dumper;
 
-my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
+my $drlfile = "expert-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
 
 #Mi idea es crear un hash de reglas tal que:
 #Si la regla es
@@ -45,7 +45,7 @@ while (<IN>)
 	} #PROBLEMAZO: el deny() o allow() SE LEE DESPUÉS T_T #Fixed
 	if ($_ =~ /^\D+:\D+\((.+)\)/) {
 		for my $i (my @condiciones = split /,/, $1) {
-			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "\*\.(.+)\.\*"/) {
+			if ($i =~ /\s*(.*)(==)"(.+)"/ || $i =~ /\s*(.+)([>|<|=])(\d+)/ || $i =~ /\s*(.+) (.+) "?\*\.(.+)\.\*"?/) {
 				my @argtemp = ($1, $2, $3);
 				push(@argumentos, @argtemp);
 			}
@@ -63,4 +63,4 @@ while (<IN>)
 }
 close IN;
 
-print Dumper(\%reglas);
+#print Dumper(\%reglas);

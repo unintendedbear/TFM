@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 
 use warnings;
 use strict;
@@ -44,7 +44,8 @@ use Data::Dumper;
 #);
 #
 
-my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
+#my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
+my $drlfile = "expert-rules-squid.drl"; #Reglas experto
 
 my %reglas = (); #Inicializar el hash
 my @keys = ("accion", "campo", "relacion", "valor");
@@ -63,7 +64,7 @@ while (<IN>)
 	}
 	if ($_ =~ /^\D+:\D+\((.+)\)/) {
 		for my $i (my @condiciones = split /,/, $1) {
-			if ($i =~ /(.*)(==)"(.+)"/ || $i =~ /(.+)([>|<|=])(\d+)/ || $i =~ /(.+) (.+) "\*\.(.+)\.\*"/) {
+			if ($i =~ /\s*(.*)(==)"(.+)"/ || $i =~ /\s*(.+)([>|<|=])(\d+)/ || $i =~ /\s*(.+) (.+) "?\*\.(.+)\.\*"?/) {
 				my @argtemp = ($1, $2, $3);
 				push(@argumentos, @argtemp);
 			}
@@ -101,8 +102,8 @@ close IN;
 #
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
-#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
 #my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
 
 my $keysfile = "logkeys.txt";
@@ -286,15 +287,20 @@ for $ind_reglas (0 .. $#total_reglas) {
 
 		# Ya tenemos la condición extraída: $nombre_campo tiene que ser $relacion a $nombre_valor
 		# Ahora obtenemos la traducción.
+		my $nombre_campo2;
 
-		my $nombre_campo2 = $diccionario{$nombre_campo}; # Obtenemos la clave para buscar en el hash de logs
+		if ($diccionario{$nombre_campo}) {
+			$nombre_campo2 = $diccionario{$nombre_campo};
+		} else {
+			$nombre_campo2 = $nombre_campo;
+		} # Obtenemos la clave para buscar en el hash de logs
 
 		#print "Obtenemos la condición $nombre_campo - $relacion - $nombre_valor. Y \$nombre_campo2: $nombre_campo2\n";
 		#print "Relacion $relacion\n";
 
 		for $ind_entrada (0 .. $#total_entradas) {
 
-			my $nombre_valor2 = $logentradas{$total_entradas[$ind_entrada]}{$nombre_campo2}; # Este es el valor que hay comparar
+			my $nombre_valor2 = $logentradas{$total_entradas[$ind_entrada]}{$nombre_campo2}  or die "No existe valor para ".$nombre_campo; # Este es el valor que hay comparar
 
 			#print "$ind_entrada :::: El valor de $nombre_campo2 es $nombre_valor2\n";
 			#print "Comparamos $nombre_valor con $nombre_valor2\n";
@@ -356,9 +362,9 @@ print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
 #################################################
 
 #my $arfffile = "salida.arff";  #100k
-#my $arfffile = "salida2.arff"; #redux (32~)
+my $arfffile = "salida2.arff"; #redux (32~)
 #my $arfffile = "salida3.arff"; #100
-my $arfffile = "data_100k_instances_url_log.arff";
+#my $arfffile = "data_100k_instances_url_log.arff";
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
@@ -451,7 +457,8 @@ close OUT;
 #################################################
 
 #my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
-my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
+#my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
+my $label_logfile = "data_100k_instances_url_log_redux_w_labels.csv";
 
 open (INCSV, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
 open (OUTCSV, ">$label_logfile") or die "No existe el fichero ".$label_logfile; #Abrir y leerlo

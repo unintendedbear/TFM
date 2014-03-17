@@ -34,35 +34,35 @@ La utilización de aplicaciones de la blacklist será denegada por la organizaci
 
 rule "policy-3 Blacklist Dropbox"
 when
-	squid:Squid(url matches "*.dropbox.*",diff_content matches "*.application.*")
+	squid:Squid(url matches "*.dropbox.*", diff_content matches "*.application.*")
 then
 	PolicyDecisionPoint.deny();
 end
 
 rule "policy-3 Blacklist Logmein"
 when
-	squid:Squid(url matches "*.logmein.*",diff_content matches "*.application.*")
+	squid:Squid(url matches "*.logmein.*", diff_content matches "*.application.*")
 then
 	PolicyDecisionPoint.deny();
 end
 
 rule "policy-3 Blacklist Gmail"
 when
-	squid:Squid(url matches "*.gmail.*",diff_content matches "*.application.*")
+	squid:Squid(url matches "*.gmail.*", diff_content matches "*.application.*")
 then
 	PolicyDecisionPoint.deny();
 end
 
 rule "policy-3 Blacklist Google Drive"
 when
-	squid:Squid(url matches "*.googledrive.*",diff_content matches "*.application.*")
+	squid:Squid(url matches "*.googledrive.*", diff_content matches "*.application.*")
 then
 	PolicyDecisionPoint.deny();
 end
 
 rule "policy-3 Exception Youtube"
 when
-	squid:Squid(url matches "*.youtube.*",diff_content matches "*.application.*")
+	squid:Squid(url matches "*.youtube.*", diff_content matches "*.application.*")
 then
 	PolicyDecisionPoint.allow();
 end

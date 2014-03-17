@@ -1,0 +1,48 @@
+Política 1
+
+Cualquier ejecución de streaming de video en oficina será denegada por el sistema.
+
+rule "policy-1 General video"
+when
+	squid:Squid(dif_MCT=="video",dif_content matches "*.video.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-2 Specified Download"
+when
+	squid:Squid(dif_MCT=="video",bytes>1000000, content_type matches "*.application.*, url matches "*.p2p.* )
+then
+	PolicyDecisionPoint.deny();
+end
+
+
+
+rule "policy-3 Blacklist Apps"
+when
+	squid:Squid(eval(blacklistedApp(url)), diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Specific put"
+when
+	squid:Squid(http_method=="PUT", bytes>1000000)
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Allowed put"
+when
+	squid:Squid(http_method=="PUT", bytes<1000000)
+then
+	PolicyDecisionPoint.allow();
+end
+
+function boolean blacklistedApp(String url){
+	boolean result = false;
+	if ((url.contains("dropbox"))||(url.contains("logmein"))||(url.contains("gmail"))||(url.contains("youtube"))||(url.contains("skydrive"))){
+		result = true;
+	}
+	return result;
+}
