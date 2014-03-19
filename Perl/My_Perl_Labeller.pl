@@ -3,6 +3,7 @@
 use warnings;
 use strict;
 use Data::Dumper;
+use Sort::Naturally;
 
 ####################################################################################################################################
 # Este programa intenta clasificar una serie de datos de log parseados en función de unas reglas en Drools también parseadas.	   #
@@ -44,8 +45,8 @@ use Data::Dumper;
 #);
 #
 
-#my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
-my $drlfile = "expert-rules-squid.drl"; #Reglas experto
+my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
+#my $drlfile = "expert-rules-squid.drl"; #Reglas experto
 
 my %reglas = (); #Inicializar el hash
 my @keys = ("accion", "campo", "relacion", "valor");
@@ -102,13 +103,13 @@ close IN;
 #
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
-my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
-#my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
+#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
+my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+#my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log
 
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
-my @keys2 = (); #Inicializar el array de claves 
+my @keys2 = (); #Inicializar el array de claves
 
 open (KEYS, "<$keysfile") or die "No existe el fichero ".$keysfile; #Abrir y leerlo
 
@@ -126,7 +127,7 @@ while (<KEYS>) {
 # 6 time				6 squid_hierarchy
 # 7 squid_hierarchy			7 bytes
 # 8 bytes				8 url
-# 9 url					9 client_address
+# 9 url_core				9 client_address
 # 10 client_address
 
 close KEYS;
@@ -158,8 +159,9 @@ for my $d (0 .. $#datoslog) {
 		}
 	} elsif ($datoslog[$d] =~ /^\d{2}\:\d{2}\:\d{2}/) {
 		push @row, "\"".$datoslog[$d]."\"";
-	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/) {
-		push @row, $3;
+	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^NONE\:\/\//) {
+		if ($3) { push @row, $3; } else { push @row, $datoslog[$d]; }
+		$logentradas{"entrada".$numentrada}{"url"} = $datoslog[$d];
 	} else { 
 		push @row, $datoslog[$d];
 	}
@@ -179,8 +181,9 @@ for my $d (0 .. $#datoslog) {
 close IN2;
 
 # Los dos hash:
-# print Dumper(\%reglas);
+#print Dumper(\%reglas);
 # print Dumper(\%logentradas);
+#print Dumper(\%{$logentradas{'entrada416'}});
 
 # Hay que tener en cuenta las equivalencias entre terminación de Squid/Drools y el campo que se busca en los datos. Tenemos que:
 #
@@ -227,8 +230,10 @@ my $ind_campos = 1;  # Este índice es para ir sacando las condiciones de la reg
 		 # lo que tienen que cumplir y por último los dos valores.
 my $ind_entrada = 0; # Este índice es para saber qué entrada estamos comprobando.
 
-my @total_reglas = sort keys %reglas; # regla0 regla1 regla2 regla3 regla4 regla5 regla6 regla7 regla8
-my @total_entradas = sort keys %logentradas; # entrada0 ... entrada999999
+my @total_reglas = sort {$reglas{$a} <=> $reglas{$b}} keys %reglas; # regla0 regla1 regla2 regla3 regla4 regla5 regla6 regla7 regla8
+#my @total_entradas = sort {$a <=> $b} keys %logentradas; # entrada0 ... entrada999999
+my @total_entradas = keys %logentradas; # entrada0 ... entrada999999
+@total_entradas = nsort(@total_entradas);
 
 my %datos_etiquetados = ();
 
@@ -300,7 +305,7 @@ for $ind_reglas (0 .. $#total_reglas) {
 
 		for $ind_entrada (0 .. $#total_entradas) {
 
-			my $nombre_valor2 = $logentradas{$total_entradas[$ind_entrada]}{$nombre_campo2}  or die "No existe valor para ".$nombre_campo; # Este es el valor que hay comparar
+			my $nombre_valor2 = $logentradas{$total_entradas[$ind_entrada]}{$nombre_campo2}; # Este es el valor que hay comparar
 
 			#print "$ind_entrada :::: El valor de $nombre_campo2 es $nombre_valor2\n";
 			#print "Comparamos $nombre_valor con $nombre_valor2\n";
@@ -335,8 +340,6 @@ for $ind_reglas (0 .. $#total_reglas) {
 
 			$datos_etiquetados{$total_entradas[$temp]} = $etiqueta;
 			$logentradas{$total_entradas[$temp]}{"etiqueta"} = $etiqueta;
-			if ($etiqueta =~ /allow/) { $allowed++; }
-			if ($etiqueta =~ /deny/) { $denied++; }
 			#print "\n\n------------------ $etiqueta ------------------------\n\n";
 			#print Dumper(\%{$logentradas{$total_entradas[$temp]}});
 		}
@@ -346,10 +349,15 @@ for $ind_reglas (0 .. $#total_reglas) {
 		if (!$datos_etiquetados{$total_entradas[$temp]}) {
 			$datos_etiquetados{$total_entradas[$temp]} = "no_label";
 			$logentradas{$total_entradas[$temp]}{"etiqueta"} = "no_label";
-			$unlabelled++;
 		}
 	}
 
+}
+
+for my $l (keys %datos_etiquetados) {
+	if ($datos_etiquetados{$l} =~ /allow/) { $allowed++; }
+	if ($datos_etiquetados{$l} =~ /deny/) { $denied++; }
+	if ($datos_etiquetados{$l} =~ /no\_label/) { $unlabelled++; }
 }
 
 #print Dumper(\%datos_etiquetados);
@@ -362,9 +370,9 @@ print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
 #################################################
 
 #my $arfffile = "salida.arff";  #100k
-my $arfffile = "salida2.arff"; #redux (32~)
+#my $arfffile = "salida2.arff"; #redux (32~)
 #my $arfffile = "salida3.arff"; #100
-#my $arfffile = "data_100k_instances_url_log.arff";
+my $arfffile = "data_100k_instances_url_log.arff";
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
@@ -376,6 +384,7 @@ my %clientadd;	#client_address
 my %MCTs;	#content_type_MCT
 my %etiquetas;	#etiqueta
 
+
 foreach my $name (sort keys %logentradas) {
 
 	$respuestas{$logentradas{$name}{'http_reply_code'}}++;
@@ -383,7 +392,7 @@ foreach my $name (sort keys %logentradas) {
 	$ctype{$logentradas{$name}{'content_type'}}++;
 	$serveradd{$logentradas{$name}{'server_or_cache_address'}}++;
 	$squidh{$logentradas{$name}{'squid_hierarchy'}}++;
-	$coredomains{$logentradas{$name}{'url'}}++;
+	$coredomains{$logentradas{$name}{'url_core'}}++;
 	$clientadd{$logentradas{$name}{'client_address'}}++;
 	$MCTs{$logentradas{$name}{'content_type_MCT'}}++;
 	$etiquetas{$logentradas{$name}{'etiqueta'}}++;
@@ -457,8 +466,8 @@ close OUT;
 #################################################
 
 #my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
-#my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
-my $label_logfile = "data_100k_instances_url_log_redux_w_labels.csv";
+my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
+#my $label_logfile = "data_100k_instances_url_log_redux_w_labels.csv";
 
 open (INCSV, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
 open (OUTCSV, ">$label_logfile") or die "No existe el fichero ".$label_logfile; #Abrir y leerlo
@@ -473,7 +482,7 @@ for my $u (0 .. $#row1) {
 
 push @row1, "\"etiqueta\"";
 print OUTCSV "".join(";", @row1)."\n";
-print "@row1\n";
+#print "@row1\n";
 my $rowwhat = 0;
 
 while (<INCSV>) {

@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-my $drlfile = "expert-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
+my $drlfile = "Initial-rules-squid.drl"; #Este es el fichero de reglas de Drools de Sergio
 
 #Mi idea es crear un hash de reglas tal que:
 #Si la regla es
@@ -63,4 +63,4 @@ while (<IN>)
 }
 close IN;
 
-#print Dumper(\%reglas);
+print Dumper(\%reglas);

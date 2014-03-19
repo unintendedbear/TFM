@@ -7,5 +7,5 @@ server_or_cache_address
 time
 squid_hierarchy
 bytes
-url
+url_core
 client_address
