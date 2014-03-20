@@ -4,14 +4,14 @@ Cualquier ejecución de streaming de video en oficina será denegada por el sist
 
 rule "policy-1 FLV"
 when
-	squid:Squid(dif_MCT=="video",dif_content=="video/x-flv")
+	squid:Squid(dif_MCT=="video",dif_content matches "*.video.*")
 then
 	PolicyDecisionPoint.deny();
 end
 
 rule "policy-1 MP4"
 when
-	squid:Squid(dif_MCT=="video",dif_content=="video/mp4")
+	squid:Squid(dif_MCT=="video",bytes>1000000, content_type matches "*.application.*, url matches "*.p2p.* )
 then
 	PolicyDecisionPoint.deny();
 end
@@ -23,9 +23,16 @@ Cualquier descarga de videos en oficina será denegada por el sistema.
 
 rule "policy-2 Download"
 when
-	squid:Squid(dif_MCT=="video",bytes>1000000)
+	squid:Squid(http_method=="PUT", bytes>1000000)
 then
 	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Allowed put"
+when
+	squid:Squid(http_method=="PUT", bytes<1000000)
+then
+	PolicyDecisionPoint.allow();
 end
 
 Política 3
@@ -63,17 +70,6 @@ end
 rule "policy-3 Exception Youtube"
 when
 	squid:Squid(url matches "*.youtube.*", diff_content matches "*.application.*")
-then
-	PolicyDecisionPoint.allow();
-end
-
-Política 4
-
-Por defecto, cualquier acceso de tipo PUT, será denegado
-
-rule "policy-4 Request PUT"
-when
-	squid:Squid(http_method=="PUT")
 then
 	PolicyDecisionPoint.deny();
 end

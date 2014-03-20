@@ -74,7 +74,7 @@ while (<IN>)
 
 	my $ind_keys = 1;
 	for my $j (0 .. $#argumentos) {
-		my $temp = ($j/3)%3;
+		my $temp = ($j/3)%4;
 		$reglas{"regla".$ind_regla}{$keys[$ind_keys].$temp} = $argumentos[$j];
 		$ind_keys++;
 		if ($ind_keys == 4) {$ind_keys = 1;} 
@@ -372,6 +372,7 @@ print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
 #my $arfffile = "salida.arff";  #100k
 #my $arfffile = "salida2.arff"; #redux (32~)
 #my $arfffile = "salida3.arff"; #100
+#my $arfffile = "data_100k_instances_url_log_less_restr.arff";
 my $arfffile = "data_100k_instances_url_log.arff";
 
 my %respuestas; #http_reply_code
@@ -466,6 +467,7 @@ close OUT;
 #################################################
 
 #my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
+#my $label_logfile = "data_100k_instances_url_log_less_restr_w_labels.csv";
 my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
 #my $label_logfile = "data_100k_instances_url_log_redux_w_labels.csv";
 

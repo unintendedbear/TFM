@@ -54,7 +54,8 @@ while (<IN>)
 
 	my $ind_keys = 1;
 	for my $j (0 .. $#argumentos) {
-		my $temp = ($j/3)%3;
+		my $temp = ($j/3)%4;
+		#print "@argumentos---\nREGLAS $temp\n";
 		$reglas{"regla".$ind_regla}{$keys[$ind_keys].$temp} = $argumentos[$j];
 		$ind_keys++;
 		if ($ind_keys == 4) {$ind_keys = 1;} 
