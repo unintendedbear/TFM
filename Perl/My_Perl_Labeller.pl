@@ -104,8 +104,8 @@ close IN;
 # NOTA: la última entrada "content_type_MCT" no existe en los logs pero se ha creado por mayor comodidad para etiquetar
 
 #my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
-#my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log
+#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
+my $logfile = "data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log
 
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
@@ -338,10 +338,12 @@ for $ind_reglas (0 .. $#total_reglas) {
 		#print "$flags[$temp] con salto $salto\t";
 		if ($flags[$temp] >= $salto) { # Se compara con $salto porque $salto es igual al número de condiciones que se tienen que dar para 						       # que se aplique la regla. Cada posición en @flags que sea igual al número de condiciones, será una 						       # entrada que se pueda etiquetar.
 
-			$datos_etiquetados{$total_entradas[$temp]} = $etiqueta;
-			$logentradas{$total_entradas[$temp]}{"etiqueta"} = $etiqueta;
-			#print "\n\n------------------ $etiqueta ------------------------\n\n";
-			#print Dumper(\%{$logentradas{$total_entradas[$temp]}});
+			if (!$logentradas{$total_entradas[$temp]}{"etiqueta"} || $logentradas{$total_entradas[$temp]}{"etiqueta"} !~ /deny/) {
+				$datos_etiquetados{$total_entradas[$temp]} = $etiqueta;
+				$logentradas{$total_entradas[$temp]}{"etiqueta"} = $etiqueta;
+				#print "\n\n------------------ $etiqueta ------------------------\n\n";
+				#print Dumper(\%{$logentradas{$total_entradas[$temp]}});
+			}
 		}
 
 		# Etiquetamos con "no label" las entradas que no hayan sido etiquetadas con "allow" ni con "deny"
@@ -373,7 +375,8 @@ print "En total hay $allowed allow, $denied deny, y $unlabelled sin etiqueta\n";
 #my $arfffile = "salida2.arff"; #redux (32~)
 #my $arfffile = "salida3.arff"; #100
 #my $arfffile = "data_100k_instances_url_log_less_restr.arff";
-my $arfffile = "data_100k_instances_url_log.arff";
+#my $arfffile = "data_100k_instances_url_log.arff";
+my $arfffile = "data_2000_instances_url_log.arff";
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
@@ -466,9 +469,9 @@ close OUT;
 # CSV
 #################################################
 
-#my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
+my $label_logfile = "data_2000_instances_url_log_w_labels.csv";
 #my $label_logfile = "data_100k_instances_url_log_less_restr_w_labels.csv";
-my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
+#my $label_logfile = "data_100k_instances_url_log_w_labels.csv";
 #my $label_logfile = "data_100k_instances_url_log_redux_w_labels.csv";
 
 open (INCSV, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo

@@ -376,6 +376,13 @@ then
 	PolicyDecisionPoint.deny();
 end
 
+rule "policy-5 Exception ads"
+when
+	squid:Squid(url matches "*.ads.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
 Política 6
 
 URLs sí permitidas por la compañía
