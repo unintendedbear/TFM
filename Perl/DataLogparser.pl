@@ -58,18 +58,19 @@ for my $d (0 .. $#datoslog) {
 			push @row, $1;
 			push @row, $datoslog[$d];
 		} else {
-			push @row, $1;
+			push @row, $datoslog[$d];
 			push @row, $datoslog[$d];
 		}
-	} elsif ($datoslog[$d] =~ /^\d{2}\:\d{2}\:\d{2}/) {
+	} elsif ($datoslog[$d] =~ /^\d{1,2}\:\d{2}\:\d{2}/) {
 		push @row, "\"".$datoslog[$d]."\"";
-	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/) {
-		push @row, $3;
+	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^NONE\:\/\//) {
+		if ($3) { push @row, $3; } else { push @row, $datoslog[$d]; }
+		$logentradas{"entrada".$numentrada}{"url"} = $datoslog[$d];
 	} else { 
 		push @row, $datoslog[$d];
 	}
 }
-	#print "@row\n";		
+	#print OUT "@row\n";		
 
 	for my $i (0 .. $#keys) {
 		
@@ -102,7 +103,7 @@ foreach my $name (sort keys %logentradas) {
 	$ctype{$logentradas{$name}{'content_type'}}++;
 	$serveradd{$logentradas{$name}{'server_or_cache_address'}}++;
 	$squidh{$logentradas{$name}{'squid_hierarchy'}}++;
-	$coredomains{$logentradas{$name}{'url'}}++;
+	$coredomains{$logentradas{$name}{'url_core'}}++;
 	$clientadd{$logentradas{$name}{'client_address'}}++;
 	$MCTs{$logentradas{$name}{'content_type_MCT'}}++;
 	$etiquetas{$logentradas{$name}{'etiqueta'}}++;
@@ -156,15 +157,16 @@ EOC
 	" }\n\n\@DATA\n";
 
 my $salida = "$header\n";
+
 for my $r (@rows ) {
-	$salida .= join(", ", @$r )."\n";
+	$salida .= join(", ", @$r );
 }
 
 #print "$salida\n";
 
 
 open (OUT, ">$arfffile") or die "No existe el fichero ".$arfffile; #Abrir y leerlo
-print OUT $salida;
+print OUT "$salida\n";
 close OUT;
 
 
