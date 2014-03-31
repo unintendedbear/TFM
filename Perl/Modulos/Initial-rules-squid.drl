@@ -1,0 +1,809 @@
+aaa:aaa(bbb, bbb)
+Política 1
+
+Cualquier ejecución de streaming de video en oficina será denegada por el sistema.
+
+rule "policy-1 FLV"
+when
+	squid:Squid(dif_MCT=="video",dif_content matches "*.video.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-1 MP4"
+when
+	squid:Squid(dif_MCT=="video",bytes>1000000, content_type matches "*.application.*, url matches "*.p2p.* )
+then
+	PolicyDecisionPoint.deny();
+end
+
+
+Política 2
+
+Cualquier descarga de videos en oficina será denegada por el sistema.
+
+rule "policy-2 Download"
+when
+	squid:Squid(http_method=="PUT", bytes>1000000)
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Allowed put"
+when
+	squid:Squid(http_method=="PUT", bytes<1000000)
+then
+	PolicyDecisionPoint.allow();
+end
+
+Política 3
+
+La utilización de aplicaciones de la blacklist será denegada por la organización.
+
+rule "policy-3 Blacklist Dropbox"
+when
+	squid:Squid(url matches "*.dropbox.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Blacklist Logmein"
+when
+	squid:Squid(url matches "*.logmein.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Blacklist Gmail"
+when
+	squid:Squid(url matches "*.gmail.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Blacklist Google Drive"
+when
+	squid:Squid(url matches "*.googledrive.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-3 Exception Youtube"
+when
+	squid:Squid(url matches "*.youtube.*", diff_content matches "*.application.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+Política 4
+
+La utilización de URLS de la blacklist será denegada por la organización.
+
+rule "policy-4 Blacklist Dropbox"
+when
+	squid:Squid(url matches "*.dropbox.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Blacklist Logmein"
+when
+	squid:Squid(url matches "*.logmein.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Blacklist Gmail"
+when
+	squid:Squid(url matches "*.gmail.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Blacklist Google Drive"
+when
+	squid:Squid(url matches "*.googledrive.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-4 Exception Youtube"
+when
+	squid:Squid(url matches "*.youtube.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+Política 5
+
+Otras URLs prohibidas
+
+rule "policy-5 Exception vadejuegos"
+when
+	squid:Squid(url matches "*.vadejuegos.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception utorrent"
+when
+	squid:Squid(url matches "*.utorrent.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception caravanasosito"
+when
+	squid:Squid(url matches "*.caravanasosito.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception telecinco"
+when
+	squid:Squid(url matches "*.telecinco.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception superdeporte"
+when
+	squid:Squid(url matches "*.superdeporte.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception vidayestilo"
+when
+	squid:Squid(url matches "*.vidayestilo.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception tiramillas"
+when
+	squid:Squid(url matches "*.tiramillas.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception futbolenlatv"
+when
+	squid:Squid(url matches "*.futbolenlatv.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception vandal"
+when
+	squid:Squid(url matches "*.vandal.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception frikisreconocidos"
+when
+	squid:Squid(url matches "*.frikisreconocidos.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception caravanasortiz"
+when
+	squid:Squid(url matches "*.caravanasortiz.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception ascodevida"
+when
+	squid:Squid(url matches "*.ascodevida.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception bolarosa"
+when
+	squid:Squid(url matches "*.bolarosa.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception euro-millions"
+when
+	squid:Squid(url matches "*.euro-millions.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception marca"
+when
+	squid:Squid(url matches "*.marca.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception mujerhoy"
+when
+	squid:Squid(url matches "*.mujerhoy.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception salsa-101"
+when
+	squid:Squid(url matches "*.salsa-101.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception cortefiel"
+when
+	squid:Squid(url matches "*.cortefiel.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception mundodeportivo"
+when
+	squid:Squid(url matches "*.mundodeportivo.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception letsbonus"
+when
+	squid:Squid(url matches "*.letsbonus.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception elbalonrosa"
+when
+	squid:Squid(url matches "*.elbalonrosa.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception telva"
+when
+	squid:Squid(url matches "*.telva.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception bittorrent"
+when
+	squid:Squid(url matches "*.bittorrent.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception prenatal"
+when
+	squid:Squid(url matches "*.prenatal.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception privateoutlet"
+when
+	squid:Squid(url matches "*.privateoutlet.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception reddit"
+when
+	squid:Squid(url matches "*.reddit.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception latiendademarca"
+when
+	squid:Squid(url matches "*.latiendademarca.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception estampas"
+when
+	squid:Squid(url matches "*.estampas.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception tuenti"
+when
+	squid:Squid(url matches "*.tuenti.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception facebook"
+when
+	squid:Squid(url matches "*.facebook.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception netliga"
+when
+	squid:Squid(url matches "*.netliga.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception addicted2salsa"
+when
+	squid:Squid(url matches "*.addicted2salsa.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception motogp"
+when
+	squid:Squid(url matches "*.motogp.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception motorpasion"
+when
+	squid:Squid(url matches "*.motorpasion.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception groupon"
+when
+	squid:Squid(url matches "*.groupon.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception triviados"
+when
+	squid:Squid(url matches "*.triviados.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception edarling"
+when
+	squid:Squid(url matches "*.edarling.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception ads"
+when
+	squid:Squid(url matches "*.ads.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+Política 6
+
+URLs sí permitidas por la compañía
+
+rule "policy-6 Allowed cope"
+when
+	squid:Squid(url matches "*.cope.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed eoivalencia"
+when
+	squid:Squid(url matches "*.eoivalencia.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed 20minutos"
+when
+	squid:Squid(url matches "*.20minutos.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed redeweb"
+when
+	squid:Squid(url matches "*.redeweb.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed en/user/geotrust"
+when
+	squid:Squid(url matches "*.trust.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed caixa"
+when
+	squid:Squid(url matches "*.caixa.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed skype"
+when
+	squid:Squid(url matches "*.skype.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed linkedin"
+when
+	squid:Squid(url matches "*.linkedin.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed wordreference"
+when
+	squid:Squid(url matches "*.wordreference.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed wordpress"
+when
+	squid:Squid(url matches "*.wordpress.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed windows"
+when
+	squid:Squid(url matches "*.windows.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed apache"
+when
+	squid:Squid(url matches "*.apache.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed renfe"
+when
+	squid:Squid(url matches "*.renfe.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed lockerz"
+when
+	squid:Squid(url matches "*.lockerz.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed avast"
+when
+	squid:Squid(url matches "*.avast.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed yahoo"
+when
+	squid:Squid(url matches "*.yahoo.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed huffpost"
+when
+	squid:Squid(url matches "*.huffpost.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed ingdirect"
+when
+	squid:Squid(url matches "*.ingdirect.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed github"
+when
+	squid:Squid(url matches "*.github.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed w3schools"
+when
+	squid:Squid(url matches "*.w3schools.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed sun"
+when
+	squid:Squid(url matches "*.sun.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed elmundo"
+when
+	squid:Squid(url matches "*.elmundo.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed creativecommons"
+when
+	squid:Squid(url matches "*.creativecommons.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed android"
+when
+	squid:Squid(url matches "*.android.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed openvpn"
+when
+	squid:Squid(url matches "*.openvpn.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed samsung"
+when
+	squid:Squid(url matches "*.samsung.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed sony"
+when
+	squid:Squid(url matches "*.sony.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed adobe"
+when
+	squid:Squid(url matches "*.adobe.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed google"
+when
+	squid:Squid(url matches "*.google.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed wikipedia"
+when
+	squid:Squid(url matches "*.wikipedia.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed mozilla"
+when
+	squid:Squid(url matches "*.mozilla.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed aireuropa"
+when
+	squid:Squid(url matches "*.aireuropa.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed xataka"
+when
+	squid:Squid(url matches "*.xataka.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed sourceforge"
+when
+	squid:Squid(url matches "*.sourceforge.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed spotify"
+when
+	squid:Squid(url matches "*.spotify.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed ubuntu"
+when
+	squid:Squid(url matches "*.ubuntu.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed microsoft"
+when
+	squid:Squid(url matches "*.microsoft.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed java"
+when
+	squid:Squid(url matches "*.java.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed jboss"
+when
+	squid:Squid(url matches "*.jboss.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed paypal"
+when
+	squid:Squid(url matches "*.paypal.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed twitter"
+when
+	squid:Squid(url matches "*.twitter.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed sophos"
+when
+	squid:Squid(url matches "*.sophos.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed linux"
+when
+	squid:Squid(url matches "*.linux.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed php"
+when
+	squid:Squid(url matches "*.php.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed iberia"
+when
+	squid:Squid(url matches "*.iberia.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed debian"
+when
+	squid:Squid(url matches "*.debian.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed apple"
+when
+	squid:Squid(url matches "*.apple.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed secureserver"
+when
+	squid:Squid(url matches "*.secureserver.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed cadenaser"
+when
+	squid:Squid(url matches "*.cadenaser.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed elpais"
+when
+	squid:Squid(url matches "*.elpais.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed meneame"
+when
+	squid:Squid(url matches "*.meneame.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed hotmail"
+when
+	squid:Squid(url matches "*.hotmail.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed stackoverflow"
+when
+	squid:Squid(url matches "*.stackoverflow.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed abc"
+when
+	squid:Squid(url matches "*.abc.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed maven"
+when
+	squid:Squid(url matches "*.maven.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed cisco"
+when
+	squid:Squid(url matches "*.cisco.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed trafficmanager"
+when
+	squid:Squid(url matches "*.trafficmanager.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed lavozdegalicia"
+when
+	squid:Squid(url matches "*.lavozdegalicia.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed destinia"
+when
+	squid:Squid(url matches "*.destinia.*")
+then
+	PolicyDecisionPoint.allow();
+end
+
+rule "policy-6 Allowed ideal"
+when
+	squid:Squid(url matches "*.ideal.*")
+then
+	PolicyDecisionPoint.allow();
+end

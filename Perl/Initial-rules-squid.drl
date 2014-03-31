@@ -299,6 +299,13 @@ then
 	PolicyDecisionPoint.deny();
 end
 
+rule "policy-5 Exception taringa"
+when
+	squid:Squid(url matches "*.taringa.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
 rule "policy-5 Exception latiendademarca"
 when
 	squid:Squid(url matches "*.latiendademarca.*")
@@ -379,6 +386,41 @@ end
 rule "policy-5 Exception ads"
 when
 	squid:Squid(url matches "*.ads.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception desmotivado"
+when
+	squid:Squid(url matches "*.desmotivado.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception tumblr"
+when
+	squid:Squid(url matches "*.tumblr.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception caranddriverthef1"
+when
+	squid:Squid(url matches "*.caranddriverthef1.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception chatango"
+when
+	squid:Squid(url matches "*.chatango.*")
+then
+	PolicyDecisionPoint.deny();
+end
+
+rule "policy-5 Exception qservz"
+when
+	squid:Squid(url matches "*.qservz.*")
 then
 	PolicyDecisionPoint.deny();
 end
