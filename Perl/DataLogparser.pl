@@ -4,12 +4,10 @@ use warnings;
 use strict;
 use Data::Dumper;
 
-#my $logfile = "data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-#my $logfile = "data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
-my $logfile = "data_100k_instances_url_log_Allow-Deny_labels.csv";
-#my $arfffile = "salida.arff";
-#my $arfffile = "salida2.arff";
-my $arfffile = "data_100k_instances_url_log_Allow-Deny_labels.arff";
+my $logfile = shift || "data_100k_instances_url_log_Allow-Deny_labels_Undersampled.csv";
+my $arfffile;
+if ($logfile =~ /(.+)\.csv/) { $arfffile = "$1.arff"}
+print "$arfffile\n";
 my $keysfile = "logkeys.txt";
 my %logentradas = (); #Inicializar el hash de entradas de log
 my @keys = ();
