@@ -17,7 +17,7 @@ sub drl_rules_to_hash {
 	my $key_index = 0;
 	my $rule_count = 0;
 	my $drl_file = read_file( $file );
-	my @rows = split(/\s+/, $drl_file);
+	my @rows = split(/\n/, $drl_file);
 	my @cosas = ();
 
 	for my $line ( @rows ) {
