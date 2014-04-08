@@ -17,8 +17,8 @@ if ($percentage_training =~ /(.+)\%/) {
 my $out_file_training;
 my $out_file_test;
 if ($in_file =~ /(.+)\.csv/) {
-	$out_file_training = "$1_Training.csv";
-	$out_file_test = "$1_Test.csv";
+	$out_file_training = "$1_Training_"."$percentage_training.csv";
+	$out_file_test = "$1_Test_"."$percentage_test.csv";
 }
 
 my $log_file = read_file( $in_file );
@@ -33,7 +33,7 @@ for my $line ( @in_rows ) {
 	
 	if ( $line =~ m/allow/ || $line =~ m/deny/ ) {
 		my $number = int(rand(10));
-		if ($number < 2) {
+		if ($number < $percentage_test/10) {
 			print OUT_TST "$line\n";		
 		} else {
 			print OUT_TRN "$line\n";
