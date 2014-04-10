@@ -21,28 +21,32 @@ sub drl_rules_to_hash {
 
 	for my $line ( @rows ) {
 		my @arguments = ();
-		#push (@cosas, $line);
 		if ( $line =~ /^\D+:\D+\((.+)\)/ ) {
-			push (@cosas, $line);			
+			push (@cosas, $line);
 			my @conditions = split (/,/, $1);
 			for my $i ( @conditions ) {
 				if ($i =~ /\s*(.*)(==)"(.+)"/ || $i =~ /\s*(.+)([>|<|=])(\d+)/ || $i =~ /\s*(.+) (.+) "?\*\.(.+)\.\*"?/) {
+					#push (@cosas, ($1, $2, $3));
 					push (@arguments, ($1, $2, $3));
 				}
 			}
 		}
 
 		if ( $line =~ /^\D+\.(.+)\(\)\;/) {
+			#push (@cosas, $1);
 			push (@arguments, $1);
 			$rule_count++;
 		}
 
-		for my $j (0 .. $#arguments) {
+		for my $j (0 .. $#arguments-1) {
 			my $temp = ($j/3)%4;
 			my $key = (KEYS)[$key_index];
 			$rules{"rule".$rule_count}{$key.$temp} = $arguments[$j];
+			#push (@cosas, $key);
+			push (@cosas, $arguments[$j]);
 			$key_index++;
-			if ($key_index == 4) {$key_index = 0;}
+			if ($key_index == 3) {$key_index = 0;}
+			$rules{"rule".$rule_count}{(KEYS)[3]} = $arguments[$#arguments];
 		}
 	}
 
