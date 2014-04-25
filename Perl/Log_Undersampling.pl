@@ -3,8 +3,9 @@
 use warnings;
 use strict;
 use File::Slurp qw(read_file);
+use Carp qw(croak);
 
-my $in_file = shift || "data_100k_instances_url_log_Allow-Deny_labels.csv";
+my $in_file = shift || croak "Please specify the .csv file";
 my $out_file;
 if ($in_file =~ /(.+)\.csv/) { $out_file = "$1_Undersampled.csv"}
 print "$out_file\n";
