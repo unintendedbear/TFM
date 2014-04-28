@@ -1,7 +1,15 @@
-"data_100k_instances_url_log_redux.csv"; #Fichero reducido de 50 entradas para pruebas
-"data_100k_instances_url_log.csv"; #Fichero de 100k entradas de log
-"data_2000_instances_url_log.csv"; #Fichero de 2000 entradas de log 
+- Uso de Log_Undersampling.pl:
 
-"salida.arff";  #100k
-"salida2.arff"; #redux (32~)
-"salida3.arff"; #100
+perl  Log_Undersampling.pl <nombre_del_fichero>.csv
+
+- Uso de Log_Oversampling.pl:
+
+perl  Log_Oversampling.pl <nombre_del_fichero>.csv
+
+- Uso de Training_Test_Files_Generator.pl:
+
+perl Training_Test_Files_Generator.pl <nombre_del_fichero>.csv <porcentaje_fichero_entrenamiento> <random/consequent> <under/undersampling/over/oversampling>
+
+- Para obtener el ARFF a partir del CSV:
+
+perl DataLogParser.pl <nombre_del_fichero>.csv
