@@ -10,17 +10,17 @@ field relation value action
 use base 'Exporter';
 our @EXPORT = qw(drl_rules_to_hash);
 
+
 sub drl_rules_to_hash {
 	my $file = shift || croak "Please specify a valid Drools file.";
 
-	my %rules;
-	my $key_index = 0;
 	my $rule_count = 0;
 	my @rows = read_file( $file );
-	my @cosas = ();
+	my @cosas = ();	
+	my @arguments = ();
+	my %rules;
 
-	for my $line ( @rows ) {
-		my @arguments = ();
+	for my $line ( @rows ) {		
 		if ( $line =~ /^\D+:\D+\((.+)\)/ ) {
 			push (@cosas, $line);
 			my @conditions = split (/,/, $1);
@@ -33,23 +33,41 @@ sub drl_rules_to_hash {
 		}
 
 		if ( $line =~ /^\D+\.(.+)\(\)\;/) {
+			push (@cosas, $line);
 			#push (@cosas, $1);
 			push (@arguments, $1);
+			my @resultado = fill_with_arguments(\@arguments, $rule_count, \%rules);
+			push (@cosas, @resultado);
+			@arguments = ();
 			$rule_count++;
 		}
 
-		for my $j (0 .. $#arguments-1) {
-			my $temp = ($j/3)%4;
-			my $key = (KEYS)[$key_index];
-			$rules{"rule".$rule_count}{$key.$temp} = $arguments[$j];
-			#push (@cosas, $key);
-			push (@cosas, $arguments[$j]);
-			$key_index++;
-			if ($key_index == 3) {$key_index = 0;}
-			$rules{"rule".$rule_count}{(KEYS)[3]} = $arguments[$#arguments];
-		}
+		
 	}
 
-	return @cosas;
-	#return (@cosas, %rules);
+	return \%rules;
+}
+
+sub fill_with_arguments {
+	my $args_ref = shift;
+	my $r_count = shift;
+	my $rules = shift;
+	my $key_index = 0;
+	my @cosa = ();
+	#push (@cosa, $r_count);
+	my @args = @{$args_ref};
+
+	for my $j (0 .. $#args-1) {
+		my $temp = ($j/3)%4;
+		my $key = (KEYS)[$key_index];
+		${$rules}{"rule".$r_count}{$key.$temp} = $args[$j];
+		#push (@cosas, $key);
+		push (@cosa, $args[$j]);
+		$key_index++;
+		if ($key_index == 3) {$key_index = 0;}
+		${$rules}{"rule".$r_count}{(KEYS)[3]} = $args[$#args];
+	}
+	push (@cosa, $args[$#args]);
+
+	return @cosa;
 }
