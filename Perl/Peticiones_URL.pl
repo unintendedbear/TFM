@@ -4,16 +4,19 @@ use 5.012;
 use warnings;
 use File::Slurp qw(read_file);
 use Carp qw(croak);
-use constant KEYS => qw(
+use constant ARFF_KEYS => qw(
 http_reply_code http_method duration_milliseconds content_type_MCT content_type server_or_cache_address time squid_hierarchy bytes url_core client_address etiqueta
+);
+use constant KEYS => qw(
+http_reply_code http_method duration_milliseconds content_type server_or_cache_address time squid_hierarchy bytes url client_address etiqueta
 );
 use Sort::Naturally;
 
 my $file_in = shift || croak "Please specify a valid Log file.";
-#my $file_out;
+my $file_out;
 my $arff_file;
 if ($file_in =~ /(.+)\.csv/) {
-#	$file_out = "$1_only_requests.csv";
+	$file_out = "$1_only_requests.csv";
 	$arff_file = "$1_only_requests.arff";
 }
 
@@ -85,12 +88,10 @@ foreach (@delete_list) {
 	delete $cmp_log{$entry_index[$_]};
 }
 
-print "BORRADAS\n";
-
 my @new_index = sort {$cmp_log{$a} <=> $cmp_log{$b}} keys %cmp_log;
 @new_index = nsort(@new_index);
 
-my @arff_keys = (KEYS)[0 .. 10];
+my @arff_keys = (ARFF_KEYS)[0 .. 10];
 
 my %respuestas; #http_reply_code
 my %metodos;	#http_method
@@ -113,7 +114,7 @@ for my $j (@new_index) {
 	if ($cmp_log{$j}{'url'} =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $cmp_log{$j}{'url'} =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $cmp_log{$j}{'url'} =~ /^NONE\:\/\//) {
 		$cmp_log{$j}{'url_core'} = $3;
 	}
-	delete $cmp_log{$j}{'url'};
+	#delete $cmp_log{$j}{'url'};
 
 	$respuestas{$cmp_log{$j}{'http_reply_code'}}++;
 	$metodos{$cmp_log{$j}{'http_method'}}++;
@@ -154,17 +155,37 @@ EOC
 	" }\n\@ATTRIBUTE label { ".join(",", @etiquetas ).
 	" }\n\n\@DATA\n";
 
-my $salida = "$header\n";
+my $salida_arff = "$header\n";
 
 for my $entry (@new_index) {
 
 	foreach (@arff_keys) {
-		$salida .= $cmp_log{$entry}{$_}.", ";
+		$salida_arff .= $cmp_log{$entry}{$_}.", ";
 	}
 
-	$salida .= $cmp_log{$entry}{'etiqueta'}."\n";
+	$salida_arff .= $cmp_log{$entry}{'etiqueta'}."\n";
 }
 
-open (OUT, ">$arff_file") or die "No existe el fichero ".$arff_file; #Abrir y leerlo
-print OUT "$salida\n";
+open (ARFF_OUT, ">$arff_file") or die "No existe el fichero ".$arff_file; #Abrir y leerlo
+print ARFF_OUT "$salida_arff\n";
+close ARFF_OUT;
+
+my @csv_keys = (KEYS)[0 .. 9];
+
+my $salida_csv = "";
+
+$salida_csv .= join(";", @csv_keys );
+$salida_csv .= ";etiqueta\n";
+
+for my $csv_entry (@new_index) {
+
+	foreach (@csv_keys) {
+		$salida_csv .= $cmp_log{$csv_entry}{$_}.";";
+	}
+
+	$salida_csv .= $cmp_log{$csv_entry}{'etiqueta'}."\n";
+}
+
+open (OUT, ">$file_out") or die "No existe el fichero ".$file_out; #Abrir y leerlo
+print OUT "$salida_csv\n";
 close OUT;
