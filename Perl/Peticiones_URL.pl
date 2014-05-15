@@ -65,7 +65,6 @@ my @delete_list = ();
 my @already_checked = ();
 
 for my $index (0 .. $#entry_index) {
-	#print "------$index------\n@already_checked\n------------------\n";
 	next if (grep {$_ == $index} @already_checked);
 
 	for my $index_cmp (0 .. $#entry_index) {
@@ -74,7 +73,6 @@ for my $index (0 .. $#entry_index) {
 
 		if ($log_data{$entry_index[$index]}{'url'} eq $cmp_log{$entry_index[$index_cmp]}{'url'}) {
 			if ($cmp_log{$entry_index[$index_cmp]}{'client_address'} eq $log_data{$entry_index[$index]}{'server_or_cache_address'}) {
-				#print OUT "duplicada de $index en $index_cmp\n";
 				push (@delete_list, $index_cmp);
 			} else { push (@already_checked, $index_cmp) unless ($index == $index_cmp-1); }
 		}
@@ -84,7 +82,6 @@ for my $index (0 .. $#entry_index) {
 }
 
 foreach (@delete_list) {
-	#print $entry_index[$_]."\n";
 	delete $cmp_log{$entry_index[$_]};
 }
 

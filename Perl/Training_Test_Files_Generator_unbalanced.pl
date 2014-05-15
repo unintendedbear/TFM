@@ -36,21 +36,43 @@ open (OUT_TRN, ">$out_file_training") or die "No existe el fichero ".$out_file_t
 open (OUT_TST, ">$out_file_test") or die "No existe el fichero ".$out_file_test;
 
 my $heading = shift @in_rows;
+my @train_entries = ();
+my @test_entries = ();
+
 print OUT_TST "$heading\n";		
 print OUT_TRN "$heading\n";
 
 if ($option eq "random") {
-
+	
+	my $train_size = ($#in_rows + 1)*$percentage_training/100;
 	while ( $#in_rows > 0 ) {
-
 		my $line = shift @in_rows;
-		my $number = int(rand(10));
-		if ($number < $percentage_test/10) {
-			print OUT_TST "$line\n";		
-		} else {
-			print OUT_TRN "$line\n";
+		my $control = 1;
+		foreach (@train_entries) {
+			my $url;
+			if ($line =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url = $1; }
+			my $url_cmp;
+			if (/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url_cmp = $1; }
+			if ($url eq $url_cmp) {
+				push (@train_entries, $line);
+				$train_size--;
+				$control = 0;
+				last;
+			}
+		}
+		if ($control == 1) {
+			my $number = int(rand(10));
+			if ($number > $percentage_test/10 && $train_size > 0) {
+				push (@train_entries, $line);
+				$train_size--;
+			} else {
+				push (@test_entries, $line);
+			}
 		}
 	}
+
+	foreach (@train_entries) { print OUT_TRN "$_\n"; }
+	foreach (@test_entries) { print OUT_TST "$_\n"; }
 } else {
 #consecutivos en lugar de aleatorios
 	
