@@ -43,9 +43,10 @@ print OUT_TST "$heading\n";
 print OUT_TRN "$heading\n";
 
 if ($option eq "random") {
-	
-	my $train_size = ($#in_rows + 1)*$percentage_training/100;
-	while ( $#in_rows > 0 ) {
+
+	my $train_size = sprintf("%.0f", ($#in_rows + 1)*$percentage_training/100);
+	my $test_size = sprintf("%.0f", ($#in_rows + 1)*$percentage_test/100);
+	while ( $#in_rows >= 0 ) {
 		my $line = shift @in_rows;
 		my $control = 1;
 		foreach (@train_entries) {
@@ -61,12 +62,27 @@ if ($option eq "random") {
 			}
 		}
 		if ($control == 1) {
+			foreach (@test_entries) {
+				my $url;
+				if ($line =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url = $1; }
+				my $url_cmp;
+				if (/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url_cmp = $1; }
+				if ($url eq $url_cmp) {
+					push (@test_entries, $line);
+					$test_size--;
+					$control = 0;
+					last;
+				}
+			}
+		}
+		if ($control == 1) {
 			my $number = int(rand(10));
 			if ($number > $percentage_test/10 && $train_size > 0) {
 				push (@train_entries, $line);
 				$train_size--;
-			} else {
+			} elsif ($test_size > 0) {
 				push (@test_entries, $line);
+				$test_size--;
 			}
 		}
 	}
