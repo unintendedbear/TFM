@@ -7,7 +7,7 @@ use Carp qw(croak);
 
 my $in_file = shift || croak "Please specify the .csv file";
 my $percentage_training = shift || croak "Please specify the percentage of the Training dataset";
-my $option = shift || croak "Please specify \'random\' or \'consequent\'";
+my $option = shift || croak "Please specify \'random\' or \'consecutive\'";
 my $percentage_test;
 if ($percentage_training =~ /(.+)\%/) {
 	$percentage_training = $1;
@@ -46,6 +46,7 @@ if ($option eq "random") {
 
 	my $train_size = sprintf("%.0f", ($#in_rows + 1)*$percentage_training/100);
 	my $test_size = sprintf("%.0f", ($#in_rows + 1)*$percentage_test/100);
+	print "Inicialmente: \$train_size: $train_size y \$test_size: $test_size\n";
 	while ( $#in_rows >= 0 ) {
 		my $line = shift @in_rows;
 		my $control = 1;
@@ -83,12 +84,17 @@ if ($option eq "random") {
 			} elsif ($test_size > 0) {
 				push (@test_entries, $line);
 				$test_size--;
+			} else {
+				push (@train_entries, $line);
+				$train_size--;
 			}
 		}
 	}
 
 	foreach (@train_entries) { print OUT_TRN "$_\n"; }
 	foreach (@test_entries) { print OUT_TST "$_\n"; }
+	
+	print "Nos queda: \$train_size: $train_size y \$test_size: $test_size\n";
 } else {
 #consecutivos en lugar de aleatorios
 	
