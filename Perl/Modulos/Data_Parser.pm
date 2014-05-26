@@ -5,7 +5,7 @@ use warnings;
 use File::Slurp qw(read_file);
 use Carp qw(croak);
 use constant KEYS => qw(
-http_reply_code http_method duration_milliseconds content_type_MCT content_type server_or_cache_address time squid_hierarchy bytes url_core client_address
+http_reply_code http_method duration_milliseconds content_type_MCT content_type server_or_cache_address time squid_hierarchy bytes url_core url_TLD client_address
 );
 use base 'Exporter';
 our @EXPORT = qw(log_data_to_hash);
@@ -14,60 +14,66 @@ our @EXPORT = qw(log_data_to_hash);
 sub log_data_to_hash {
 	my $file = shift || croak "Please specify a valid Drools file.";
 
-	my $rule_count = 0;
+	my $entry_count = 0;
 	my @rows = read_file( $file );
 	my @cosas = ();	
 	my @arguments = ();
-	my %rules;
+	my %data;
+	shift @rows;
 
-	for my $line ( @rows ) {		
-		if ( $line =~ /^\D+:\D+\((.+)\)/ ) {
-			push (@cosas, $line);
-			my @conditions = split (/,/, $1);
-			for my $i ( @conditions ) {
-				if ($i =~ /\s*(.*)(==)"(.+)"/ || $i =~ /\s*(.+)([>|<|=])(\d+)/ || $i =~ /\s*(.+) (.+) "?\*\.(.+)\.\*"?/) {
-					#push (@cosas, ($1, $2, $3));
-					push (@arguments, ($1, $2, $3));
+	for my $line ( @rows ) {
+		my @data = split (/;/, $line);
+
+		for my $d (0 .. $#data) {
+
+			if ($data[$d] =~ /"(.+)"\n?/) { 
+				$data[$d] = $1;
+			}
+
+			if ($d == 3) {
+				if ($data[$d] =~ /^(\w+-*\w+)[\/?]\w+/) {
+					push (@arguments, $1);
+					push (@arguments, $data[$d]);
+				} else {
+					push (@arguments, $data[$d]);
+					push (@arguments, $data[$d]);
 				}
+			} elsif ($data[$d] =~ /^\d{1,2}\:\d{2}\:\d{2}/) {
+				push (@arguments, "\"".$data[$d]."\"");
+			} elsif ($data[$d] =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) {
+				my @doms = split (/\./, $2);
+				push (@arguments, $doms[$#doms-1]);
+				push (@arguments, $doms[$#doms]);
+			} else {
+				push (@arguments, $data[$d]);
 			}
 		}
 
-		if ( $line =~ /^\D+\.(.+)\(\)\;/) {
-			push (@cosas, $line);
-			#push (@cosas, $1);
-			push (@arguments, $1);
-			my @resultado = fill_with_arguments(\@arguments, $rule_count, \%rules);
-			push (@cosas, @resultado);
-			@arguments = ();
-			$rule_count++;
-		}
-
+		my @result = fill_with_arguments(\@arguments, $entry_count, \%data);
+		@arguments = ();
+		$entry_count++;
 		
 	}
 
-	return \%rules;
+	return \%data;
 }
 
 sub fill_with_arguments {
 	my $args_ref = shift;
-	my $r_count = shift;
-	my $rules = shift;
+	my $e_count = shift;
+	my $data_ref = shift;
 	my $key_index = 0;
-	my @cosa = ();
+	my @filling = ();
 	#push (@cosa, $r_count);
 	my @args = @{$args_ref};
 
-	for my $j (0 .. $#args-1) {
-		my $temp = ($j/3)%4;
+	for my $j (0 .. $#args) {
 		my $key = (KEYS)[$key_index];
-		${$rules}{"rule".$r_count}{$key.$temp} = $args[$j];
+		${$data_ref}{"entry".$e_count}{$key} = $args[$j];
 		#push (@cosas, $key);
-		push (@cosa, $args[$j]);
+		push (@filling, $args[$j]);
 		$key_index++;
-		if ($key_index == 3) {$key_index = 0;}
-		${$rules}{"rule".$r_count}{(KEYS)[3]} = $args[$#args];
 	}
-	push (@cosa, $args[$#args]);
 
-	return @cosa;
+	return @filling;
 }
