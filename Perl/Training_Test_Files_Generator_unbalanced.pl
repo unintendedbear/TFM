@@ -52,9 +52,15 @@ if ($option eq "random") {
 		my $control = 1;
 		foreach (@train_entries) {
 			my $url;
-			if ($line =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url = $1; }
+			if ($line =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { 
+				my @doms = split(/\./, $2);
+				$url = $doms[$#doms-1];
+			}
 			my $url_cmp;
-			if (/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url_cmp = $1; }
+			if (/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { 
+				my @doms_cmp = split(/\./, $2);
+				$url_cmp = $doms_cmp[$#doms_cmp-1];
+			}
 			if ($url eq $url_cmp) {
 				push (@train_entries, $line);
 				$train_size--;
@@ -65,9 +71,15 @@ if ($option eq "random") {
 		if ($control == 1) {
 			foreach (@test_entries) {
 				my $url;
-				if ($line =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url = $1; }
+				if ($line =~ /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { 
+					my @doms = split(/\./, $2);
+					$url = $doms[$#doms-1];
+				}
 				my $url_cmp;
-				if (/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { $url_cmp = $1; }
+				if (/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/\_\-\.]*(\?\S+)?)?)?)/) { 
+					my @doms_cmp = split(/\./, $2);
+					$url_cmp = $doms_cmp[$#doms_cmp-1];
+				}
 				if ($url eq $url_cmp) {
 					push (@test_entries, $line);
 					$test_size--;
