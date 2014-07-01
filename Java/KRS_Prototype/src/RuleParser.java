@@ -24,36 +24,41 @@ public class RuleParser {
 			int i;
 			for ( i=0; i < aryLines.length; i++ ) {
 				// Parsear aquí ò_ó
-				Pattern pattern = Pattern.compile(conditionsPattern);
-				Matcher matcher = pattern.matcher(aryLines[i]);
+				Pattern patternOfCondition = Pattern.compile(conditionsPattern);
+				Matcher matcherLine = patternOfCondition.matcher(aryLines[i]);
+				
+				if (matcherLine.find()) {
+					System.out.println("Found value: " + matcherLine.group(1) );
+					
+					Pattern patternOfArgument1 = Pattern.compile(argumentsPattern1);
+					Pattern patternOfArgument2 = Pattern.compile(argumentsPattern2);
+					Pattern patternOfArgument3 = Pattern.compile(argumentsPattern3);
+					
+					Matcher matcherArguments1 = patternOfArgument1.matcher(matcherLine.group(1));
+					Matcher matcherArguments2 = patternOfArgument2.matcher(matcherLine.group(1));
+					Matcher matcherArguments3 = patternOfArgument3.matcher(matcherLine.group(1));
+					
+					if (matcherArguments1.find()) {
+						System.out.println("Found value: " + matcherArguments1.group(1) );
+						System.out.println("Found value: " + matcherArguments1.group(2) );
+						System.out.println("Found value: " + matcherArguments1.group(3) );
+					} else if(matcherArguments2.find()) {
+						System.out.println("Found value: " + matcherArguments2.group(1) );
+						System.out.println("Found value: " + matcherArguments2.group(2) );
+						System.out.println("Found value: " + matcherArguments2.group(3) );						
+					} else if(matcherArguments3.find()) {
+						System.out.println("Found value: " + matcherArguments3.group(1) );
+						System.out.println("Found value: " + matcherArguments3.group(2) );
+						System.out.println("Found value: " + matcherArguments3.group(3) );						
+					}
+				}
 			}
 		}
 		catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
         
-        while (true) {
-
-            Pattern pattern = 
-            Pattern.compile(console.readLine("%nEnter your regex: "));
-
-            Matcher matcher = 
-            pattern.matcher(console.readLine("Enter input string to search: "));
-
-            boolean found = false;
-            while (matcher.find()) {
-                console.format("I found the text" +
-                    " \"%s\" starting at " +
-                    "index %d and ending at index %d.%n",
-                    matcher.group(),
-                    matcher.start(),
-                    matcher.end());
-                found = true;
-            }
-            if(!found){
-                console.format("No match found.%n");
-            }
-        }
+        
     }
 
 }
