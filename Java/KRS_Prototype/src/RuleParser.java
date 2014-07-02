@@ -11,18 +11,21 @@ public class RuleParser {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		String drlFile = "/home/paloma/workspace/KRS_Prototype/Rules/Initial-rules-squid.drl";
+		String drlFile = "/media/osica/166178457AA12F1B/Workspace/KRS_Prototype/Rules/Initial-rules-squid.drl";
+		//String drlFile = "/home/paloma/workspace/KRS_Prototype/Rules/Initial-rules-squid.drl";
 		String conditionsPattern = "^\\D+:\\D+\\((.+)\\)";
 		String argumentsPattern1 = "\\s*(.*)(==)\"(.+)\"";
 		String argumentsPattern2 = "\\s*(.+)([>|<|=])(\\d+)";
 		String argumentsPattern3 = "\\s*(.+) (.+) \"?\\*\\.(.+)\\.\\*\"?";
+		String actionPattern = "^\\D+\\.(.+)\\(\\)\\;";
 				
 		try {
 			
 			// Leer DRL
 			ReadFile file = new ReadFile(drlFile);
 			String[] aryLines = file.OpenFile();
-			List<Rule> myList = new ArrayList<Rule>();
+			List<Condition> conditionList = new ArrayList<Condition>();
+			List<Rule> ruleList = new ArrayList<Rule>();
 			
 			
 			int i;
@@ -30,41 +33,76 @@ public class RuleParser {
 				// Parsear aquí ò_ó
 				Pattern patternOfCondition = Pattern.compile(conditionsPattern);
 				Matcher matcherLine = patternOfCondition.matcher(aryLines[i]);
+				Pattern patternOfAction = Pattern.compile(actionPattern);
+				Matcher matcherAction = patternOfAction.matcher(aryLines[i]);
 				
 				if (matcherLine.find()) {
 					// Condiciones en matcherLine.group(1)
 					
 					String[] arrayConditions = matcherLine.group(1).split(",");
 					
-					Pattern patternOfArgument1 = Pattern.compile(argumentsPattern1);
-					Pattern patternOfArgument2 = Pattern.compile(argumentsPattern2);
-					Pattern patternOfArgument3 = Pattern.compile(argumentsPattern3);
+					Condition condition;
 					
-					Matcher matcherArguments1 = patternOfArgument1.matcher(matcherLine.group(1));
-					Matcher matcherArguments2 = patternOfArgument2.matcher(matcherLine.group(1));
-					Matcher matcherArguments3 = patternOfArgument3.matcher(matcherLine.group(1));
-					
-					if (arrayConditions.length > 1) {
+					int j;
+					for ( j=0; j < arrayConditions.length; j++ ) {
 						
-					} else {
+						Pattern patternOfArgument1 = Pattern.compile(argumentsPattern1);
+						Pattern patternOfArgument2 = Pattern.compile(argumentsPattern2);
+						Pattern patternOfArgument3 = Pattern.compile(argumentsPattern3);
+						
+						Matcher matcherArguments1 = patternOfArgument1.matcher(arrayConditions[j]);
+						Matcher matcherArguments2 = patternOfArgument2.matcher(arrayConditions[j]);
+						Matcher matcherArguments3 = patternOfArgument3.matcher(arrayConditions[j]);
+						
+						// dataType en matcherArgumentsX.group(1)
+						// relationship en matcherArgumentsX.group(2)
+						// value en matcherArgumentsX.group(3)
+						
 						if (matcherArguments1.find()) {
-							System.out.println("Found value: " + matcherArguments1.group(1) );
-							System.out.println("Found value: " + matcherArguments1.group(2) );
-							System.out.println("Found value: " + matcherArguments1.group(3) );
+							
+							condition = new Condition(matcherArguments1.group(1),
+									matcherArguments1.group(2),
+									matcherArguments1.group(3));
+							
+							conditionList.add(condition);
+							
 						} else if(matcherArguments2.find()) {
-							System.out.println("Found value: " + matcherArguments2.group(1) );
-							System.out.println("Found value: " + matcherArguments2.group(2) );
-							System.out.println("Found value: " + matcherArguments2.group(3) );						
+							
+							condition = new Condition(matcherArguments2.group(1),
+									matcherArguments2.group(2),
+									matcherArguments2.group(3));
+							
+							conditionList.add(condition);
+							
 						} else if(matcherArguments3.find()) {
-							System.out.println("Found value: " + matcherArguments3.group(1) );
-							System.out.println("Found value: " + matcherArguments3.group(2) );
-							System.out.println("Found value: " + matcherArguments3.group(3) );						
+							
+							condition = new Condition(matcherArguments3.group(1),
+									matcherArguments3.group(2),
+									matcherArguments3.group(3));
+							
+							conditionList.add(condition);
+							
 						}
+					
 					}
 					
 						
 				}
+				
+				if (matcherAction.find()) {
+					// allow o deny en matcherAction.group(1)
+					
+					if (matcherAction.group(1).equals("allow")) {
+						Rule rule = new Rule(conditionList, true);
+						ruleList.add(rule);
+					} else {
+						Rule rule = new Rule(conditionList, false);
+						ruleList.add(rule);
+					}					
+					
+				}
 			}
+			System.out.println(ruleList.toString());
 		}
 		catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -72,15 +110,5 @@ public class RuleParser {
 		        
         
     }
-	
-	public String[] compare(Pattern pattern, Matcher matcher, int size) {
-		
-		int arraySize = size*3;
-		String[] arrayArguments = new String[arraySize];
-		
-		
-		
-		return arrayArguments;
-	}
 
 }
