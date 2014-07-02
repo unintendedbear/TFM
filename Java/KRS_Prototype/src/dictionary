@@ -1,0 +1,8 @@
+dif_code = http_code
+dif_met = http_method
+dif_MCT = content_type_MCT
+dif_content = content_type
+diff_content = content_type_MCT
+dif_squid = squid_hierarchy
+bytes = bytes
+http_method = http_method
