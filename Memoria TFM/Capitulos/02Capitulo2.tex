@@ -1,0 +1,63 @@
+%---------------------------------------------------------------------
+%
+%                          Chapter 2
+%
+%---------------------------------------------------------------------
+
+\chapter{State of the Art}
+
+\begin{FraseCelebre}
+\begin{Frase}
+...
+\end{Frase}
+\begin{Fuente}
+...
+\end{Fuente}
+\end{FraseCelebre}
+
+%-------------------------------------------------------------------
+\section{State of the Art}
+%-------------------------------------------------------------------
+\label{cap2:sec:SotA}
+
+The present Master Thesis tries to obtain a URL classification tool for enhancing the security in the client side, as at the end we want to get if a certain URL is secure or not, having as reference a set of rules (derived from a CSP) that allow or deny a set of known \textit{http} requests. For this, Data Mining (DM) and Machine Learning (ML) techniques have been applied. This Chapter gives an overview in a number of solutions given to protect the user, or the company, against unsecure situations.
+
+Due to the nature of the data (URL accesses performed by humans), the used set of data is highly unbalanced \citep{imbalanced_data_05}. In order to deal with this problem there exist several methods in the
+literature, but all of them are mainly grouped in three techniques
+\citep{imbalance_techniques_02}: 
+
+\begin{itemize}
+ \item \textit{Undersampling the over-sized classes}: i.e. reduce the considered number of patterns for the classes with the majority.
+ \item \textit{Oversampling the small classes}: i.e. introduce additional (normally synthetic) patterns in the classes with the minority.
+ \item \textit{Modifying the cost associated to misclassifying the positive and the negative class} to compensate for the imbalance ratio of the two classes. For example, if the imbalance ratio is 1:10 in favour of the negative class, the penalty of misclassifying a positive example should be 10 times greater.
+\end{itemize}
+
+%-------------------------------------------------------------------
+\section*{\NotasBibliograficas}
+%-------------------------------------------------------------------
+\TocNotasBibliograficas
+
+Citamos algo para que aparezca en la bibliografía\ldots
+\citep{ldesc2e}
+
+\medskip
+
+Y también ponemos el acrónimo \ac{CVS} para que no cruja.
+
+Ten en cuenta que si no quieres acrónimos (o no quieres que te falle la compilación en ``release'' mientras no tengas ninguno) basta con que no definas la constante \verb+\acronimosEnRelease+ (en \texttt{config.tex}).
+
+
+%-------------------------------------------------------------------
+\section*{\ProximoCapitulo}
+%-------------------------------------------------------------------
+\TocProximoCapitulo
+
+...
+
+% Variable local para emacs, para  que encuentre el fichero maestro de
+% compilación y funcionen mejor algunas teclas rápidas de AucTeX
+%%%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../Tesis.tex"
+%%% End:
