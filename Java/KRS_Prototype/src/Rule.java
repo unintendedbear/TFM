@@ -1,10 +1,11 @@
+import java.util.List;
 
 public class Rule {
-	private int numConditions;
+	private List<Condition> conditions;
 	private boolean allow;
 	
-	public Rule (int numConditions, boolean allow) {
-		this.numConditions = numConditions;
+	public Rule (List<Condition> conditions, boolean allow) {
+		this.conditions = conditions;
 		this.allow = allow;
 	}
 }
