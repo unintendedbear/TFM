@@ -10,4 +10,14 @@ public class Rule {
 		this.conditions = conditions;
 		this.allow = allow;
 	}
+	
+	public List<Condition> getConditions () {
+		
+		return this.conditions;
+	}
+	
+	public boolean getPermission () {
+		
+		return this.allow;
+	}
 }

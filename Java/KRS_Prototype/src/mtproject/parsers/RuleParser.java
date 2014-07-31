@@ -9,10 +9,15 @@ import mtproject.objects.*;
 
 public class RuleParser {
 	
+	public RuleParser() {
+		// TODO Auto-generated constructor stub
+		
+	}
+	
 	/**
 	 * @param args
 	 */
-	public static void parsing_DRL() throws IOException {
+	public static List<Rule> parsing_DRL() throws IOException {
 		
 		String drlFile = "/home/paloma/workspace/KRS_Prototype/Rules/Initial-rules-squid.drl";
 		String conditionsPattern = "^\\D+:\\D+\\((.+)\\)";
@@ -90,9 +95,12 @@ public class RuleParser {
 					listOfRules.add(obtain_rule(finalConditions, ruleAction));
 				}
 			}
+			
+			return listOfRules;
 		}
 		catch (IOException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 		        
         
