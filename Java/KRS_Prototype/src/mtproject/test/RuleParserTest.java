@@ -10,14 +10,13 @@ import java.util.ArrayList;
 
 public class RuleParserTest extends TestCase {
 
-	RuleParser testParser = new RuleParser();
 	List<Rule> testRules = new ArrayList<Rule>();
 	
 	@Test
 	public void testRuleCreator() throws IOException {
 		
 		try {
-			testRules = testParser.parsing_DRL();
+			testRules = RuleParser.parsing_DRL();
 			List<Condition> testConditions = new ArrayList<Condition>();
 			boolean testAllow;
 			String testDataType;
@@ -32,7 +31,7 @@ public class RuleParserTest extends TestCase {
 				System.out.println("Hay una regla con permiso:\n"+testAllow+"\nY con las siguientes condiciones:\n");
 				
 				int j;
-				for ( j = 0; j < testConditions.size(); j++) {
+				for ( j = 1; j <= testConditions.size(); j++) {
 					testDataType = testConditions.get(j).getDataType();
 					testRelationship = testConditions.get(j).getRelationship();
 					testValue = testConditions.get(j).getValue();

@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.ArrayList;
 import mtproject.objects.*;
 
+import java.util.Date;
+import java.util.Vector;
+import java.text.*;
+
 public class DataParser {
 	
 	public DataParser() {
@@ -17,23 +21,22 @@ public class DataParser {
 	/**
 	 * @param args
 	 */
-	public static List<Entry> parsing_Log() throws IOException {
+	public static List<LogEntry> parsing_Log() throws IOException {
 		
-		String logFile = "/home/paloma/workspace/KRS_Prototype/Logs/data_100k_instances_url_log.csv";
+		String logFile = "/home/osica/workspace/KRS_Prototype/Logs/data_100k_instances_url_log.csv";
 		String cleaningPattern = "\"(.+)\"\n?";
-		String contentTypePattern = "^(\\w+\-*\\w+)[\\/?]\\w+";
+		String contentTypePattern = "^(\\w+\\-*\\w+)[\\/?]\\w+";
 		String timePattern = "^\\d{1,2}\\:\\d{2}\\:\\d{2}";
-		String urlPattern = "(https?:\\/\\/([\\-\\w\\.]+)+(\\:\\d+)?(\\/([\\w\\/\\_\\-\\.]*(\\\?\\S+)?)?)?)";
+		String urlPattern = "(https?:\\/\\/([-\\w\\.]+)+(\\:\\d+)?(\\/([\\w\\/\\_\\-\\.]*(\\\\?\\S+)?)?)?)";
 		
 				
 		try {
 			
 			// Leer DRL
-			ReadFile file = new ReadFile(drlFile);
+			ReadFile file = new ReadFile(logFile);
 			String[] arrayLines = file.OpenFile();
-			List<String> listOfTerms = new ArrayList<String>();
-			//List<Rule> listOfRules = new ArrayList<Rule>();
-			//String ruleAction = "deny";
+			Vector listOfValues = new Vector();
+			List<LogEntry> listOfEntries = new ArrayList<LogEntry>();
 			
 			
 			int i;
@@ -65,89 +68,108 @@ public class DataParser {
 					Matcher matcherUrl = patternForUrl.matcher(fieldValues[j]);
 					
 					if (matcherContentType.find()) {
-						System.out.println("Found: " + matcherContentType.group(1) );
-						//listOfTerms.add(matcherArguments11.group(1));
-						//System.out.println("Relationship: " + matcherArguments11.group(2) );
-						//listOfTerms.add(matcherArguments11.group(2));
-						//System.out.println("Value: " + matcherArguments11.group(3) );
-						listOfTerms.add(matcherArguments11.group(3));
-					} else if(matcherArguments12.find()) {
-						//System.out.println("Data type: " + matcherArguments12.group(1) );
-						listOfTerms.add(matcherArguments12.group(1));
-						//System.out.println("Relationship: " + matcherArguments12.group(2) );
-						listOfTerms.add(matcherArguments12.group(2));
-						//System.out.println("Value: " + matcherArguments12.group(3) );
-						listOfTerms.add(matcherArguments12.group(3));						
-					} else if(matcherArguments13.find()) {
-						//System.out.println("Data type: " + matcherArguments13.group(1) );
-						listOfTerms.add(matcherArguments13.group(1));
-						//System.out.println("Relationship: " + matcherArguments13.group(2) );
-						listOfTerms.add(matcherArguments13.group(2));
-						//System.out.println("Value: " + matcherArguments13.group(3) );
-						listOfTerms.add(matcherArguments13.group(3));						
+						System.out.println("Found MCT: " + matcherContentType.group(1) );
+						listOfValues.addElement(matcherContentType.group(1));
+					} else if(matcherTime.find()) {
+						System.out.println("Found time: " + fieldValues[j] );
+						listOfValues.addElement(string_to_date(fieldValues[j]));						
+					} else if(matcherUrl.find()) {
+						System.out.println("Found url: " + fieldValues[j] );
+						
+						// Obtener dominios de la url por separado
+						String[] urlValues = matcherUrl.group(2).split(".");
+						int k;
+						for ( k = 0; k < urlValues.length; k++) {
+							System.out.println("Found domain: " + urlValues[k] );
+						}
+						
+						listOfValues.addElement(urlValues[urlValues.length]);
+						listOfValues.addElement(urlValues[urlValues.length-1]);						
+					} else if (is_integer(fieldValues[j])) {						
+						listOfValues.addElement(Integer.parseInt(fieldValues[j]));						
+					} else {
+						listOfValues.addElement(fieldValues[j]);
 					}
 				}
 				
+				listOfEntries.add(obtain_log(listOfValues));
+			} // for
+		
+			return listOfEntries;
 				
-				
-				
-				
-						
-						
-			              
-			         } // for
-						
-				} else if (matcherAction.find()) {
-					ruleAction = matcherAction.group(1);
-					List<Condition> finalConditions = obtain_condition(listOfTerms);
-					listOfRules.add(obtain_rule(finalConditions, ruleAction));
-				}
-			}
-			
-			return listOfRules;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			return null;
-		}
-		        
+		}		        
         
     }
 	
-	// Esta función es para crear un objeto de tipo Condition(String dataType, String relationship, String value).
-	// Luego ya se crea la regla con las condiciones que sea y 'allow' o 'deny'.
+    private static boolean is_integer(String value) {
+    	
+    	if (value == null || value.isEmpty()) {
+    		return false;
+    	}
+    	
+    	int m = 0;
+    	if (value.charAt(0) == '-') {
+    		if (value.length() > 1) {
+    			m++;
+    		} else {
+    			return false;
+    		}
+    	}
+    	
+    	for ( ; m < value.length(); m++) {
+    		if (!Character.isDigit(value.charAt(m))) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
 	
-	public static List<Condition> obtain_condition(List<String> arrayTerms) {
+	public static Date string_to_date(String time) {
 		
-		List<Condition> listOfConditions = new ArrayList<Condition>();
-		String dataType;
-		String relationship;
-		String value;
-		
-		
-		int k;
-		for ( k = 0; k < arrayTerms.size(); k+=3) {
-			dataType = arrayTerms.get(k);
-			relationship = arrayTerms.get(k+1);
-			value = arrayTerms.get(k+2);
-			Condition myCondition = new Condition(dataType, relationship, value);
-			listOfConditions.add(myCondition);
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+	 
+		try {
+	 
+			Date timeDate = formatter.parse(time);
+			System.out.println(timeDate);
+			System.out.println(formatter.format(timeDate));
+			return timeDate;
+	 
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
 		}
-		
-		return listOfConditions;
+				
 	}
 	
-	// Y aquí obtenemos la regla
-	
-	public static Rule obtain_rule(List<Condition> arrayConditions, String action) {
+	public static LogEntry obtain_log(Vector listOfValues) {
 		
-		if ( action.compareTo("allow") == 0) {
-			Rule myRule = new Rule(arrayConditions, true);
-			return myRule;
+		if (listOfValues.size() == 12) {
+			String http_reply_code = (String)listOfValues.elementAt(0);
+			String http_method = (String)listOfValues.elementAt(1);
+			int duration_milliseconds = (int)listOfValues.elementAt(2);
+			String content_type_MCT = (String)listOfValues.elementAt(3);
+			String content_type = (String)listOfValues.elementAt(4);
+			String server_or_cache_address = (String)listOfValues.elementAt(5);
+			Date time = (Date)listOfValues.elementAt(6);
+			String squid_hierarchy = (String)listOfValues.elementAt(7);
+			int bytes = (int)listOfValues.elementAt(8);
+			String url_core = (String)listOfValues.elementAt(9);
+			String url_TLD = (String)listOfValues.elementAt(10);
+			String client_address = (String)listOfValues.elementAt(11);
+			// elementos en listOfValues.elementAt(número)
+		
+			LogEntry myEntry = new LogEntry(http_reply_code, http_method, duration_milliseconds, content_type_MCT, content_type, server_or_cache_address, time, squid_hierarchy, bytes, url_core, url_TLD, client_address);
+		
+			return myEntry;
 		} else {
-			Rule myRule = new Rule(arrayConditions, false);
-			return myRule;
-		}	
+			System.out.println("Number of values required for creating a log entry is insufficient");
+			return null;
+		}
 	}
 
 }
