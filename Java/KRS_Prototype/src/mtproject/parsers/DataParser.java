@@ -95,7 +95,10 @@ public class DataParser {
 						listOfValues.addElement(urlValues[urlValues.length-2]);						
 					} else if (is_integer(fieldValues[j])) {						
 						listOfValues.addElement(Integer.parseInt(fieldValues[j]));						
-					} else {
+					} else if (j == 3 || j == 8){
+						listOfValues.addElement(fieldValues[j]);
+						listOfValues.addElement(fieldValues[j]);
+					} else {						
 						listOfValues.addElement(fieldValues[j]);
 					}
 				}
@@ -178,6 +181,9 @@ public class DataParser {
 			return myEntry;
 		} else {
 			System.out.println("Number of values required for creating a log entry is: "+listOfValues.size()+", so insufficient");
+			for(int n=0; n<listOfValues.size(); n++){
+	            System.out.println("-"+n+" "+listOfValues.elementAt(n)+"\t");
+	        }
 			return null;
 		}
 	}
