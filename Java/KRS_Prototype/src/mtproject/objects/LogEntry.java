@@ -3,7 +3,7 @@ package mtproject.objects;
 import java.util.Date;
 
 public class LogEntry {
-	private String http_reply_code;
+	private int http_reply_code;
 	private String http_method;
 	private int duration_milliseconds;
 	private String content_type_MCT;
@@ -16,7 +16,7 @@ public class LogEntry {
 	private String url_TLD;
 	private String client_address;
 	
-	public LogEntry (String http_reply_code, String http_method, int duration_milliseconds, String content_type_MCT, String content_type, String server_or_cache_address, Date time, String squid_hierarchy, int bytes, String url_core, String url_TLD, String client_address) {
+	public LogEntry (int http_reply_code, String http_method, int duration_milliseconds, String content_type_MCT, String content_type, String server_or_cache_address, Date time, String squid_hierarchy, int bytes, String url_core, String url_TLD, String client_address) {
 		this.http_reply_code = http_reply_code;
 		this.http_method = http_method;
 		this.duration_milliseconds = duration_milliseconds;
@@ -31,7 +31,7 @@ public class LogEntry {
 		this.client_address = client_address;
 	}
 	
-	public String getHTTP_reply_code () {
+	public int getHTTP_reply_code () {
 		
 		return this.http_reply_code;
 	}

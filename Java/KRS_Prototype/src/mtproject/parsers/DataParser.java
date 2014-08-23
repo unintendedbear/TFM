@@ -46,6 +46,9 @@ public class DataParser {
 				// Obtener valores de los campos por separado
 				String[] fieldValues = arrayLines[i].split(";");
 				
+				// Limpiamos el vector de valores
+				listOfValues.clear();
+				
 				// Valores uno a uno
 				int j;
 				for ( j = 0; j < fieldValues.length; j++){
@@ -68,23 +71,28 @@ public class DataParser {
 					Matcher matcherUrl = patternForUrl.matcher(fieldValues[j]);
 					
 					if (matcherContentType.find()) {
-						System.out.println("Found MCT: " + matcherContentType.group(1) );
-						listOfValues.addElement(matcherContentType.group(1));
-					} else if(matcherTime.find()) {
-						System.out.println("Found time: " + fieldValues[j] );
-						listOfValues.addElement(string_to_date(fieldValues[j]));						
-					} else if(matcherUrl.find()) {
-						System.out.println("Found url: " + fieldValues[j] );
-						
-						// Obtener dominios de la url por separado
-						String[] urlValues = matcherUrl.group(2).split(".");
-						int k;
-						for ( k = 0; k < urlValues.length; k++) {
-							System.out.println("Found domain: " + urlValues[k] );
+						//System.out.println("Found MCT: " + matcherContentType.group(1) );
+						if (matcherContentType.group(1) != null) {
+							listOfValues.addElement(matcherContentType.group(1));
+							listOfValues.addElement(fieldValues[j]);
+						} else {
+							listOfValues.addElement(fieldValues[j]);
+							listOfValues.addElement(fieldValues[j]);
 						}
 						
-						listOfValues.addElement(urlValues[urlValues.length]);
-						listOfValues.addElement(urlValues[urlValues.length-1]);						
+					} else if(matcherTime.find()) {
+						//System.out.println("Found time: " + fieldValues[j] );
+						listOfValues.addElement(string_to_date(fieldValues[j]));						
+					} else if(matcherUrl.find()) {
+						//System.out.println("Found url: " + matcherUrl.group(2) );
+						
+						// Obtener dominios de la url por separado
+						String[] urlValues = matcherUrl.group(2).split("\\.");
+						//System.out.println("Found TLD: " + urlValues[urlValues.length-1] );
+						//System.out.println("Found core domain: " + urlValues[urlValues.length-2] );
+												
+						listOfValues.addElement(urlValues[urlValues.length-1]);
+						listOfValues.addElement(urlValues[urlValues.length-2]);						
 					} else if (is_integer(fieldValues[j])) {						
 						listOfValues.addElement(Integer.parseInt(fieldValues[j]));						
 					} else {
@@ -135,8 +143,8 @@ public class DataParser {
 		try {
 	 
 			Date timeDate = formatter.parse(time);
-			System.out.println(timeDate);
-			System.out.println(formatter.format(timeDate));
+			//System.out.println(timeDate);
+			//System.out.println(formatter.format(timeDate));
 			return timeDate;
 	 
 		} catch (ParseException e) {
@@ -149,7 +157,9 @@ public class DataParser {
 	public static LogEntry obtain_log(Vector listOfValues) {
 		
 		if (listOfValues.size() == 12) {
-			String http_reply_code = (String)listOfValues.elementAt(0);
+			
+			
+			int http_reply_code = (int)listOfValues.elementAt(0);
 			String http_method = (String)listOfValues.elementAt(1);
 			int duration_milliseconds = (int)listOfValues.elementAt(2);
 			String content_type_MCT = (String)listOfValues.elementAt(3);
@@ -167,7 +177,7 @@ public class DataParser {
 		
 			return myEntry;
 		} else {
-			System.out.println("Number of values required for creating a log entry is insufficient");
+			System.out.println("Number of values required for creating a log entry is: "+listOfValues.size()+", so insufficient");
 			return null;
 		}
 	}
