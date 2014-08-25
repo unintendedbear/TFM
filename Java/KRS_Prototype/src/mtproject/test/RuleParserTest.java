@@ -28,10 +28,10 @@ public class RuleParserTest extends TestCase {
 				testConditions.clear();
 				testConditions = testRules.get(i).getConditions();
 				testAllow = testRules.get(i).getPermission();
-				System.out.println("Hay una regla con permiso:\n"+testAllow+"\nY con las siguientes condiciones:\n");
+				System.out.println("Regla "+i+"º con permiso:\n"+testAllow+"\nY con las siguientes condiciones:\n");
 				
 				int j;
-				for ( j = 1; j <= testConditions.size(); j++) {
+				for ( j = 0; j < testConditions.size(); j++) {
 					testDataType = testConditions.get(j).getDataType();
 					testRelationship = testConditions.get(j).getRelationship();
 					testValue = testConditions.get(j).getValue();

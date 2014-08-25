@@ -119,7 +119,7 @@ public class RuleParser {
 		
 		int k;
 		for ( k = 0; k < arrayTerms.size(); k+=3) {
-			dataType = arrayTerms.get(k);
+			dataType = dictionary(arrayTerms.get(k));
 			relationship = arrayTerms.get(k+1);
 			value = arrayTerms.get(k+2);
 			Condition myCondition = new Condition(dataType, relationship, value);
@@ -140,6 +140,27 @@ public class RuleParser {
 			Rule myRule = new Rule(arrayConditions, false);
 			return myRule;
 		}	
+	}
+	
+	public static String dictionary (String word) {
+		
+				
+		switch (word) {
+		case "dif_code":
+			return "http_code";
+		case "dif_met":
+			return "http_method";
+		case "dif_MCT":
+			return "content_type_MCT";
+		case "dif_content":
+			return "content_type";
+		case "diff_content":
+			return "content_type_MCT";
+		case "dif_squid":
+			return "squid_hierarchy";
+		default:
+			return word;
+		}
 	}
 
 }
