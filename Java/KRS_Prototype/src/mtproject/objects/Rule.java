@@ -4,11 +4,11 @@ import java.util.List;
 
 public class Rule {
 	private List<Condition> conditions;
-	private boolean allow;
+	private String action;
 	
-	public Rule (List<Condition> conditions, boolean allow) {
+	public Rule (List<Condition> conditions, String action) {
 		this.conditions = conditions;
-		this.allow = allow;
+		this.action = action;
 	}
 	
 	public List<Condition> getConditions () {
@@ -16,8 +16,8 @@ public class Rule {
 		return this.conditions;
 	}
 	
-	public boolean getPermission () {
+	public String getPermission () {
 		
-		return this.allow;
+		return this.action;
 	}
 }

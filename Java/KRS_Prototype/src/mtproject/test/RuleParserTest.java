@@ -18,7 +18,7 @@ public class RuleParserTest extends TestCase {
 		try {
 			testRules = RuleParser.parsing_DRL();
 			List<Condition> testConditions = new ArrayList<Condition>();
-			boolean testAllow;
+			String testAllow;
 			String testDataType;
 			String testRelationship;
 			String testValue;

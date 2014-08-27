@@ -133,13 +133,9 @@ public class RuleParser {
 	
 	public static Rule obtain_rule(List<Condition> arrayConditions, String action) {
 		
-		if ( action.compareTo("allow") == 0) {
-			Rule myRule = new Rule(arrayConditions, true);
-			return myRule;
-		} else {
-			Rule myRule = new Rule(arrayConditions, false);
-			return myRule;
-		}	
+		Rule myRule = new Rule(arrayConditions, action);
+		return myRule;
+		
 	}
 	
 	public static String dictionary (String word) {
@@ -158,6 +154,8 @@ public class RuleParser {
 			return "content_type_MCT";
 		case "dif_squid":
 			return "squid_hierarchy";
+		case "url":
+			return "url";
 		default:
 			return word;
 		}

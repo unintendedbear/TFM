@@ -35,9 +35,10 @@ public class DataParserTest extends TestCase {
 			String test_content_type_MCT;
 			String test_content_type;
 			String test_server_or_cache_address;
-			Date test_time;
+			String test_time;
 			String test_squid_hierarchy;
 			int test_bytes;
+			String test_url;
 			String test_url_core;
 			String test_url_TLD;
 			String test_client_address;
@@ -54,6 +55,7 @@ public class DataParserTest extends TestCase {
 				test_time = testEntries.get(i).getTime();
 				test_squid_hierarchy = testEntries.get(i).getSquid_hierarchy();
 				test_bytes = testEntries.get(i).getBytes();
+				test_url = testEntries.get(i).getURL();
 				test_url_core = testEntries.get(i).getURL_core();
 				test_url_TLD = testEntries.get(i).getTLD();
 				test_client_address = testEntries.get(i).getIP_client();
@@ -68,6 +70,7 @@ public class DataParserTest extends TestCase {
 				System.out.println("test_time: "+test_time+"\n");
 				System.out.println("test_squid_hierarchy: "+test_squid_hierarchy+"\n");
 				System.out.println("test_bytes: "+test_bytes+"\n");
+				System.out.println("test_url: "+test_url+"\n");
 				System.out.println("test_url_core: "+test_url_core+"\n");
 				System.out.println("test_url_TLD: "+test_url_TLD+"\n");
 				System.out.println("test_client_address: "+test_client_address+"\n");

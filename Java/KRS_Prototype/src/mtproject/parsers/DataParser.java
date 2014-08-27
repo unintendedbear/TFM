@@ -82,20 +82,25 @@ public class DataParser {
 						
 					} else if(matcherTime.find()) {
 						//System.out.println("Found time: " + fieldValues[j] );
-						listOfValues.addElement(string_to_date(fieldValues[j]));						
+						listOfValues.addElement(fieldValues[j]);						
 					} else if(matcherUrl.find()) {
 						//System.out.println("Found url: " + matcherUrl.group(2) );
 						
+						listOfValues.addElement(fieldValues[j]);
 						// Obtener dominios de la url por separado
 						String[] urlValues = matcherUrl.group(2).split("\\.");
 						//System.out.println("Found TLD: " + urlValues[urlValues.length-1] );
 						//System.out.println("Found core domain: " + urlValues[urlValues.length-2] );
 												
-						listOfValues.addElement(urlValues[urlValues.length-1]);
-						listOfValues.addElement(urlValues[urlValues.length-2]);						
+						listOfValues.addElement(urlValues[urlValues.length-2]);
+						listOfValues.addElement(urlValues[urlValues.length-1]);						
 					} else if (is_integer(fieldValues[j])) {						
 						listOfValues.addElement(Integer.parseInt(fieldValues[j]));						
-					} else if (j == 3 || j == 8){
+					} else if (j == 3){
+						listOfValues.addElement(fieldValues[j]);
+						listOfValues.addElement(fieldValues[j]);
+					} else if (j == 8){
+						listOfValues.addElement(fieldValues[j]);
 						listOfValues.addElement(fieldValues[j]);
 						listOfValues.addElement(fieldValues[j]);
 					} else {						
@@ -159,8 +164,7 @@ public class DataParser {
 	
 	public static LogEntry obtain_log(Vector listOfValues) {
 		
-		if (listOfValues.size() == 12) {
-			
+		if (listOfValues.size() == 13) {			
 			
 			int http_reply_code = (int)listOfValues.elementAt(0);
 			String http_method = (String)listOfValues.elementAt(1);
@@ -168,15 +172,16 @@ public class DataParser {
 			String content_type_MCT = (String)listOfValues.elementAt(3);
 			String content_type = (String)listOfValues.elementAt(4);
 			String server_or_cache_address = (String)listOfValues.elementAt(5);
-			Date time = (Date)listOfValues.elementAt(6);
+			String time = (String)listOfValues.elementAt(6);
 			String squid_hierarchy = (String)listOfValues.elementAt(7);
 			int bytes = (int)listOfValues.elementAt(8);
-			String url_core = (String)listOfValues.elementAt(9);
-			String url_TLD = (String)listOfValues.elementAt(10);
-			String client_address = (String)listOfValues.elementAt(11);
+			String url = (String)listOfValues.elementAt(9);
+			String url_core = (String)listOfValues.elementAt(10);
+			String url_TLD = (String)listOfValues.elementAt(11);
+			String client_address = (String)listOfValues.elementAt(12);
 			// elementos en listOfValues.elementAt(número)
 		
-			LogEntry myEntry = new LogEntry(http_reply_code, http_method, duration_milliseconds, content_type_MCT, content_type, server_or_cache_address, time, squid_hierarchy, bytes, url_core, url_TLD, client_address);
+			LogEntry myEntry = new LogEntry(http_reply_code, http_method, duration_milliseconds, content_type_MCT, content_type, server_or_cache_address, time, squid_hierarchy, bytes, url, url_core, url_TLD, client_address);
 		
 			return myEntry;
 		} else {
