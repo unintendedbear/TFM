@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.List;
 import java.util.ArrayList;
+import mtproject.file.handlers.*;
 import mtproject.objects.*;
 
 public class RuleParser {
