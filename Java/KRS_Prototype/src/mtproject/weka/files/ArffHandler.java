@@ -35,20 +35,11 @@ public class ArffHandler {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws Exception {
+	public static String[] obtain_arff (String[] CSV_File_name) throws Exception {
 		// TODO Auto-generated method stub
-		
-		List<LogEntry> unlabelled_Entries = new ArrayList<LogEntry>();
-		List<Rule> DRL_Rules = new ArrayList<Rule>();
-		String arffFile = "/home/osica/workspace/KRS_Prototype/ARFFs/.csv";
-		
+			
 		try {
 			
-			unlabelled_Entries = DataParser.parsing_Log();
-			DRL_Rules = RuleParser.parsing_DRL();
-			
-			List<LogEntry> labelled_Entries = Labeller.obtain_labels(unlabelled_Entries, DRL_Rules);
-			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels");
 			String ARFF_File_name = CSV_File_name[0].substring(0, CSV_File_name[0].length()-4);
 			File ARFF_File = new File("/home/osica/workspace/KRS_Prototype/ARFFs/"+ARFF_File_name+".arff");
 			
@@ -64,9 +55,15 @@ public class ArffHandler {
 			saver.setFile(ARFF_File);
 			saver.writeBatch();
 			
+			String[] arff_path_data = new String[2];
+			arff_path_data[0] = ARFF_File.getName();
+			arff_path_data[1] = ARFF_File.getAbsolutePath();
+			return arff_path_data;
+			
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return null;
 		}		
 
 	}

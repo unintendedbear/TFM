@@ -33,7 +33,7 @@ public class CSVHandler {
 	/**
 	 * @param args
 	 */
-	public static String[] obtain_csv(List<LogEntry> labelled_Entries, String file_name) throws IOException {
+	public static String[] obtain_csv(List<LogEntry> labelled_Entries, String file_name, boolean no_labels) throws IOException {
 		
 		File CSV_File = new File("/home/osica/workspace/KRS_Prototype/Logs/"+file_name+".csv");
 		
@@ -71,6 +71,10 @@ public class CSVHandler {
 			
 			int i;
 			for (i = 0; i < labelled_Entries.size(); i++) {
+				
+				if (labelled_Entries.get(i).getLabel() == null && !no_labels) {
+					continue;
+				}
 				
 				CSV_Data.append(""+labelled_Entries.get(i).getHTTP_reply_code());
 				CSV_Data.append(',');
