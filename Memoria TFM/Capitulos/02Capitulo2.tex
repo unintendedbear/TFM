@@ -20,7 +20,55 @@
 %-------------------------------------------------------------------
 \label{cap2:sec:SotA}
 
-The present Master Thesis tries to obtain a URL classification tool for enhancing the security in the client side, as at the end we want to get if a certain URL is secure or not, having as reference a set of rules (derived from a CSP) that allow or deny a set of known \textit{http} requests. For this, Data Mining (DM) and Machine Learning (ML) techniques have been applied. This Chapter gives an overview in a number of solutions given to protect the user, or the company, against unsecure situations.
+The present Master Thesis tries to obtain a URL classification tool for enhancing the security in the client side, as at the end we want to get if a certain URL is secure or not, having as reference a set of rules (derived from a CSP) that allow or deny a set of known \textit{http} requests. For this, \ac{DM} and \ac{ML} techniques have been applied. Also, this solution tends to be included inside a \ac{BYOD} environment as described at the beginning of the Section \ref{cap1:sec:intro:subsec:obj}. This Chapter gives an overview in a number of solutions given to protect the user, or the company, against unsecure situations.
+
+%-------------------------------------------------------------------
+\subsection{Tools for corporate mobile security}
+%-------------------------------------------------------------------
+\label{cap2:sec:SotA:subsec:tools}
+
+Now that \ac{BYOD} philosophy is becoming a tendency, a number of tools appeared by now, and others are under development but expected to be released soon. They were specifically designed for \ac{CSO}s and \ac{CISO}s to secure, monitor, and act over spartphones and other personal mobile or portable devices, when they become too risky.
+
+%Extender
+
+%-------------------------------------------------------------------
+\subsubsection{IBM Hosted Mobile Device Security Management}
+%-------------------------------------------------------------------
+\label{cap2:sec:SotA:subsec:tools:subsec:ibm}
+
+One of the first companies who supported the \ac{BYOD} model was IBM in 2011 \citep{IBM_tool}, as they recognized the increase of employees who brought their personal smartphones or tablets into the workplace. To help organizations \citep{Kao_ibm11} embracing both company and employee owned mobile devices (as said, this practise is part of the \ac{BYOD} model) in a security-rich environment, IBM developed a mobile device security management solution. For IBM, a mobile security strategy should focus on several key areas.
+
+Thus, the organization should identify which business data the strategy will allow to be stored and processed on which mobile devices. This helps to determine what needs to be protected and to what degree. Then, since different mobile platforms have different native security mechanisms, the organization needs to define which mobile device platforms will be allowed in the business environment and, thus, which need to be supported in the mobile security strategy and plan. That means, to define the scope of the security plan. Also it is needed to decide the responsibility for mobile security management work, whether using the current IT security team to handle mobile devices, or outsourcing them to a managed security service provider. And no matter what the mobile environments are, a number of mobile ISPs and best-practise procedures need to be put in place and should also be identified in the company's mobile security strategic plan.
+
+Taking into account these considerations, IBM developed a framework that specifies security domains and levels for applying various security technologies. When applied to mobile devices (not portable ones, so that laptops are not considered), the features of this framework depend on the deployment:
+
+\begin{description}
+	\item[Identity and access] Not only the use of strong passwords when accessing the devices, but also supply two way authentication and VPN access control, by supervising the authorised IP addresses and adding re-authentication for accessing resources (assets) with high value.
+	\item[Data protection] Data security stored in the devices, related to professional life, is encrypted, also during the transmission. Moreover, when a device is lost, data can be removed remotely, and the device located or locked out (locking out a device is also made after a modifiable timeout). Finally, back ups are performed periodically once the device has been recovered.
+	\item[Application security] This is related to the requirement of being connected from a controlled location for authorising the download of business applications, and those applications must be certified (also the currently running on the device). Actually, IBM's tool can monitor and remove applications which are identified as untrustworthy or unsafe.
+	\item[Fundamental integrity control] Running both anti-malware software and personal firewall, and making the result of these tests as dependency for VPN's intranet access. 
+	\item[Governance and compliance] Taking into consideration the mobile security as an important point in the overall risk management program of the company, and extend the periodic security audits to mobile devices too.
+\end{description}
+
+The considered architecture for this solution is a client-server architecture, where the controlling center is placed in the server, and the client would be installed on the mobile devices. This way, the client/device would communicate with the server as regularly as possible, to enforce policies, execute commands, and report status. With these features, and by analysing in the server the incoming data from the devices, this IBM's solution would be able to help enterprises to support \ac{ISP}s compliance and to recognise (consequently acting over) mobile threat landscapes.
+
+%-------------------------------------------------------------------
+\subsubsection{Sophos Mobile Control}
+%-------------------------------------------------------------------
+\label{cap2:sec:SotA:subsec:tools:subsec:sophos}
+
+Sophos is a company founded in 1985 focused on IT security and data protection for businesses. Their \textit{Mobile Device Management} main product \citep{Sophos_tool} is Sophos Mobile Control. It is oriented to IT administration for mobile devices, trying to offer to the users the possibility of choosing the delivery model to suit their needs, i.e., between on-premise and \ac{SaaS}.
+
+The tool offers the possibility of managing all workers and co-workers smartphones and tablets from a single-based console. The console monitors the devices throughout their full life cycle: from the initial set up and enrolment, right through to decommissioning. Other features are similar to IBM's product, adding some new like being able to connect to an existing user directory using \ac{LDAP}\footnote{\ac{LDAP} is an application protocol for accessing and maintaining distributed directory information services over an \ac{IP} network.}.
+	
+Additional security is provided by the incorporation of \textit{Malware and Web protection}, so that the user does not need to install anti-malware software by him or herself. Regarding the compliance enforcement, the main goal is not to sacrifice company's security in favour of flexibility for the users, which has been demonstrated \citep{Her_SecPol09} that could result in bad (unwilling or not) users' behaviour. Thus, company's \ac{BYOD} initiative should include an acceptable use policy to ensure the users are aware of any measures the company may take if a device breaches any \ac{ISP}s. Sophos aims to reach this by doing three main tasks: First, by enforcing \ac{ISP}s, i.e. allowing setting up user and group-based security policies separately. The security settings can also vary from one platform to another, thus looking to support all of them is necessary to set task bundles and individual actions for many different violations. Secondly, by a risk mitigation in which the actions to perform can be set according to the severity of a breach. For minor cases, the company may want to simply inform to the user, but if sensitive data is at risk, a remote wipe may be the chosen option. As previously stated, the actions vary for each platform, but the most common platforms such as Android and iOS allow blocking email access, notifying the admin, performing a remote lock or wiping, locating a device using 3D maps, triggering a remote alarm, transferring a task bundle combining a number of actions, and Sophos's solution adds the possibility of trigger a scan. Finally, compliance check, i.e. though some of the most widely used features include allow or disallow root rights or jailbreaking, require encryption, and whitelist or blacklist apps. Sophos also allows disabling malware apps, setting maximum intervals since last \textit{Mobile Security scan}, and allowing or disallowing suspicious apps and \ac{PUA}s.
+	
+Then, the Enterprise App Store included in Sophos Mobile Control allows the company to supply the users with recommended and/or required apps directly on their devices. Both company's in-house and app store apps are suggested directly on the user's mobile device, so they can click to trigger the installation. Also, for keeping the employees working without increasing the burden for the IT department, the self-service portal built-in included in Sophos's solution has many features. Among others, it shall be mentioned that, wanting the employees to use their personal devices at work, they can register them (with a provided step-by-step process) and agree to an acceptable company-defined use policy. All profiles, including email access, would be available after registration, and the portal may be accessed from any PC with Internet access, or even from a mobile device itself. Furthermore, when a device is eventually stolen, users can choose to remotely locate, lock or wipe their devices and reset their passcode without having to contact the company help desk. From the company side, they can define which features are available in a self-service portal from the administrator console.
+
+%-------------------------------------------------------------------
+\subsection{Techniques for securing the Data}
+%-------------------------------------------------------------------
+\label{cap2:sec:SotA:subsec:data}
 
 Due to the nature of the data (URL accesses performed by humans), the used set of data is highly unbalanced \citep{imbalanced_data_05}. In order to deal with this problem there exist several methods in the
 literature, but all of them are mainly grouped in three techniques
