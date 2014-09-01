@@ -25,42 +25,93 @@
 %-------------------------------------------------------------------
 \label{cap1:sec:intro}
 
-...
+The way in how data has been stored and accessed in the companies has completely changed over the last few years\footnote{http://mozy.com/infographics/the-past-present-and-future-of-data-storage/}. On the one hand, start-up companies get a great benefit either by using services of the Cloud \citep{Vaqu_Cloud09}, or by offering their services through it \citep{Leav_Cloud09}. For bigger companies, on the other hand, the use of company-owned servers being accessed from desktop PCs (and maybe laptops) from within the company facilities has been transformed. Now, these data are distributed among a number of machines, even not all belonging to the company, and working over a Cloud Computing environment.
+
+Besides, being stored in the Cloud or not, data are being consulted and modified through a wide amount of devices, some of them owned by the company's users. This is the so-called \ac{BYOD} \citep{Cald_byod12} philosophy, which also means that people do not use their smart devices for one purpose only (personal life or business) anymore. It is becoming highly successful due to the impact that portable devices (such as smartphones and tablets) are having in the market. And because of data security and privacy are key factors for a company, it is usual to define Organisational Security Policies in order to ensure them \citep{Blaze_SecPolic99}. Their definition is nowadays a very difficult problem, since that \ac{BYOD} tendency means that several factors must be considered \citep{Opp_Security11}, most of them previously ignored or non considered in security systems, for instance the current mixture between personal and professional information in these devices (the user could navigate inside social networks where there could be friends and also company partners or clients).
+
+%-------------------------------------------------------------------
+\subsection{Enterprise security}
+%-------------------------------------------------------------------
+\label{cap1:sec:intro:subsec:enterprise}
+
+Now that corporate networks are becoming dynamic for being adapted to the \ac{BYOD} philosophy, there is an additional risk because the devices that the employees use are not always company-owned. Thus, several solutions have arisen in order to manage the corporate security in a \ac{BYOD} scenario. Some of them are focused only on smartphones, while others are thought for laptops; also some are implemented for a certain platform, but others consider multiplatform. However most of them try to be non-intrusive (regarding the users' personal data), friendly and easy to use. In Section \ref{cap2:sec:tools} we present an overview of the main solutions, describing their features, advantages and flaws.
+
+This kind of monitorization and security-aimed applications are being developed for many reasons like the aforementioned, and also because it has been demonstrated that people are the main hazard regarding the company security \citep{Adams_users99}. With a methodology of work like the one described, users are allowed to start or continue a working session over multiple devices and locations without any significant loss of data. This new situation has a big impact from the point of view of the security \citep{Schum_SecPat05}, since company data borders have changed in the last years so now the users can access significant data from outside the enterprise, and possibly through a non absolutely secure channel.
+
+Another way of protecting an enterprise is by means of a security policy, or in this case, an \ac{ISP}, which should deal with the way of protecting a certain organization information against a security breach. Though there are standards, such as the ISO27002 or the Security Forum's Standard of Good Practice \footnote{https://www.securityforum.org}, and many guidelines \citep{Wood_SecPol09}; an \ac{ISP} is built depending on the characteristics of the community/organisation that they are thought for.
+
+Then, another issue to cope with is the elaboration of a good \ac{ISP}, understandable for every user of the company, and more importantly, non-intrusive for him. A lot of researchers have studied the natural tendency of employees to comply with the \ac{ISP} \citep{Sip_SecPriv07,Bulg_SecPol10,AlOmari_SecPol12}, reaching conclusions such as the employees compliance with the security policies increases educating/training them in information security awareness  \citep{Shaw_SecAware09}, and decreases applying too much sanctions when a misuse or abuse occurs \citep{Her_SecPol09}.
+
+Normally, the enterprise network architecture was being adapted to cope with external attackers \citep{MIT_05}. With the incorporation of \ac{BYOD}, the threat is about corporate assets being compromised due to employees' devices with vulnerabilities \citep{Orth_Android12}, or leaked because they are being accessed from a device connected through an unsecure (public) network.
+
+Thus now, more things should be considered than the usual ones when designing a company network architecture. In Figure \ref{fig:proposed_diagram} there is a proposal which can be used for the beginning of the study of solutions that may secure such a dynamic environment. It includes the possibility of having employee-owned mobile (smartphones and tablets) and portable (laptops) devices, and also the opportunity that the employees have of connecting these devices either from inside or outside the company premises. Moreover, company's information assets are constantly accessed under these conditions, considering that an information asset means every \textit{piece of information} that has a \textit{value} (cost depending on the risk of being lost or leaked) for the company. It can be referred to files with sensitive information to certain mails, or even to company applications.
+
+\figuraEx{Vectorial/proposed_diagram.pdf}{width=1.\textwidth}{fig:proposed_diagram}%
+{Architecture approach of an Enterprise Network assuming that the Company has adopted the \ac{BYOD} philosophy.}{}
+
+This situation leads to a need of protecting the organisation's side, but also the users' side, making non-interfering easy-to-follow \ac{ISP}s, and leaving them to use their devices for personal purposes while working, without putting organisation's information assets under risk. The compliance of these requirements would compose an end-to-end security solution (protecting both enterprise and employee).
+
+%-------------------------------------------------------------------
+\subsection{Problem and Data Description}
+%-------------------------------------------------------------------
+\label{cap1:sec:intro:subsec:ProblemData}
+
+The problem to solve is related with the application of corporate security policies in order to deal with potential URL accesses inside an enterprise. To this end a dataset of URL sessions (requests and accesses) is analysed. These data are labelled with the corresponding permission or not for that access following the aforementioned rules. The problem is then transformed into a classification one, in which every new URL request will be classified, and thus, a grant or deny action will be assigned to that pattern.
+
+The analysed data come from an \texttt{access.log} of the Squid proxy application \citep{squid:site}, in a real Spanish company. This open source tool works as a proxy, but with the advantage of storing a cache of recent transactions so future requests may be answered without asking the origin server again \citep{DuaneWessels2004}. Every pattern, namely a URL session has ten variables associated, which we describe in Table \ref{tabdata}, indicating if the variable is numeric or nominal/categorical.
+
+\begin{table*}[htpb]
+\centering
+ \caption{\label{tabdata} Independent Variables corresponding to a URL session (a connection to a URL for some time). The URLs are parsed as detailed in Subsection .} %COMPLETAR
+{\scriptsize
+\begin{tabular}{llll}
+\hline\noalign{\smallskip}
+Variable name & Description & Type & Rank/Number of Values (if categorical)\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+\texttt{http\_reply\_code} & Status of the server response & Categorical & 20 values\\
+\texttt{http\_method} & Desired action to be performed & Categorical & 6 values\\
+\texttt{duration\_milliseconds} & Session duration & Numerical & integer in [0,357170]\\
+\texttt{content\_type} & Media type of the entity-body sent to the recipient & Categorical & 11 values (main content), 85 values (whole content)\\
+\texttt{server\_or\_cache\_address} & IP address & Categorical & 2343 values\\
+\texttt{time} & connection hour (in the day) & Date & 00:00:00 to 23:59:59\\
+\texttt{squid\_hierarchy} & It indicates how the next-hop cache was selected & Categorical & 3 values\\
+\texttt{bytes} & Number of transferred bytes during the session & Numerical & integer in [0,85135242]\\
+\texttt{client\_address} & IP address & Categorical & 105 values\\
+\texttt{URL} & Core domain of the URL, not taking into account the TLD & Categorical & 976 values\\
+\noalign{\smallskip}\hline
+\end{tabular}
+}
+\end{table*}
+
+The dependent variable or class is a label which inherently assigns an decision (and so the following action) to every request. This can be: \textit{ALLOW} if the access is permitted according to the CSPs, or can be \textit{DENY}, if the connection is not permitted. These patterns are labelled using an `engine' based in a set of security rules, that specify the decision to make. This process is described in Subsection . %COMPLETAR
+
+%COMPLETAR ESTO HABLANDO DE JSON
+These data were gathered along a period of two hours, from 8.30 to 10.30 am (30 minutes after the work started), monitoring the activity of all the employees in a medium-size Spanish company (80-100 people), obtaining 100000 patterns. We consider this dataset as quite complete because it contains a very diverse amount of connection patterns, going from personal (traditionally addressed at the first hour of work) to professional issues (the rest of the day).
+Moreover, the results derived from the experiments (described in Section ) show that this quantity of data might be big enough, but a more accurate outcome would be given with, for instance, a 24 hours long log.
 
 %-------------------------------------------------------------------
 \subsection{Objectives}
 %-------------------------------------------------------------------
 \label{cap1:sec:intro:subsec:obj}
 
-The way in how data has been stored and accessed in the companies has completely changed over the last few years\footnote{http://mozy.com/infographics/the-past-present-and-future-of-data-storage/}. On the one hand, start-up companies get a great benefit either by using services of the Cloud \citep{Vaqu_Cloud09}, or by offering their services through it \citep{Leav_Cloud09}. For bigger companies, on the other hand, the use of company-owned servers being accessed from desktop PCs (and maybe laptops) from within the company facilities has been transformed. Now, these data are distributed among a number of machines, even not all belonging to the company, and working over a Cloud Computing environment.
+Now that has been described the problem this Master Thesis is focused on (Section \ref{cap1:sec:intro:subsec:enterprise}), and the data that we worked with have been overviewed (Section \ref{cap1:sec:intro:subsec:ProblemData}), in this subsection we define the objectives.
 
-Besides, being stored in the Cloud or not, data are being consulted and modified through a wide amount of devices, some of them owned by the company's users. This is the so-called \ac{BYOD} \citep{Cald_byod12} philosophy, which also means that people do not use their smart devices for one purpose only (personal life or business) anymore. It is becoming highly successful due to the impact that portable devices (such as smartphones and tablets) are having in the market. And because of data security and privacy are key factors for a company, it is usual to define Organisational Security Policies in order to ensure them \citep{Blaze_SecPolic99}. Their definition is nowadays a very difficult problem, since that \ac{BYOD} tendency means that several factors must be considered \citep{Opp_Security11}, most of them previously ignored or non considered in security systems, for instance the current mixture between personal and professional information in these devices (the user could navigate inside social networks where there could be friends and also company partners or clients).
+\ac{ISP}s has been introduced, and these usually include policies that allow or deny access to non-confident (or non-certified) web sites (referenced by their URLs in this work). Moreover, several web pages might be also controlled for productivity or suitability reasons. Thus, some of the \ac{ISP}s normally define sets of allowed or denied pages/websites that could be eventually accessed by enterprise employees. These sets are usually included in a White (permitted) or Black (non-permitted) Lists. These lists act as a good control tool for those \ac{URL} included in them as well as for the complementary, i.e. \ac{URL}s that are not included in a Whitelist have automatically denial of access, for instance.
 
-In this scenario several solutions have arisen in order to manage the corporate security. Some of them are focused only on smartphones, while others are thought for laptops; also some are implemented for a certain platform, but others consider multiplatform. However most of them try to be non-intrusive (regarding the users' personal data), friendly and easy to use. In Section \ref{cap2:sec:SotA:subsec:tools} of Chaper \ref{cap2:sec:SotA} we present an overview of the main solutions, describing their features, advantages and flaws.
+In this work we go a step beyond, trying to define a tool for automatically making an allowance or denial decision with respect to \ac{URL}s that are not included in the aforementioned lists. This decision would be based in that one made for similar \ac{URL} accesses (those with similar features), but considering other parameters of the request/connection instead of just the \ac{URL} string, as those lists do.
 
+Thus, the problem has been transformed into a \textit{classification} one, in which we have started from a set of unlabelled patterns, that model the connection properties from a huge amount of \textit{real}\footnote{Taken from a log file given by a volunteer Spanish company.} \ac{URL} accesses (known as sessions). Then we have assigned a label to many of them, considering a set of \textit{real}\footnote{The set of rules has been written by the same company, with respect to its employees.} security rules (\ac{ISP}s) defined by the \ac{CSO} in the company.
+The resulting dataset has been processed by means of different classification methods, in order to find the best algorithm for dealing with these data.
 
+Previously, data balancing techniques were applied, namely \textit{undersampling} and \textit{oversampling} \citep{imbalance_techniques_02}, due to the high imbalance present in the dataset (more than two thirds of the patterns belonged to the majority class).
 
-%-------------------------------------------------------------------
-\section*{\NotasBibliograficas}
-%-------------------------------------------------------------------
-\TocNotasBibliograficas
+Different data partitions have been done in the experiments, even considering consecutive URL sessions in the training and test files.
+The results are quite good, getting classification accuracies around 95-97\% in the test phase, even when using the unbalanced datasets.
+Then, after analysing the yielded sets of classification rules and trees, several rules can be identified, based in other features rather than the URL itself, which is the aim of this work.
 
-Citamos algo para que aparezca en la bibliografía\ldots
-\citep{ldesc2e}
+% COMPLETAR ESTO
+The Thesis is structured as follows. Next section describes related work in relation to the application of Data Mining and Machine Learning techniques to security issues inside a company. Section  presents the problem we solve and the dataset we have worked with. The followed methodology is described in Section , concerning the data preprocessing and a first round of experiments comparing different classification methods. Once the best of them were selected, a set of experiments have been conducted, and the results are described and discussed in Section . Finally, the conclusions and future lines of research are presented in Section .
 
-\medskip
-
-Y también ponemos el acrónimo \ac{CVS} para que no cruja.
-
-Ten en cuenta que si no quieres acrónimos (o no quieres que te falle la compilación en ``release'' mientras no tengas ninguno) basta con que no definas la constante \verb+\acronimosEnRelease+ (en \texttt{config.tex}).
-
-
-%-------------------------------------------------------------------
-\section*{\ProximoCapitulo}
-%-------------------------------------------------------------------
-\TocProximoCapitulo
-
-...
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX
