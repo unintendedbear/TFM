@@ -35,7 +35,7 @@ public class CSVHandler {
 	 */
 	public static String[] obtain_csv(List<LogEntry> labelled_Entries, String file_name, boolean no_labels) throws IOException {
 		
-		File CSV_File = new File("/home/osica/workspace/KRS_Prototype/Logs/"+file_name+".csv");
+		File CSV_File = new File("/home/paloma/workspace/KRS_Prototype/CSV/"+file_name+".csv");
 		
 		try {
 			
@@ -122,6 +122,167 @@ public class CSVHandler {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			return null;
+		}		
+
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void undersampling (String[] CSV_File_input) throws Exception {
+			
+		try {
+			
+			String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
+						
+			ReadFile in_file = new ReadFile(CSV_File_input[1]);
+			String CSV_File_output = "/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_undersampled.csv";
+			WriteFile out_file = new WriteFile(CSV_File_output, true);
+			
+			String[] arrayLines = in_file.OpenFile();
+			
+			int i;
+			for ( i = 0; i < arrayLines.length; i++ ) {
+				
+				if (arrayLines[i].toLowerCase().contains("allow") && (int)Math.random() < 0.5){
+					out_file.writeToFile(arrayLines[i]);
+				} else {
+					out_file.writeToFile(arrayLines[i]);
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}		
+
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void oversampling (String[] CSV_File_input) throws Exception {
+					
+		try {
+			
+			String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
+						
+			ReadFile in_file = new ReadFile(CSV_File_input[1]);
+			String CSV_File_output = "/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_oversampled.csv";
+			WriteFile out_file = new WriteFile(CSV_File_output, true);
+			
+			String[] arrayLines = in_file.OpenFile();
+			
+			int i;
+			for ( i = 0; i < arrayLines.length; i++ ) {
+				
+				if (arrayLines[i].toLowerCase().contains("deny")){
+					out_file.writeToFile(arrayLines[i]);
+					out_file.writeToFile(arrayLines[i]);
+				} else {
+					out_file.writeToFile(arrayLines[i]);
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}		
+
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void training_test (String[] CSV_File_input, String option) throws Exception {
+		
+		int[] training_percentage = new int[3];
+		training_percentage[0] = 90;
+		training_percentage[1] = 80;
+		training_percentage[2] = 60;
+		
+		String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
+			
+		try {
+			
+			ReadFile in_file = new ReadFile(CSV_File_input[1]);
+			
+			String[] arrayLines = in_file.OpenFile();
+			
+			int i;
+			for ( i = 0; i < training_percentage.length; i++ ) {
+				
+				int test_percentage = 100-training_percentage[i];
+				
+				if (option.compareTo("random") == 0) {
+					
+					String CSV_File_training = "/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_training_"+training_percentage[i]+"_random.csv";
+					String CSV_File_test = "/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_test_"+test_percentage+"_random.csv";
+					WriteFile training_file = new WriteFile(CSV_File_training, true);
+					WriteFile test_file = new WriteFile(CSV_File_test, true);
+					
+					int j;
+					for ( j = 0; j < arrayLines.length; j++ ) {
+						if (!arrayLines[j].contentEquals(arrayLines[j+1])) {
+							if ((int)Math.random() < test_percentage/100){
+								test_file.writeToFile(arrayLines[j]);
+							} else {
+								training_file.writeToFile(arrayLines[j]);
+							}
+						} else {
+							if ((int)Math.random() < test_percentage/100){
+								test_file.writeToFile(arrayLines[j]);
+								test_file.writeToFile(arrayLines[j+1]);
+								j++;
+							} else {
+								training_file.writeToFile(arrayLines[j]);
+								training_file.writeToFile(arrayLines[j+1]);
+								j++;
+							}
+						} // else
+						
+					} // for j
+					
+				} else if (option.compareTo("consecutive") == 0) {
+					
+					String CSV_File_training = "/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_training_"+training_percentage[i]+"_consecutive.csv";
+					String CSV_File_test = "/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_test_"+test_percentage+"_consecutive.csv";
+					WriteFile training_file = new WriteFile(CSV_File_training, true);
+					WriteFile test_file = new WriteFile(CSV_File_test, true);
+					
+					int training_length = arrayLines.length*training_percentage[i]/100;
+					
+					int j;
+					for ( j = 0; j < arrayLines.length; j++ ) {
+						if (!arrayLines[j].contentEquals(arrayLines[j+1])) {
+							if (training_length > 0){
+								test_file.writeToFile(arrayLines[j]);
+							} else {
+								training_file.writeToFile(arrayLines[j]);
+							}
+						} else {
+							if ((int)Math.random() < test_percentage/100){
+								test_file.writeToFile(arrayLines[j]);
+								test_file.writeToFile(arrayLines[j+1]);
+								j++;
+							} else {
+								training_file.writeToFile(arrayLines[j]);
+								training_file.writeToFile(arrayLines[j+1]);
+								j++;
+							}
+						} // else
+						
+					} // for j
+					
+				} else {
+					throw new IllegalArgumentException("Unknown option '" + option + "'!");
+				}
+				
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}		
 
 	}

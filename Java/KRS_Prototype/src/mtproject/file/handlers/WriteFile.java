@@ -25,6 +25,10 @@ public class WriteFile {
 		this.path = path;
 		this.append_to_file = append_to_file;
 	}
+	
+	public String getPath () {
+		return this.path;
+	}
 
 	/**
 	 * @param args

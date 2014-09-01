@@ -102,11 +102,20 @@ public class ExperimentDemo {
       throw new IllegalArgumentException("No experiment type provided!");
 
     SplitEvaluator se = null;
+    /*
+     * Interface to objects able to generate a fixed set of results for a particular split of a dataset.
+     * The set of results should contain fields related to any settings of the SplitEvaluator (not including the dataset name.
+     * For example, one field for the classifier used to get the results, another for the classifier options, etc).
+     * Possible implementations of SplitEvaluator: StdClassification results, StdRegression results.
+     */
     Classifier sec    = null;
     boolean classification = false;
     if (option.equals("classification")) {
       classification = true;
       se  = new ClassifierSplitEvaluator();
+      /*
+       * A SplitEvaluator that produces results for a classification scheme on a nominal class attribute. 
+       */
       sec = ((ClassifierSplitEvaluator) se).getClassifier();
     }
     else if (option.equals("regression")) {
@@ -124,6 +133,11 @@ public class ExperimentDemo {
 
     if (option.equals("crossvalidation")) {
       CrossValidationResultProducer cvrp = new CrossValidationResultProducer();
+      /*
+       * Generates for each run, carries out an n-fold cross-validation, using the set SplitEvaluator to generate some results.
+       * If the class attribute is nominal, the dataset is stratified. Results for each fold are generated, so you may wish to use
+       * this in addition with an AveragingResultProducer to obtain averages for each run. 
+       */
       option = Utils.getOption("folds", args);
       if (option.length() == 0)
 	throw new IllegalArgumentException("No folds provided!");
@@ -131,6 +145,10 @@ public class ExperimentDemo {
       cvrp.setSplitEvaluator(se);
       
       PropertyNode[] propertyPath = new PropertyNode[2];
+      /*
+       * Stores information on a property of an object: the class of the object with the property;
+       * the property descriptor, and the current value.
+       */
       try {
 	propertyPath[0] = new PropertyNode(
 	    se, 
@@ -238,6 +256,9 @@ public class ExperimentDemo {
     // 3. calculate statistics and output them
     System.out.println("Evaluating...");
     PairedTTester tester = new PairedCorrectedTTester();
+    /*
+     * Calculates T-Test statistics on data stored in a set of instances. 
+     */
     Instances result = new Instances(new BufferedReader(new FileReader(irl.getOutputFile())));
     tester.setInstances(result);
     tester.setSortColumn(-1);

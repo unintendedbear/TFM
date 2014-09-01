@@ -41,7 +41,7 @@ public class ArffHandler {
 		try {
 			
 			String ARFF_File_name = CSV_File_name[0].substring(0, CSV_File_name[0].length()-4);
-			File ARFF_File = new File("/home/osica/workspace/KRS_Prototype/ARFFs/"+ARFF_File_name+".arff");
+			File ARFF_File = new File("/home/paloma/workspace/KRS_Prototype/ARFF/"+ARFF_File_name+".arff");
 			
 			// Obtener las instancias
 			DataSource source = new DataSource(CSV_File_name[1]);
@@ -67,5 +67,6 @@ public class ArffHandler {
 		}		
 
 	}
+	
 
 }
