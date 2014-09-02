@@ -36,10 +36,45 @@ public class MainClass {
 			List<LogEntry> labelled_Entries = Labeller.obtain_labels(unlabelled_Entries, DRL_Rules);
 			System.out.println("Obtaining CSV...");
 			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false);
+			
+			/**
+			 * Pruebas CSV
+			 */
+			
+			System.out.println("Undersampling...");
+			String[] file_undersampled = CSVHandler.undersampling(CSV_File_name);
+			String[] ARFF_File_name_und = ArffHandler.obtain_arff(file_undersampled);
+			
+			System.out.println("Oversampling...");
+			String[] file_oversampled = CSVHandler.oversampling(CSV_File_name);
+			String[] ARFF_File_name_ov = ArffHandler.obtain_arff(file_oversampled);
+			
+			System.out.println("Obtaining training and test random...");
+			String[] files = CSVHandler.training_test_random(file_undersampled, "", 60);
+			String[] tr_files = new String[2];
+			String[] ts_files = new String[2];
+			tr_files[0] = files[0];
+			tr_files[1] = files[1];
+			ts_files[0] = files[2];
+			ts_files[1] = files[3];
+			String[] ARFF_File_name_tr = ArffHandler.obtain_arff(tr_files);
+			String[] ARFF_File_name_ts = ArffHandler.obtain_arff(ts_files);
+			System.out.println("Obtaining training and test consecutive...");
+			String[] files2 = CSVHandler.training_test_consecutive(CSV_File_name, "", 80);
+			String[] tr_files2 = new String[2];
+			String[] ts_files2 = new String[2];
+			tr_files2[0] = files2[0];
+			tr_files2[1] = files2[1];
+			ts_files2[0] = files2[2];
+			ts_files2[1] = files2[3];
+			String[] ARFF_File_name_tr2 = ArffHandler.obtain_arff(tr_files2);
+			String[] ARFF_File_name_ts2 = ArffHandler.obtain_arff(ts_files2);
+			
 			System.out.println("Creating ARFF...");
 			String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
 			System.out.println("ARFF at "+ARFF_File_name[1]);
 			
+			/*
 			String[] experiments = new String[11];
 			experiments[0] = "NaiveBayes";
 			experiments[1] = "DecisionTable -X 1 -S \"weka.attributeSelection.BestFirst -D 1 -N 5\"";
@@ -63,7 +98,7 @@ public class MainClass {
 					percentages[i] = temp_percentage;
 					System.out.println(percentages[i]);
 				}
-			}
+			}*/
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
