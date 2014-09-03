@@ -1,0 +1,50 @@
+%---------------------------------------------------------------------
+%
+%                          Chapter 6
+%
+%---------------------------------------------------------------------
+
+\chapter{Conclusions and future work}
+\label{cap6:conclusions}
+
+\begin{FraseCelebre}
+\begin{Frase}
+...
+\end{Frase}
+\begin{Fuente}
+...
+\end{Fuente}
+\end{FraseCelebre}
+
+%-------------------------------------------------------------------
+\section{Discussion on the results}
+%-------------------------------------------------------------------
+\label{cap6:sec:discussion}
+
+During the elaboration of this Master Thesis, a set of classification methods have been applied in order to perform a decision process inside a company, according to some predefined corporate security policies. This decision is focused on allowing or denying \ac{URL} access requests, but just considering previous decisions on similar requests, not having specific rules in a White/Black List, defined for those \ac{URL}s. Thus, the proposed method could allow or deny an access to a \ac{URL} based in additional terms rather than just the specific \ac{URL} string. This could be very useful since new URLs could be automatically `Whitelisted' or `Blacklisted', just depending on some of the connection parameters, such as the \texttt{content\_type} of the access or the \texttt{IP} of the client which makes the request.
+
+To this aim, we have started from a big dataset (100000 patterns) about employees' \ac{URL} sessions information, and considering a set of \ac{URL} access permissions, we have composed a labelled dataset (57000 patterns). Over that set of data, we have tested several classification methods, after some data balancing techniques have been applied. Then, the best five have been deeply proved over several training and test divisions, and with two methods: using sequential patterns (consecutive \ac{URL} accesses), and taking them in a randomly way.
+
+The results show that classification accuracies are between 95\% and 97\%, even when using the unbalanced datasets. However, they have been diminished because of the possible loss of data that comes from performing an undersampling (removing patterns) method; or taking the training and the data sets in a sequential way from the main log file, due to the fact that certain \ac{URL} requests can be made only at a certain time.
+
+In this way, we can conclude that the approach has been successful and it would be a useful tool in an enterprise.
+
+%-------------------------------------------------------------------
+\section{Future Work}
+%-------------------------------------------------------------------
+\label{cap6:sec:future}
+
+Future lines of work include conducting a deeper set of experiments trying to test the generalisation power of the method, maybe considering bigger data divisions, bigger data sets (from a whole day or working day), or adding some kind of `noise' to the dataset.
+So that, considering the good classification results obtained in this work, the next step could be the application of these methods in the real system from which data was gathered, counting with the opinion of expert \ac{CSO}s, in order to know the real value of the proposal.
+The study of other classification methods could be another research branch, along with the implementation of a Genetic Programming approach, which could deal with the imbalance problem using a modification of the cost associated to misclassifying, could be done (as the authors did in \citep{cost_adjustment_07}).
+
+Finally, we will also extract additional information from the \ac{URL} string, than could be transformed into additional features that could be more discriminative than the current set. Moreover, a data process involving summarizing data about sessions (such as number of requests per client, or average time connection) will be also considered.
+
+
+% Variable local para emacs, para  que encuentre el fichero maestro de
+% compilación y funcionen mejor algunas teclas rápidas de AucTeX
+%%%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../Tesis.tex"
+%%% End:

@@ -4,45 +4,196 @@
 %
 %---------------------------------------------------------------------
 
-\chapter{Methodology}
+\chapter{Data description and preprocessing}
+\label{cap3:data}
 
 \begin{FraseCelebre}
 \begin{Frase}
-...
+Substantial data was received, master, yes, however I am unable to assimilate it.
 \end{Frase}
 \begin{Fuente}
-...
+K9. Doctor Who. \textit{Full Circle}.
 \end{Fuente}
 \end{FraseCelebre}
 
 %-------------------------------------------------------------------
-\section{Preprocessing}
+\section{Introduction}
 %-------------------------------------------------------------------
-\label{cap3:sec:PreProc}
+\label{cap3:sec:intro}
 
+The data (log files as well as security policies and rules) we have been working with belong to a real Spanish company that volunteered to donate them for their academic study. This way, we have started from a series of policies written in Drools language (as described in Section \ref{cap3:sec:rules:subsec:drools}), and a log of connections made by company employees.
 
+In order to perform an analysis over the obtained logs such as more frequent events, dangerous or suspicious \ac{IP}s (according to the connections they made), or more triggered rules, some steps have been followed. This analysis could provide the company \ac{CSO} with mechanisms to visualise interesting facts about the data. Given that, the following steps have been included in our work:
 
-%-------------------------------------------------------------------
-\section*{\NotasBibliograficas}
-%-------------------------------------------------------------------
-\TocNotasBibliograficas
-
-Citamos algo para que aparezca en la bibliografía\ldots
-\citep{ldesc2e}
-
-\medskip
-
-Y también ponemos el acrónimo \ac{CVS} para que no cruja.
-
-Ten en cuenta que si no quieres acrónimos (o no quieres que te falle la compilación en ``release'' mientras no tengas ninguno) basta con que no definas la constante \verb+\acronimosEnRelease+ (en \texttt{config.tex}).
-
+\begin{description}
+  \item[Classification] The aim is to use database information (logs) to look for patterns that had been allowed or denied, in order to build a classifier. When an incoming connection (or session) has no rule to apply on, the classifier should tell the similarity with previous (and already labelled) patterns.
+  \item[Clustering] The patterns could be grouped considering some similarity criteria, in order to deal with them as a set. This could be used for providing data visuallization mechanisms. In order to make it easier to interpret the data interaction and the distribution in clusters with respect to the different properties/features of the patterns.
+  \item[Feature Selection] It consists of extracting the most important features from the data. This could be done by means of one of the previous techniques, and could be useful if we want to discard non-key features. This is useful in order to reduce the database weight, or for improving the classification running time and even the performance of the system.
+\end{description}
 
 %-------------------------------------------------------------------
-\section*{\ProximoCapitulo}
+\section{Security Policies vs. Rules}
 %-------------------------------------------------------------------
-\TocProximoCapitulo
+\label{cap3:sec:rules}
 
-...
+Goguen et al. \citep{Goguen_SecPol82} defined the concept of \textit{security policy} as the definition of certain requirements needed for a system to be secure. However, in this work we have decided to separate between those, which we consider written in formal language (as any official document in a company), and the \textit{rules}, which are derived from them, and are the specification of the policies in a programming language. It can be said, also, that `a policy is composed by a set of rules'. In this section we detail how to obtain a set of rules in a format that we can then apply to a set of log data (Section \ref{cap3:sec:log}).
+
+%-------------------------------------------------------------------
+\subsection{Extracting rules from Policies}
+%-------------------------------------------------------------------
+\label{cap3:sec:rules:subsec:drools}
+
+In this work we have considered Drools \citep{drools:site} as the tool to create, and therefore, manage rules in a business environment. This so called Business Rule Management System (BRMS) has been developed by the JBoss community under an Apache License and it is written in Java. Though this platform consist of many components, here we focus on Drools Expert and the \ac{DRL} \citep{drools:doc}). Then, the defined rules for a certain company are inside of a file with a \texttt{.drl} extension, the file that needs to be parsed to obtain the final set of rules. In Figure \ref{fig:drools_hash}, (a), there is the typical rule syntax in \ac{DRL}. Two main things should be obtained from the parsing method: both left and right sides of the rule, taking into account that the left side is where the company specifies the conditions required to apply the action indicated in the right side. Also, for describing the conditions, Squid syntax is used (see Section \ref{cap3:sec:rules:subsec:logdata}), having thus the following structure: \texttt{squid:Squid(\textit{conditions})}. Finally, from the right side of the rule, the \textit{ALLOW} or \textit{DENY} label to apply on the data that matches with the conditions, will be extracted. The Perl parser that we have implemented applies two regular expressions, one for each side of the rule, and returns a hash with all the rules with the conditions and actions defined. The `before and after' performing the parsing over the \texttt{.drl} file is in Figure \ref{fig:drools_hash} (b and c).
+
+\begin{figure}[htb]
+\centering
+\subfloat[Drools Rule]{
+\begin{tabular}{ p{0.5cm} p{0.5cm} p{3.5cm} }
+  \texttt{rule~"name"} & & \\
+   & \texttt{attributes} & \\
+   & \texttt{when} & \\
+   & & \texttt{/* Left Side of the Rule */} \\
+   & \texttt{then} & \\
+   & & \texttt{/* Right Side of the Rule */} \\
+  \texttt{end} & & \\
+\end{tabular}
+}
+~
+\subfloat[Hash Rule in Perl]{
+\begin{tabular}{ p{0.5cm} p{0.5cm} p{3.5cm} }
+  \texttt{\%rules~=~(} & & \\
+   & \texttt{rule~=>\{} & \\
+   & & \texttt{field => xxx} \\
+   & & \texttt{relation => xxx} \\
+   & & \texttt{value => xxx} \\
+   & & \texttt{action => [allow, deny]} \\
+   & \texttt{\},} & \\
+  \texttt{);} & & \\
+\end{tabular}
+}
+
+\subfloat[Object Rule in Java]{
+\begin{tabular}{ p{0.5cm} p{0.5cm} p{7cm} }
+  \texttt{public~class~Rule\{} & & \\
+   & \texttt{private~List<Condition>~conditions;} & \\
+   & \texttt{private~String~action;} \\
+   & \texttt{public~Rule~(List<Condition>~conditions,~String~action)\{} \\
+   & & \texttt{this.conditions~=~conditions;} \\
+   & & \texttt{this.action~=~action;} \\
+   & \texttt{\}} & \\
+  \texttt{\}} & & \\
+\end{tabular}
+}
+\caption{(a) Structure of a rule in Drools Expert. (b) Resulting rule, after the parsing, in a global hash of rules in Perl. (c) Java constructor of the object type Rule. \label{fig:drools_hash}}
+\end{figure}
+
+%-------------------------------------------------------------------
+\section{Company Log}
+%-------------------------------------------------------------------
+\label{cap3:sec:log}
+
+The analysed data come from an \texttt{access.log} of the Squid proxy application \citep{squid:site}, in a real Spanish company. This open source tool works as a proxy, but with the advantage of storing a cache of recent transactions so future requests may be answered without asking the origin server again \citep{DuaneWessels2004}. Every pattern, namely a URL session has ten variables associated, which we describe in Table \ref{tabdata}, indicating if the variable is numeric or nominal/categorical.
+
+\begin{table}[htpb]
+\centering
+ \caption{\label{tabdata} Independent Variables corresponding to a URL session (a connection to a URL for some time). The URLs are parsed as detailed in Section \ref{cap3:sec:rules:subsec:logdata}.}
+{\scriptsize
+\begin{tabular}{llll}
+\hline\noalign{\smallskip}
+Variable name & Description & Type & Rank/Number of Values (if categorical)\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+\texttt{http\_reply\_code} & Status of the server response & Categorical & 20 values\\
+\texttt{http\_method} & Desired action to be performed & Categorical & 6 values\\
+\texttt{duration\_milliseconds} & Session duration & Numerical & integer in [0,357170]\\
+\texttt{content\_type} & Media type of the entity-body sent to the recipient & Categorical & 11 values (main content), 85 values (whole content)\\
+\texttt{server\_or\_cache\_address} & \ac{IP} address & Categorical & 2343 values\\
+\texttt{time} & connection hour (in the day) & Date & 00:00:00 to 23:59:59\\
+\texttt{squid\_hierarchy} & It indicates how the next-hop cache was selected & Categorical & 3 values\\
+\texttt{bytes} & Number of transferred bytes during the session & Numerical & integer in [0,85135242]\\
+\texttt{client\_address} & \ac{IP} address & Categorical & 105 values\\
+\texttt{URL} & Core domain of the URL, not taking into account the TLD & Categorical & 976 values\\
+\noalign{\smallskip}\hline
+\end{tabular}
+}
+\end{table}
+
+The dependent variable or class is a label which inherently assigns an decision (and so the following action) to every request. This can be: \textit{ALLOW} if the access is permitted according to the \ac{ISP}, or can be \textit{DENY}, if the connection is not permitted. These patterns are labelled using an `engine' based in a set of security rules, that specify the decision to make. This process is described in Chapter \ref{cap4:methodology}.
+
+During the time of research for this Master Thesis, we have had access to three different log files:
+
+\begin{itemize}
+  \item In the first one, data were gathered along a period of two hours, from 8.30 to 10.30 am (30 minutes after the work started), monitoring the activity of all the employees in a medium-size Spanish company (80-100 people), obtaining 100000 patterns. We consider this dataset quite complete because it contains a very diverse amount of connection patterns, going from personal (traditionally addressed at the first hour of work) to professional issues (the rest of the day). The file was in CSV format.
+  \item The second one was provided in JSON format, and it contains log entries from 12 days, and 5 million patterns.
+  \item A third one, again in CSV format, that is a subset of the second dataset and contains 1 million entries.
+\end{itemize}
+
+
+%-------------------------------------------------------------------
+\subsection{Extracting data from a Log File}
+%-------------------------------------------------------------------
+\label{cap3:sec:rules:subsec:logdata}
+
+Usually, the instances of a log file have a number of fields, in order to have a registration of the client who asks for a resource, the time of the day when the request is made, and so on. In this case, we have worked with an \textit{access.log} file, converted into a CSV format file so it could be parsed and transformed in another hash of data. All ten fields of the Squid log yield a hash like the ones depicted in Figure \ref{fig:data_hash} and Figure \ref{fig:data_object}.
+
+Once the two hashes of data were created, they were compared in such a way that for each rule in the hash of rules, it was determined how many entries in the data log hash are covered by the rule, and so they were applied the label that appears as `action' in the rule.
+
+One of the problems was to extract from a whole URL the part that was more interesting for our purposes. It is important to point out that in a log with thousands of entries, an enormous variety of \ac{URL}s can be found, since some can belong to advertisements, images, videos, or even some others does not have a domain name but are given directly by
+an \ac{IP} address. For this reason, we have taken into account that for a domain name, many subdomains (separated by dots) could be considered, and their hierarchy grows from the right towards the left. The highest level of the domain name space is the \ac{TLD} at the right-most part of the domain name, divided itself in country code TLDs and generic \ac{TLD}s. Then, a domain and a number of subdomains follow the \ac{TLD} (again, from right to left). In this way, the \ac{URL}s in the used log are such as \textit{http://subdomain...subdomain.domain.TLD/} \textit{other\_subdirectories}. However, for the ARFF\footnote{Format of Weka files.} file to be created, only the domain (without the subdomains and the \ac{TLD}) should be considered, because there are too many different \ac{URL}s to take into consideration. Hence, applying another regular expression, the data parser implemented in Perl obtains all the core domains of the \ac{URL}s, which makes 976 domains in total.
+
+\begin{figure}[htb]
+\centering
+\begin{tabular}{ p{0.1cm} p{0.1cm} p{6cm} }
+  \texttt{\%logdata~=~(} & & \\
+   & \texttt{entry~=>\{} & \\
+   & & \texttt{http\_reply\_code => xxx} \\
+   & & \texttt{http\_method => xxx} \\
+   & & \texttt{duration\_miliseconds => xxx} \\
+   & & \texttt{content\_type => xxx} \\
+   & & \texttt{server\_or\_cache\_address => xxx} \\
+   & & \texttt{time => xxx} \\
+   & & \texttt{squid\_hierarchy => xxx} \\
+   & & \texttt{bytes => xxx} \\
+   & & \texttt{url => xxx} \\
+   & & \texttt{client\_address => xxx} \\
+   & \texttt{\},} & \\
+  \texttt{);} & & \\
+\end{tabular}
+\caption{Perl hash with an example entry. The actual hash used for this work has a total of 100000 entries, with more than a half labelled as \textit{ALLOW} or \textit{DENY} after the comparing process. \label{fig:data_hash}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Java,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+public LogEntry (int http_reply_code, String http_method, int duration_milliseconds, String content_type_MCT, String content_type, String server_or_cache_address, String time, String squid_hierarchy, int bytes, String url, String url_core, String url_TLD, String client_address) {
+		this.http_reply_code = http_reply_code;
+		this.http_method = http_method;
+		this.duration_milliseconds = duration_milliseconds;
+		this.content_type_MCT = content_type_MCT;
+		this.content_type = content_type;
+		this.server_or_cache_address = server_or_cache_address;
+		this.time = time;
+		this.squid_hierarchy = squid_hierarchy;
+		this.bytes = bytes;
+		this.url = url;
+		this.url_core = url_core;
+		this.url_TLD = url_TLD;
+		this.client_address = client_address;
+	}
+\end{lstlisting}
+\caption[Created object Log Entry in Java]{Constructor method of the object type Log Entry in Java.\label{fig:data_object}}
+\end{figure}
+
+%-------------------------------------------------------------------
+\subsection{Legal aspects}
+%-------------------------------------------------------------------
+\label{cap3:sec:rules:subsec:legal}
+
+Taking into account that the study performed along this Master Thesis has the objective of being finally implemented inside a real system (see Appendix \ref{ap1:muses}), we must identify the issues related to legal aspects. Then, the set of rules to apply to a specific unlabelled connection intent, are selected depending on some sensitive data related to the user, such as:
+
+\begin{itemize}
+  \item User's work station \ac{IP}. This could be useful for limiting the rules to apply, since they can be grouped according to it. The identification of an individual user could be considered by the system if the aim is to adapt the set of rules to an especific person (it would be an important feature if we want to build a user-centric system, for example). In this case an anonymisation step should be done (encryption), maybe during the data gathering step, to avoid a leak of information in the event of hacking.
+  \item If we can identify the user's \ac{IP}, his or her behaviour too. This means that for a certain user, it can be known the amount of time spent in leisure, thus, not being productive. However, this kind of information is not that important from the security point of view, so any conclusion about that should be erased for the sake of the user's privacy.
+\end{itemize}
+
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX

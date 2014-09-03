@@ -5,13 +5,14 @@
 %---------------------------------------------------------------------
 
 \chapter{State of the Art}
+\label{cap2:SotA}
 
 \begin{FraseCelebre}
 \begin{Frase}
-...
+We both contain the knowledge of over nine hundred years of memory and experience. 
 \end{Frase}
 \begin{Fuente}
-...
+11th Doctor. Doctor Who. \textit{The Almost People}.
 \end{Fuente}
 \end{FraseCelebre}
 
@@ -70,7 +71,7 @@ The main feature of this security package is the use of different containers, or
 There will be needed introducing a password to enter into the business side and, once \textit{logged in} this container, no more passwords will be required for the business applications. The applications approved by the company \ac{IT} department must meet Samsung's security standards and allow single sign-on. A Knox \ac{API} will also be provided for the company to be capable of accessing over almost 205 predefined IT policies (the SAFE \ac{API} grows this number to 475). Also, Knox would allow different VPNs for individual apps.
 Regarding the information protection methods, data files saved by applications of each environment are encrypted with AES 256-bit algorithm, in such manner that only the appropriate container can access these files. In the same way, the user won't be able to share data between the two environments, e.g. creating separate contact lists so the user cannot send a contact from one side to the other, or if the user copies data to the clipboard in the Knox container, it won't be there in the personal container. Figure \ref{fig:img_knox_01} shows the device architecture with three main parts, each one in charge of deploying some of the mentioned characteristics.
 
-\figuraEx{Vectorial/samsung_knox.pdf}{width=1.\textwidth}{fig:img_knox_01}%
+\figuraEx{Vectorial/samsung_knox.pdf}{width=0.8\textwidth}{fig:img_knox_01}%
 {Samsung's Knox utility architecture. Source: \url{http://www.samsung.com/global/business/mobile/solution/security/samsung-knox}.}{}
 
 \begin{description}
@@ -86,10 +87,7 @@ It is important to take into account that if an enterprise decides to deploy thi
 %-------------------------------------------------------------------
 \label{cap2:sec:tools:subsec:good}
 
-The philosophy followed by Good's solution is similar to Samsung's Knox one: to create a secure container that places an unreachable partition between personal and business data in order to protect company assets. The solutions that they offer \citep{Good_tool} are similar than the previous ones. They have focused in mobile (not laptops) devices, though they support a different of \ac{OS}s, and in separating personal and company data. A Good's secure Network Operations Center (NOC) is introduced for dealing with the unauthorised devices, or for providing access to secure collaboration solutions (email, PIM, calendar), intranet, and in-house or third-party mobile applications. Finally, Good offers best practise recommendations to help the company's \ac{BYOD} policies such as reimbursements and stipends. There is a document available at Good's webpage\footnote{http://www1.good.com/mobility-management-solutions/bring-your-own-device}  which contains several questions about \ac{ISP}s and how to cope with all of them. %Los contenedores son soluciones de
-                                %virtualización. Igual sería
-                                %interesante que introdujeras estas
-                                %soluciones en general - JJ
+The philosophy followed by Good's solution is similar to Samsung's Knox one: to create a secure container that places an unreachable partition between personal and business data in order to protect company assets. The solutions that they offer \citep{Good_tool} are similar than the previous ones. They have focused in mobile (not laptops) devices, though they support a different of \ac{OS}s, and in separating personal and company data. A Good's secure Network Operations Center (NOC) is introduced for dealing with the unauthorised devices, or for providing access to secure collaboration solutions (email, PIM, calendar), intranet, and in-house or third-party mobile applications. Finally, Good offers best practise recommendations to help the company's \ac{BYOD} policies such as reimbursements and stipends. There is a document available at Good's webpage\footnote{http://www1.good.com/mobility-management-solutions/bring-your-own-device}  which contains several questions about \ac{ISP}s and how to cope with all of them.
                                 
 %-------------------------------------------------------------------
 \subsection{BlackBerry Balance}
@@ -98,7 +96,7 @@ The philosophy followed by Good's solution is similar to Samsung's Knox one: to 
 
 This security package was announced as a feature of BlackBerry 10 \citep{Blackberry_tool}. Nevertheless, it is available with BlackBerry Enterprise Service 10, which is a device management, security and app management for BlackBerry, iOS and Android devices. It is necessary to activate BlackBerry Balance for having available some security features, all related or similar to the aforementioned. For instance, as shown in Figure \ref{fig:blackberry_bal}, a message is displayed when the user tries to copy work data and then paste it into personal apps. Also, user attempting for actions that are not permitted in the company \ac{ISP}, or may cause secure work information to be in contact with personal applications, these actions won't be permitted. 
 
-\figuraEx{Vectorial/Blackberry_balance.pdf}{width=1.\textwidth}{fig:blackberry_bal}%
+\figuraEx{Vectorial/Blackberry_balance.pdf}{width=0.5\textwidth}{fig:blackberry_bal}%
 {Blackberry Balance. Source: http://uk.blackberry.com/business/software/blackberry-balance.html.}{Displayed message in new Blackberry 10 when attepmting to copy sensitive company data}
 
 On the other side, employees are able to access information and applications related to their personal lives, while staying connected to important work information when they need to perform. Finally, another known feature is also offered by Blackberry, so if the device gets lost or is stolen, or if the employee leaves the organization, there will be an option to wipe just work information which can be done remotely.
@@ -106,7 +104,53 @@ On the other side, employees are able to access information and applications rel
 %-------------------------------------------------------------------
 \subsection{Blackphone}
 %-------------------------------------------------------------------
-\label{cap2:sec:tools:subsec:blackp}
+\label{cap2:sec:tools:subsec:blackphone}
+
+One of the most acclaimed devices that were presented in this year Mobile World Congress (Barcelona, Spain), was the Blackphone \footnote{\url{http://www.pcmag.com/article2/0,2817,2453964,00.asp}}. It is a phone developed with the objective of keeping the user safe at all moments, so it is a perfect match for a BYOD ecosystem. The data stored on the device can be wiped remotely at any time, and the use of the Blackphone Security Center is really helpful for the user, as it is possible completely control every application that is installed.
+
+Blackphone's Operative System, called PrivateOS, is a version of Android customised to offer the maximum security, and it has the hability, for example, of ignoring any Wi-Fi spot except for those that are trusted by the user. In Figure \ref{fig:blackphone} there is a list of the main advantages and security and privacy enhancements that PrivatOS has with respect to a standard Android OS.
+
+\figuraEx{Vectorial/blackphone.pdf}{width=1.\textwidth}{fig:blackphone}%
+{Blackphone's PrivatOS Features. Source: https://www.blackphone.ch}{The features are compared with the ones in Android from the point of view os security and user privacy.}
+
+%-------------------------------------------------------------------
+\subsection{Citrix}
+%-------------------------------------------------------------------
+\label{cap2:sec:tools:subsec:citrix}
+
+XenMobile with Worx App SDK, made by Citrix Systems, provides BYOD security services to companies using fine-grained policies to prevent users from performing unallowed actions (like using the mobile phone's camera, GPS or microphone) \citep{citrix_13}. These policies can be turned on or off using its own GUI. Citrix is framework-enabled, and it is aware of some (or all) apps installed on the device. All the apps that are Worx-enable are capable of interacting, and thus offering the user a better experience. 
+
+It is also important to point out that Citrix differenciates between apps used by the user privately and those used for business, locating both on a secure mobile container that is encrypted, and can be locked remotely for safety reasons. Another feature of Citrix is that it uses dedicated micro VPN to connect to Citrix-protected backend services.
+
+%-------------------------------------------------------------------
+\subsection{WSO2 Enterprise Mobility Manager}
+%-------------------------------------------------------------------
+\label{cap2:sec:tools:subsec:wso2}
+
+WSO2 Enterprise Mobility Manager (WSO2 EMM) \citep{wso2_tool} is an open source platform that also works with the BYOD program. Some of this WSO2 EMM key features are:
+
+\begin{description}
+  \item[Mobile Device Management] that is used to manage both user and corporate owned devices, providing support for Android and iOS at the moment. It should be noted that this tool allowes the tracking of every enrolled device, as well as obtaining reports and analytics of their use.
+  \item[Mobile Application Management] With regard to the software, this platform is able to allow or deny the use of applications on enrolled devices based on the role of the user or policies, thus restricting the use of some apps to certain users.
+  \item[Enterprise App Store] This store provides users with both enterprise and public applications approved by the company.
+  \item[Mobile Data Security] WSO2 also allows the user's data to be encrypted via password.
+\end{description}
+
+%-------------------------------------------------------------------
+\subsection{Azzurri Icon Mobile Device Management}
+%-------------------------------------------------------------------
+\label{cap2:sec:tools:subsec:azzurri}
+
+ICON Mobilise is a Managed Service that enables organisations to secure, manage and maximise their mobile devices and application. Azzurri \citep{azzurri_tool} offers ICON (Intelligent Cloud Optimised Network) as a cloud mobile management tool for Blackberry, Windows Phone, Android and iOS.
+
+Although Blackphone's main feature was his ultra-secure customised OS, ICON centrally deployes, administers and secures all mobile devices regardless of type or OS.
+
+%-------------------------------------------------------------------
+\subsection{Oesis Framework}
+%-------------------------------------------------------------------
+\label{cap2:sec:tools:subsec:oesis}
+
+OESIS Framework \citep{oesis_tool} is a cross platform, open development framework that enables software engineers and technology vendors to develop products that detect, classify and manage thousands of third-party software applications. The extensive functionality of this robust framework gives solutions the ability to perform detailed endpoint assessment and management on Windows, Mac, Linux, and mobile devices.
 
 %-------------------------------------------------------------------
 \section{Extracting knowledge from Data}
@@ -149,7 +193,13 @@ In the same line, Lim et al. propose a system \citep{sec_policy_evolution_gp_08,
 %-------------------------------------------------------------------
 \label{cap2:sec:url}
 
-% METER LO DEL ESTUDIO DE LAS URL
+As in this work we are dedicating an important part to \ac{URL}, its different parts and the way they influence in the classification process, this section is devoted to review some works related with the study of \ac{URL}s. In particular, we found interesting those works that try to identify malicious sites (like the ones that want to perform a pishing attack). It is also interesting if they study the \ac{URL} lexical features, like the one performed during this Master Thesis, and because we consider this kind of study better than to download and proccess the page (the thing that in fact is trying to be avoided). 
+
+Hence, Kan and Thi \citep{Kan_URL05} focus their work in lexical features in order to classify as dangerous, \ac{URL}s that were not previously in Blacklists servers. They gather features like the URI components, length, ortographic data, or segments by entropy reduction. Their results are close to 95\% of accuracy.
+
+On the other hand, this work not only focuses in lexical features of the requested \ac{URL}, but also in other data that appears in the log files. And not exactly log data but Zhang et al. \citep{Zhang_cantina07}, with CANTINA, detect pishing \ac{URL}s by studying lexical features, content related features, and a WHOIS query (obtaining the date when the domain were registered, which if it is too new, it can be less trustful). They also obtain a 95\% of accuracy.
+
+The most important work we have found related to this were of J. Ma et al \citep{Ma_Url11}, whose aim is to detect malicious \ac{URL}s, mainly related with pishing attacks throug e-mailing, but without processing the content or other private data of the user. They extract information from the lexical features (62\% of the total of the gathered features), and also from the host that has the \ac{URL}. It is important to point out that they perform the study over 100 days, and that they work with a quantity of almost 2 million of features. In addition, they implement an online classifier (instead of a batch one), and obtain a 99\% of accuracy. 
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX

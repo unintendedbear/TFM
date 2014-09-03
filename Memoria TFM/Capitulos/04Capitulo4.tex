@@ -1,0 +1,120 @@
+%---------------------------------------------------------------------
+%
+%                          Chapter 4
+%
+%---------------------------------------------------------------------
+
+\chapter{Methodology}
+\label{cap4:methodology}
+
+\begin{FraseCelebre}
+\begin{Frase}
+DOCTOR: Oh, that's never going to work, is it?
+CLARA: What's wrong? Do you think it's not done yet?
+\end{Frase}
+\begin{Fuente}
+11th Doctor and Clara. Doctor Who. \textit{The Time of the Doctor}.
+\end{Fuente}
+\end{FraseCelebre}
+
+%-------------------------------------------------------------------
+\section{Perl Implementation}
+%-------------------------------------------------------------------
+\label{cap4:sec:Perl}
+
+%-------------------------------------------------------------------
+\subsection{Perl advantages and disadvantages}
+%-------------------------------------------------------------------
+\label{cap4:sec:Perl:subsec:advantages}
+
+%-------------------------------------------------------------------
+\section{Weka}
+%-------------------------------------------------------------------
+\label{cap4:sec:Weka}
+
+As said in Section \ref{cap3:sec:log}, the data used for this work is not only numerical or nominal, thus, only classification algorithms that support both types of data have been considered. Weka has a great number of possible algorithms to work with, so we have conducted a preselection phase trying to choose those which would yield better results in the experiments. More specifically, we have focused on rule-based and decision-tree-based algorithms. 
+
+It is important to point out that rules can become trees, but rules cannot always be derived from trees (for instance, a tree modelling a mathematical operation).
+
+In this way, a decision-tree algorithm is a group of conditions organised in a top-down recursive manner in a way that a class is assigned following a path of conditions, from the root of the tree to one of its leaves. Generally speaking, the possible classes to choose are mutually exclusive. Furthermore, these algorithms are also called ``divide-and-conquer'' algorithms. On the other hand, there are the ``separate-and-conquer'' algorithms, which work creating rules one at a time, then the instances covered by the created rule are removed and the next rule is generated from the remaining instances.
+
+A reference to each Weka classifier can be found at \citep{Frank2011}. Below are described the top five techniques, obtained from the best results (See Table \ref{tabresults_todos}) of the experiments done in this stage, along with more specific bibliography. Naïve Bayes method \citep{Bayesian_Classifier_97} has been included as a baseline, normally used in text categorization problems. According to the results, the five selected classifiers are much better than this method.
+
+\begin{table}[htpb]
+\centering
+ \caption{\label{tabresults_todos} Results of all the tested classification methods on balanced data. The best ones are marked in boldface.}
+{\small
+\begin{tabular}{|l|l|l|}
+\cline{2-3}
+\multicolumn{1}{l|}{} & Undersampling & Oversampling \\ 
+\hline
+Naïve Bayes & 91.12 & 91.77 \\ 
+\hline
+Conjunctive Rule & 60.14 & 60.02 \\ 
+\cline{1-1}
+Decision Table & 94.08 & 90.29 \\ 
+\cline{1-1}
+DTNB & 94.75 & 95.65 \\ 
+\cline{1-1}
+JRip & 90.08 & 92.47 \\ 
+\cline{1-1}
+NNge & \textbf{96.49} & \textbf{98.76} \\ 
+\cline{1-1}
+One R & 93.45 & 93.70 \\ 
+\cline{1-1}
+PART & \textbf{96.45} & \textbf{97.54} \\ 
+\cline{1-1}
+Ridor & 87.22 & 89.87 \\ 
+\cline{1-1}
+Zero R & 51.39 & 51.26 \\ 
+\cline{1-1}
+AD Tree & 77.73 & 77.68 \\ 
+\cline{1-1}
+Decision Stump & 60.14 & 60.02 \\ 
+\cline{1-1}
+J48 & \textbf{97.02} & \textbf{98.00} \\ 
+\cline{1-1}
+LAD Tree & 79.95 & 79.97 \\ 
+\cline{1-1}
+Random Forest & \textbf{96.87} & \textbf{98.84} \\ 
+\cline{1-1}
+Random Tree & 95.14 & 98.35 \\ 
+\cline{1-1}
+REP Tree & \textbf{96.79} & \textbf{97.67} \\ 
+\hline
+\end{tabular}
+}
+\end{table}
+
+
+\begin{description}
+   \item[J48] This classifier generates a pruned or unpruned C4.5 decision tree. Described for the first time in 1993 by \cite{Quinlan1993}, this machine learning method builds a decision tree selecting, for each node, the best attribute for splitting and create the next nodes. An attribute is selected as `the best' by evaluating the difference in entropy (information gain) resulting from choosing that attribute for splitting the data. In this way, the tree continues to grow till there are not attributes anymore for further splitting, meaning that the resulting nodes are instances of single classes. 
+   \item[Random Forest] This manner of building a decision tree can be seen as a randomization of the previous C4.5 process. It was stated by \citep{Breiman2001} and consist of, instead of choosing `the best' attribute, the algorithm randomly chooses one between a group of attributes from the top ones. The size of this group is customizable in Weka.
+   \item[REP Tree] Is another kind of decision tree, it means Reduced Error Pruning Tree. Originally stated by \citep{Quinlan1987}, this method builds a decision tree using information gain, like C4.5, and then prunes it using reduced-error pruning. That means that the training dataset is divided in two parts: one devoted to make the tree grow and another for pruning. For every subtree (not a class/leaf) in the tree, it is replaced by the best possible leaf in the pruning three and then it is tested with the test dataset if the made prune has improved the results. A deep analysis about this technique and its variants can be found in \citep{Elomaa2001}.
+   \item[NNge] Nearest-Neighbor machine learning method of generating rules using non-nested generalised exemplars, i.e., the so called `hyperrectangles' for being multidimensional rectangular regions of attribute space \citep{Martin1995}. The NNge algorithm builds a ruleset from the creation of this hyperrectangles. They are non-nested (overlapping is not permitted), which means that the algorithm checks, when a proposed new hyperrectangle created from a new generalisation, if it has conflicts with any region of the attribute space. This is done in order to avoid that an example is covered by more than one rule (two or more).
+   \item[PART] It comes from `partial' decision trees, for it builds its rule set from them \citep{Frank1998}. The way of generating a partial decision tree is a combination of the two aforementioned strategies ``divide-and-conquer'' and ``separate-and-conquer'', gaining then flexibility and speed. When a tree begins to grow, the node with lowest information gain is the chosen one for starting to expand. When a subtree is complete (it has reached its leaves), its substitution by a single leaf is considered. At the end the algorithm obtains a partial decision tree instead of a fully explored one, because the leafs with largest coverage become rules and some subtrees are thus discarded.
+ \end{description} 
+
+These methods will be deeply tested on the dataset (balanced and unbalanced) in the following Chapter.
+
+%-------------------------------------------------------------------
+\section{Java Implementation}
+%-------------------------------------------------------------------
+\label{cap4:sec:Java}
+
+%-------------------------------------------------------------------
+\subsection{Java advantages and disadvantages}
+%-------------------------------------------------------------------
+\label{cap4:sec:Java:subsec:advantages}
+
+
+
+
+
+% Variable local para emacs, para  que encuentre el fichero maestro de
+% compilación y funcionen mejor algunas teclas rápidas de AucTeX
+%%%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../Tesis.tex"
+%%% End:

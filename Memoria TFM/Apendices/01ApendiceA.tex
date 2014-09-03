@@ -4,8 +4,8 @@
 %
 %---------------------------------------------------------------------
 
-\chapter{Así se hizo...}
-\label{ap1:AsiSeHizo}
+\chapter{MUSES}
+\label{ap1:muses}
 
 \begin{FraseCelebre}
 \begin{Frase}
@@ -16,16 +16,99 @@
 \end{Fuente}
 \end{FraseCelebre}
 
-\begin{resumen}
-...
-\end{resumen}
-
 %-------------------------------------------------------------------
-\section{Introducción}
+\section{Introduction}
 %-------------------------------------------------------------------
 \label{ap1:intro}
 
-...
+This work is embedded inside a system named MUSES, from Multiplatform Usable Endpoint Security, which is a device-independent end-to end user-centric tool that is currently being developed, based in a set of security rules defined as specifications of the \ac{CSP}, but with the capability of `learning' from the user's past behaviour and adapt, even inferring new ones, the set of rules in order to deal with potential future security incidents due to the user's actions. Then it will react, in a non-intrusive way, to the potentially dangerous sequence of actions (events) that he or she is conducting at any time.
+
+To this end MUSES analyses the users' behaviour by means of \ac{DM} techniques and \ac{ML} methods, extracting a set of patterns which will be later processed by means of \ac{CI} algorithms.
+
+MUSES includes some important modules in the loop, such as an Event Processor, which performs an event correlation task, matching occurred events with rules to deal with them and extracting threads that a Real-Time Risk and Trust Analysis Engine (RT2AE) will process (along with other trust data and profiles), to select the best subset of rules to apply.
+
+%-------------------------------------------------------------------
+\section{Multiplatform Usable Endpoint Security System}
+%-------------------------------------------------------------------
+\label{ap1:intro:sec:muses}
+
+The MUSES system overview is presented in Figure \ref{fig:system_overview}. As it can be seen, in this system, the user interacts with the devices, own or corporate, through the MUSES graphical interface inside his or her own context (situation, connection, status). 
+
+\figuraEx{Vectorial/system_overview.pdf}{width=0.9\textwidth}{fig:system_overview}%
+{MUSES system overview. (Design art by S2 Grupo.  http://www.s2grupo.es/)}{}
+
+As a summary, this application includes two modules: a \textit{controller} and an \textit{actuator}. The first one monitors the environment (context) and the user's behaviour, translating his/her actions into a sequence of events. These events, along with the patterns defining the user's conduct, are processed by the system in real-time by means of a Risk and Trust Analysis Engine (RT2AE) and an Event Correlation module. Then, a decision is taken in the corporate security operations centre (SOC) side, considering the RT2AE output and the set of security rules adapted to that specific user and context. The corresponding feedback is communicated to the user through the \textit{actuator}, which is also in charge of triggering the recommended actions to stop the user's or application's doings, in case it is required.
+
+The designed MUSES architecture is shown in Figure \ref{fig:architecture}. It is a \textit{client/server} approach in which the \textit{client} program will be installed in every user's mobile or portable device, independently of the platform (operating system and type of device). The \textit{server} side would be installed in the corporate SOC. Both sides are connected through a secure channel (using HTTPS) over Internet. In that figure just the high-level components in each part are shown, along with the information flows labelled as 'Info XX'.
+
+\figuraEx{Vectorial/architecture_modules.pdf}{width=0.9\textwidth}{fig:architecture}%
+{Proposed architecture. (Design art by S2 Grupo. http://www.s2grupo.es/)}{}
+
+The rationale for this approach is based on two main reasons:
+
+\begin{enumerate}
+  \item there is need for a high computational power in order to perform the event correlation and self-adaptation processes, so a quite powerful machine should be used (server);
+  \item there are two clearly separated parts in the system, namely the users (client) and the enterprise (server).
+\end{enumerate}
+
+The system considers two working modes for every device: online and offline. In the \textit{online} mode the device can connect with the MUSES server, so it can request the server to make a decision. On the other hand, in \textit{offline} mode the server cannot be reached by the device (there is not an available connection between them), so all the decisions should be made locally. Anyway, in this mode, the gathered information by the sensors in the device will be stored for later submission to the server side (when a connection is available), in order to be processed in the knowledge refinement process.
+
+%-------------------------------------------------------------------
+\subsection{Client/Device architecture}
+%-------------------------------------------------------------------
+\label{ap1:intro:sec:muses:subsec:client}
+
+There are three main components in this side:
+\begin{itemize}
+ 	 \item \textit{Local Database}: it is a local security-based storage, which includes the set of security rules to be applied locally (Device Policies), user authentication data, and a cache of gathered events and information. The latter will be useful when the device is in offline mode, so these data are stored to be later submitted to the server side. 
+%It contains the so-called \textit{Decision Table}, a set of rules in which the antecedents are high-level events, and the consequents are the corresponding decisions/actions, namely `allow', `deny' or `request' (the decision must be made in the server side).
+ 	 \item \textit{Device Monitor (MusDM)}: module which gathers the events and information produced by the user. It also acts following the decisions made by the system, in order to allow or deny the controlled application (or the user) for doing something. It is composed by a monitoring and an actuator submodules.
+ 	 \item \textit{Access Control System (MusACS)}: module in charge of making the decisions considering the gathered data. These decisions can be made locally (if possible), or can be requested to the server (if there is no rule which matches with the occurred events). 
+
+%The subcomponents are the \textit{Decision Maker}, which performs the decision process; the \textit{User, Context, Event Handler}, which processes the events and information to be used for making the decision or stored for further submission (depending on the mode and on the gathered data); and the \textit{Security Policy Receiver} that updates the set of decisions (or Device Policies) in the Decision Table with those received from the server side, after an update or decision process.
+\end{itemize}
+
+The rest of the components are: the \textit{MUSES User Interface}, the application through which the user interacts with the system; and the \textit{Connection Manager} which controls the communications between client and server sides. 
+In addition, there are two types of applications considered in this system: on the one hand the \textit{MUSES Aware App}, which is an application adapted to MUSES, so the system can directly interact with it (monitoring and acting). This application must be implemented using the MUSES \ac{API} \footnote{For every application desired to be MUSES Aware, it should be implemented using this \ac{API}.}. On the other hand the \textit{Non MUSES Aware App} is that which MUSES cannot directly interact with. Usually it will be accessed through the \ac{OS}.
+
+%-------------------------------------------------------------------
+\subsection{Server architecture}
+%-------------------------------------------------------------------
+\label{ap1:intro:sec:muses:subsec:server}
+
+As in the client, there are three main components:
+\begin{itemize}
+	 \item \textit{System Database}: it stores all the information that the system will manage, including authentication data, enterprise security policies, assets' values, user-related information (trust, context), events data, and, of course, security rules to apply (regarding the security policies).
+
+	 \item \textit{Continuous Real-Time Event Processor (MusCRTEP)}: this component is the core of the MUSES system with respect to the decision making process. It includes an \textit{Event Processor}, the module in charge of performing the event correlation process, gathering the set of occurred events and doing a rule-based threat identification. The output of this module is taken by the \textit{RT2AE}, which also considering information such as trust data and profiles, assets' values, user reputation, or opportunity, performs a risk and trust analysis task \citep{muses_sotics_13}, and extracts the set of potential rules to consider in the analysed situation. Then, these rules are transformed into decisions (or Device Policies) and submitted to those devices to which they apply.
+
+	 \item \textit{Knowledge Refinement System (MusKRS)}: this module is in charge of analysing the information stored in the system database, identifying relevant data, such as important patterns, key features, or security incidents. These are later processed for tuning up the existing set of rules or for inferring new ones. 
+
+\end{itemize}
+
+There are some other components, namely: the \textit{Security Policies/Risk Management} tool, that lets the company \ac{CSO} to define and manage Security Policies and Rules in a friendly way. It also lets the management of risk-related information, useful for the RT2AE process, such as the assets' values. The \textit{Privacy Enhancing System} which is a module aimed to fit with the legal compliance of the system regarding the user's data anonymisation. The \textit{User, Context, Event Data Receiver} is devoted to receive data from the device side (events, user-related, etc) and to distribute them among the components (storing in the database, and requesting the Event Processor to start the correlation task). Finally, there is another \textit{Connection Manager} which controls the communication with the device side.
+
+As previously stated, one of the main features of the presented system will be the self-adaptation (to the user and context) of the set of security rules. To this end, the MusKRS's task will be run asynchronously to the system working. This process is composed by two steps: first, a Data Mining procedure (See Chapter \ref{cap3:data}) will be performed, considering the whole amount of historic information mainly regarding user's behaviour and context. Some methods such as Clustering (grouping data), Pattern Recognition (usual situations identification), or Feature Selection (main variables/values in the data) will be applied. The second step consists in a refinement and inference process, performed by means of \ac{ML} and \ac{CI} techniques. Regarding the latter, some methods will be used, such as Evolutionary or Genetic Algorithms for parameters/values optimisation; or Genetic Programming for the modification of security rules.
+
+Thus the set of rules will be adapted to every user in the system, updating some of the existing and creating new ones (always respecting the corporate security policies).
+Moreover, some predictive models will be also obtained applying other soft computing techniques, so the user's potentially dangerous behaviour will be anticipated.
+
+%-------------------------------------------------------------------
+\section{MUSES Advantages Against other Solutions.}
+%-------------------------------------------------------------------
+\label{ap1:intro:sec:musesadvantages}
+
+MUSES is mainly a free, open-source, platform independent solution, so these set of features make it a very good option in a first comparison against the proprietary, close and system-specific tools presented in Section \ref{cap2:sec:tools}. Moreover most of the existent tools take into account only smartphones and tablets, but MUSES also covers laptops and company PCs too. Moreover the companies which desires work with those systems need specific operative system and server (such as Windows Server, for instance). 
+Being even more strict in some cases, as in Samsung Knox (see Section \ref{cap2:sec:tools:subsec:knox}), in which companies must work with a specific (though they can choose from a list) \ac{MDM} service for being able of deploy Knox in their environments.
+
+With the Blackphone, that was presented in Section \ref{cap2:sec:tools:subsec:blackphone}, the comparison may have no sense, because to build a whole device is not the scope of MUSES, but to add the enhancements that this device has to a normal device. This way, the company is not forcing the employees to buy a new device to be compliant with its policies.
+
+Another comparison concerns that the existing products are mostly policy-based, but MUSES makes its decisions not only considering policies, but also based on the terminals/users context (location, connected networks and so on), to really understand the real danger of a specific action.
+Also related to this, a very big plus of the MUSES system is its new feature of self-adaptivity. Thus, MUSES is able to adapt to changes, either regarding corporate security policies, newly discovered vulnerabilities or threats, different environments of use or user profiles. 
+
+Moreover, MUSES has the feature of having two connection modes, depending on the client being able to connect with the server or not, which favours a real-time decision making process.
+
+Though these are clearly advantages of MUSES over the aforementioned products, they also establish a progress beyond the state of the art. Other issues that MUSES aims to progress on are related to risk and trust data analysis, human-computer interaction (or HCI), device monitoring, and legal compliance. First, as mentioned previously, it will implement a self-adaptive event correlation, including a novel hybrid technique of rule refinement and rule adjustment extracting relevant information from processing huge amounts of data. Then, the project defines a new approach to risk management taking into account threats (with their costs) as well as the innovative concept of opportunity, i.e. the following beneficial outcome from a situation on which, for instance, a user is able to work while waiting at the airport if risk is low enough. About HCI and usability of mobile devices, this will set up a significant advance in the state of the art because of the novelty of the \ac{BYOD} philosophy, and trying to look for individual differences among the users in susceptibility to persuasive strategies for secure behaviour. Regarding device monitoring, MUSES will also take into account the so-called context observation, by which private or professional scenarios will be detected, or predicted, based on advanced machine learning techniques. Finally, the project is concerned about legal compliance in regards of Information Security Policies, so that it will contribute to the proposal for the EU Data Protection: legal binding force and legal certainty of company policies, and end-user responsibility.
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX
