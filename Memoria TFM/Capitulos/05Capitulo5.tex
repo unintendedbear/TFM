@@ -17,22 +17,18 @@ DALEK. Doctor Who. \textit{The Parting of the Ways}.
 \end{FraseCelebre}
 
 %-------------------------------------------------------------------
-\section{Labelling Process and discussion}
-%-------------------------------------------------------------------
-\label{cap5:sec:labels}
-
-%False positives/Negatives
-
-%-------------------------------------------------------------------
 \section{Experiment results}
 %-------------------------------------------------------------------
 \label{cap5:sec:exp}
 
-All the result tables are publicly accessible through the following link: \url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}
+All the result tables are publicly accessible through the following link:
+
+\url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}
+
+The initial group of conducted experiments was presented in Section \ref{cap4:sec:Weka}, and the top five was formed by the classifiers: J48, Random Forest, REP Tree, NNge, and PART. These five classifiers were training and tested with both training and test files, as explained in Section \ref{cap4:sec:traintest}. First results can be found in Table \ref{tabresults_nobalan}.
 
 \begin{table*}[htpb]
 \centering
- \caption{\label{tabresults_nobalan} Percentage of correctly classified patterns for non-balanced data}
 {\small
 \begin{tabular}{|l|l|l|l|l|}
 \cline{2-5}
@@ -52,33 +48,65 @@ PART & 97.06 $\pm$ 0.19 & 89.11 & 97.40 $\pm$ 0.16 & 84.17 \\
 \hline
 \end{tabular}
 }
+\caption{\label{tabresults_nobalan} Percentage of correctly classified patterns for non-balanced data}
 \end{table*}
 
-\begin{table*}[htpb]
+As it can be seen, all five methods achieved a high performance classifying in the right way the test dataset. Also, these results are not like this by chance, as shown by a low standard deviation. Although it was expected that the results from the 90\%-10\% division were slightly better, in the future a more aggressive division will be executed so the methods can be really proved with much less training data.
+
+What matters to the results of the experiments made with the sequential data, they are worse than the obtained from the random data, but still they are good ($>$ 85\%). This is due to the occurrence of new patterns from a certain time (maybe there are some requests that are made just at one specific time in a day, or in settled days), and then there is no sufficient similarity between the training data and the classifying of the test data set may fail. The loss of 5 to 6 points in the results of the 90\%-10\% division is the first unexpected or unlogical result of the experiments, but they also reinforce the previous theory.
+
+The technique that lightly stands out over the others is \textit{Random Forest}, being the best in almost every case, even in the experiments with the most complex sequential divisions. However, if we focus on the standard deviation, \textit{REP Tree} is the chosen one, as its results present robustness. 
+
+For its part, results obtained from unbalanced data are shown in Table \ref{tabresults_balan}. Again the corresponding to the random partitions come from the mean of three blocks of experiments, and so are specified the standard deviations. The Table illustrates two segments of results, obtained from the undersampled data and from the oversampled data. For each one, the 90\%-10\% and 80\%-20\% divisions were also made.
+
+
+\begin{figure}[htb]
 \centering
- \caption{\label{tabresults_balan} Percentage of correctly classified patterns for balanced data (under- and oversampling)}
-{\small
-\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
-\cline{2-9}
-\multicolumn{1}{l|}{} & \multicolumn{4}{c|}{80\% Training - 20\% Test} & \multicolumn{4}{c|}{90\% Training - 10\% Test} \\ 
-\cline{2-9}
-\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} \\ 
-\cline{2-9}
-\multicolumn{1}{l|}{} & Rand (mean) & Sequential & Rand (mean) & Sequential & Rand (mean) & Sequential & Rand (mean) & Sequential \\ 
+\subfloat[80\% for training, \%20 for testing]{
+\begin{tabular}{|l|l|l|l|l|}
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{4}{c|}{80\% Training - 20\% Test} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & Rand (mean) & Sequential & Rand (mean) & Sequential \\ 
 \hline
-J48 & 97.05 $\pm$ 0.25 & 84.29 & 97.40 $\pm$ 0.03 & 85.66 & 96.85 $\pm$ 0.35 & 76.44 & 97.37 $\pm$ 0.06 & 74.24 \\ 
+J48 & 97.05 $\pm$ 0.25 & 84.29 & 97.40 $\pm$ 0.03 & 85.66 \\ 
 \cline{1-1}
-Random Forest & 96.61 $\pm$ 0.17 & 88.59 & 97.16 $\pm$ 0.19 & 89.03 & 96.99 $\pm$ 0.13 & 79.98 & 97.25 $\pm$ 0.33 & 81.33 \\ 
+Random Forest & 96.61 $\pm$ 0.17 & 88.59 & 97.16 $\pm$ 0.19 & 89.03 \\ 
 \cline{1-1}
-REP Tree & 96.52 $\pm$ 0.13 & 85.54 & 97.13 $\pm$ 0.25 & 85.41 & 96.55 $\pm$ 0.10 & 77.65 & 97.14 $\pm$ 0.09 & 76.81 \\ 
+REP Tree & 96.52 $\pm$ 0.13 & 85.54 & 97.13 $\pm$ 0.25 & 85.41 \\ 
 \cline{1-1}
-NNge & 96.56 $\pm$ 0.42 & 85.28 & 96.90 $\pm$ 0.28 & 83.46 & 96.33 $\pm$ 0.05 & 81.93 & 96.91 $\pm$ 0.06 & 78.73 \\ 
+NNge & 96.56 $\pm$ 0.42 & 85.28 & 96.90 $\pm$ 0.28 & 83.46 \\ 
 \cline{1-1}
-PART & 96.19 $\pm$ 0.14 & 85.16 & 96.82 $\pm$ 0.09 & 84.50 & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\ 
+PART & 96.19 $\pm$ 0.14 & 85.16 & 96.82 $\pm$ 0.09 & 84.50 \\ 
 \hline
 \end{tabular}
 }
-\end{table*}
+
+\subfloat[90\% for tranining, 10\% for testing]{
+\begin{tabular}{|l|l|l|l|l|}
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{4}{c|}{90\% Training - 10\% Test} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & Rand (mean) & Sequential & Rand (mean) & Sequential \\ 
+\hline
+J48 & 96.85 $\pm$ 0.35 & 76.44 & 97.37 $\pm$ 0.06 & 74.24 \\ 
+\cline{1-1}
+Random Forest & 96.99 $\pm$ 0.13 & 79.98 & 97.25 $\pm$ 0.33 & 81.33 \\ 
+\cline{1-1}
+REP Tree & 96.55 $\pm$ 0.10 & 77.65 & 97.14 $\pm$ 0.09 & 76.81 \\ 
+\cline{1-1}
+NNge & 96.33 $\pm$ 0.05 & 81.93 & 96.91 $\pm$ 0.06 & 78.73 \\ 
+\cline{1-1}
+PART & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\ 
+\hline
+\end{tabular}
+}
+\caption{Percentage of correctly classified patterns for balanced data (under- and oversampling). (a) 80\% for training, \%20 for testing. (b) 90\% for tranining, 10\% for testing. \label{tabresults_balan}}
+\end{figure}
 
 \begin{description}
   \item[Applying Undersampling] In comparison with those results from Table \ref{tabresults_nobalan}, these go down one point (in the case of randomly made divisions) to six points (sequential divisions). The reason why this happens is that when randomly removing ALLOW patterns, we are really losing information, i. e. key patterns that could be decisive in a good classification of a certain set of test patterns. 
@@ -88,11 +116,13 @@ PART & 96.19 $\pm$ 0.14 & 85.16 & 96.82 $\pm$ 0.09 & 84.50 & 96.09 $\pm$ 0.10 & 
 In both cases it is noticeable that taking the data in a sequential way, instead of randomly, lower the results. It is clear that due to the fact that performing undersampling some patterns are lost while in the case of oversampling they all remain, \textit{undersampling results} are better. Then, in this case the algorithm with best performance is \textit{J48}, though \textit{Random Forest} follows its results very closely in random datasets processing, and \textit{REP Tree}, which is better than the rest when working with sequential data. Nevertheless, generally speaking and given the aforementioned reasons, performing data balancing methods yields worse results.
 
 Furthermore, we have found that for the data sets taken consecutively, the methods always classify worse the DENY labels, as they label them as ALLOW patterns. This is worth further study because it is the worst situation. It would be preferable to have a false positive in a DENY pattern, rather than a false negative and permit a request that is forbidden in the ISP.
-            % podríais citar los trabajos de bancarrotas que hemos
-            % hecho, donde se optimizan por separado los dos tipos de
-            % errores - JJ 
 
-Regarding the obtained rules/trees, we want to remark that the majority are based on the URL in order to discriminate between the two classes, however we also found several ones which consider variables/features different of this to make the decision. For instance:\\
+%-------------------------------------------------------------------
+\section{Rules obtained, a study case}
+%-------------------------------------------------------------------
+\label{cap5:sec:rule}
+
+With regard to the obtained rules/trees, we want to remark that the majority are based on the \ac{URL} in order to discriminate between the two classes, however we also found several ones which consider variables/features different of this to make the decision. For instance:\\
 
 \begin{verbatim}
 IF server_or_cache_address = "90.84.53.17" 
@@ -122,40 +152,16 @@ AND time <= 33758000
 THEN ALLOW
 \end{verbatim}
 
-These are the interesting rules for our purposes, since they are somehow independent of the URL to which the client requests to access. Thus, it would be potentially possible to allow or deny the access to unknown URLs just taking into account some parameters of the session.
+These rules are the most interesting for our purposes, since they are somehow independent of the \ac{URL} to which the client requests to access. Thus, it would be potentially possible to allow or deny the access to unknown \ac{URL}s just taking into account some parameters of the session.
 
-Of course, some of these features depend on the session itself, i.e. they will be computed after the session is over, but the idea in that case would be 'to refine' somehow the existing set of URLs in the White List.
-Thus, when a client requests access to a Whitelisted URL, this will be allow, but after the session is over, and depending on the obtained values, and on one of these classifiers, the URL could be labelled as DENIED for further requests.
+Of course, some of these features depend on the session itself, i.e. they will be computed after the session is over, but the idea in that case would be 'to refine' somehow the existing set of \ac{URL}s in the White List.
+Thus, when a client requests access to a Whitelisted \ac{URL}, this will be allow, but after the session is over, and depending on the obtained values, and on one of these classifiers, the \ac{URL} could be labelled as DENIED for further requests.
 This could be a useful decision-aid tool for the CSO in a company, for instance.
-In the case that the features considered in the rule can be known in advance, such as \texttt{http\_method}, or \texttt{server\_or\_cache\_address}, for instance, the decision could be made in real-time, and thus, a granted URL (Whitelisted) could be DENIED or the other way round.
+In case that the features considered in the rule can be known in advance, such as \texttt{http\_method}, or \texttt{server\_or\_cache\_address}, for example, the decision could be made in real-time, and thus, a granted \ac{URL} (Whitelisted) could be DENIED or the other way round.
 
-The tree-based methods also yield several useful branches in this sense, but they have not been plotted here because of the difficulty for showing/visualizing them properly.
-
-
+%The tree-based methods also yield several useful branches in this sense, but they have not been plotted here because of the difficulty for showing/visualizing them properly.
 
 
-
-%-------------------------------------------------------------------
-\section*{\NotasBibliograficas}
-%-------------------------------------------------------------------
-\TocNotasBibliograficas
-
-Citamos algo para que aparezca en la bibliografía\ldots
-\citep{ldesc2e}
-
-\medskip
-
-Y también ponemos el acrónimo \ac{CVS} para que no cruja.
-
-Ten en cuenta que si no quieres acrónimos (o no quieres que te falle la compilación en ``release'' mientras no tengas ninguno) basta con que no definas la constante \verb+\acronimosEnRelease+ (en \texttt{config.tex}).
-
-
-%-------------------------------------------------------------------
-\section*{\ProximoCapitulo}
-%-------------------------------------------------------------------
-\TocProximoCapitulo
-
-...
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX
