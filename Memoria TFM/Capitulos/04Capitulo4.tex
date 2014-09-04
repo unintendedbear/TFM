@@ -18,7 +18,7 @@ CLARA: What's wrong? Do you think it's not done yet?
 \end{FraseCelebre}
 
 %-------------------------------------------------------------------
-\section{Part I, Perl}
+\section{First implementation, Perl}
 %-------------------------------------------------------------------
 \label{cap4:sec:Perl}
 
@@ -169,7 +169,7 @@ It is important to point out that rules can become trees, but rules cannot alway
 
 In this way, a decision-tree algorithm is a group of conditions organised in a top-down recursive manner in a way that a class is assigned following a path of conditions, from the root of the tree to one of its leaves. Generally speaking, the possible classes to choose are mutually exclusive. Furthermore, these algorithms are also called ``divide-and-conquer'' algorithms. On the other hand, there are the ``separate-and-conquer'' algorithms, which work creating rules one at a time, then the instances covered by the created rule are removed and the next rule is generated from the remaining instances.
 
-A reference to each Weka classifier can be found at \citep{Frank2011}. Below are described the top five techniques, obtained from the best results (See Table \ref{tabresults_todos}) of the experiments done in this stage, along with more specific bibliography. Naïve Bayes method \citep{Bayesian_Classifier_97} has been included as a baseline, normally used in text categorization problems. According to the results, the five selected classifiers are much better than this method.
+A reference to each Weka classifier can be found at \citep{Frank2011}. Below are described the top five techniques, obtained from the best results (See Table \ref{tabresults_todos}) of the experiments done in this stage, along with more specific bibliography. Naïve Bayes method \citep{Bayesian_Classifier_97} has been included as a baseline, normally used in text categorization problems. According to the results, the five selected classifiers are much better than this method. Deeper results are shown in Chapter \ref{cap5:results}.
 
 \begin{table}[htpb]
 \centering 
@@ -228,7 +228,7 @@ REP Tree & \textbf{96.79} & \textbf{97.67} \\
 These methods are then deeply tested on the datasets that result from applying balancing methods over the initial one, and by makin a partition in training and test files. These processes are described in Section \ref{cap4:sec:traintest}.
 
 %-------------------------------------------------------------------
-\section{Part II, Java}
+\section{Second implementation}
 %-------------------------------------------------------------------
 \label{cap4:sec:Java}
 
@@ -241,7 +241,7 @@ Weka had been implemented in Java, and for that reason we started a second imple
 
 The part of data preprocessing through regular expressions is not worth to be detailed, because they are the same as the ones in Perl (see Section \ref{cap4:sec:Perl:subsec:implement}), with little or no difference, and implemented with \texttt{Pattern} and \texttt{Matcher} classes. One difference with Perl is that here is not necessary to have both rules and log data hashes to compare, but here we have created three objects: \texttt{Condition.java}, \texttt{Rule.java}, and \texttt{LogEntry.java}, so the data is stored as an \texttt{ArrayList} of the correspondant objects. These objects has been described in Chapter \ref{cap3:data}.
 
-Now, with regard to the direct management of Weka in Java, an \texttt{ExperimentRunner.java} has been implemented and it is detailed as follows. Starting from the location where the ARFF file is, and the desired type of classifier, we create an Object of the type \texttt{Experiment} (from the weka.jar JAR) and start to customise it:
+Now, with regard to the direct management of Weka in Java, an \textit{ExperimentRunner.java} has been implemented and is called like is shown in Figure \ref{fig:java_exp}. There, it can be seen the syntax for calling the classifiers. Then, starting from the location where the ARFF file is, and the desired type of classifier, we create an Object of the type \texttt{Experiment} (from the weka.jar JAR) and start to customise it:
 
 \begin{verbatim}
 public static Double experimenter(String[] ARFF_File_input,
@@ -257,11 +257,7 @@ SplitEvaluator se  = new ClassifierSplitEvaluator();
 Classifier sec = ((ClassifierSplitEvaluator) se).getClassifier();
 \end{verbatim}
 
-In the code above it is also specified that we are performing classification and not regression.
-
-la la \ref{fig:java_exp} y \ref{fig:java_exp_method}
-
-
+In the code above it is also specified that we are performing classification and not regression. After that, we specify that (for now) the classifier will be trained and tested by a crossvalidation process with 10 folds. This means that the dataset is divided in 10 equal parts and that the classifier will be trained an tested 10 times: each time it is trained with 9 of the 10 parts and the 10th is for testing. After the 10 generations, the results are calculated by averaging.
 
 \begin{verbatim}
 CrossValidationResultProducer cvrp = new CrossValidationResultProducer();
@@ -275,9 +271,7 @@ try {
    	CrossValidationResultProducer.class),
    	CrossValidationResultProducer.class);
  propertyPath[1] = new PropertyNode( sec,
-   	new PropertyDescriptor("classifier",
-   					se.getClass()),
-   					se.getClass());
+   	new PropertyDescriptor("classifier", se.getClass()), se.getClass());
 } catch (IntrospectionException e) {
    	e.printStackTrace();
 }	    
@@ -285,10 +279,14 @@ exp.setResultProducer(cvrp);
 exp.setPropertyPath(propertyPath);
 \end{verbatim}
 
+The next step is to set the times that the experiment will be repeated.
+
 \begin{verbatim}
 exp.setRunLower(1);
 exp.setRunUpper(1);
 \end{verbatim}
+
+And then it is time for setting up the classifier. First, the Weka method \texttt{Utils.splitOptions(classifier\_type)} takes the argument with which we called our ExperimentRunner, and given its syntax (see Figure \ref{fig:java_exp}), parses the options. With those options we build an Object of the type \texttt{Classifier}.
 
 \begin{verbatim}
 String[] options = Utils.splitOptions(classifier_type);
@@ -300,12 +298,16 @@ Classifier c = (Classifier) Utils.forName(Classifier.class,
 exp.setPropertyArray(new Classifier[]{c});
 \end{verbatim}
 
+What is left is to tell the Experimenter where to find the data set whose data we want to use for training and test the classifier. We set the data set with \texttt{exp.setDatasets(model)} and the configuration is almost finished.
+
 \begin{verbatim}
 DefaultListModel model = new DefaultListModel();
 File file = new File(ARFF_File_input[1]);
 model.addElement(file);
 exp.setDatasets(model);
 \end{verbatim}
+
+All the results are displayed in a file with ARFF extension, like the one which contains the dataset to process. This way, here we set up the name of the output file (the same as the input one but with the suffix \textit{\_experimenter\_results}), and the location, the same as the input file.
 
 \begin{verbatim}
 InstancesResultListener irl = new InstancesResultListener();
@@ -317,6 +319,8 @@ irl.setOutputFile(ARFF_File_output);
 exp.setResultListener(irl);
 \end{verbatim}
 
+Now, the configuration of the experiment is complete and we finish the method by initialising and running the experiment. But at the end, in Figure \ref{fig:java_exp_method} it can be seen how the results of the experiments are managed and stored in the set ARFF output file.
+
 \begin{verbatim}
 System.out.println("Initializing...");
 exp.initialize();
@@ -325,6 +329,8 @@ exp.runExperiment();
 System.out.println("Finishing...");
 exp.postProcess();
 \end{verbatim}
+
+Our method returns a \textit{double} variable with the percentage of correct predictions by the classifier or, in other words, its accuracy. Once we have the whole array of percentages, it is easy to choose which ones will be tested with the rest of the files, that have been obtained as detailed in Section \ref{cap4:sec:traintest}.
 
 \begin{figure}[]
 \begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Perl,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
@@ -389,7 +395,7 @@ tester.multiResultsetFull(0, result.attribute("Percent_correct").index());
 ResultMatrix matrix = tester.getResultMatrix();
 return matrix.getMean(0, 0);
 \end{lstlisting}
-\caption{Java code for obtaining the output both in an ARFF file and returning a double with the accuracy percentage.\label{fig:java_exp_method}}
+\caption{Java code for obtaining the output in an ARFF file as well as returning a double with the accuracy percentage.\label{fig:java_exp_method}}
 \end{figure}
 
 %-------------------------------------------------------------------
@@ -397,7 +403,9 @@ return matrix.getMean(0, 0);
 %-------------------------------------------------------------------
 \label{cap4:sec:Java:subsec:perlvsjava}
 
-bla bla \ref{tab:perl_vs_java}.
+There are two implementations, in both Perl and Java, and each one has its advantages and disadvantages. In this subsection, there is a study of the time spent for each language in executing the tasks of parsing the data (Rules, first, and then the Log File), and label the data and storing the results in Weka format. The results can be found in Table \ref{tab:perl_vs_java}. They are completely expected because the strength of Perl is that of extracting data, and because of that it spends 15 seconds less than Java performing this task. On the other hand, Java is much more efficient in labelling the data and storing the data once labelled. Actually, that difference is of 24 seconds with respect to Perl.
+
+It is expected to have a quicker performing by developing in Java, but instead of chosing only one, we have just demonstrated that the best performance can be obtained by using both languages, for different tasks.
 
 \begin{table}[htpb]
 \centering 
@@ -422,9 +430,114 @@ bla bla \ref{tab:perl_vs_java}.
 %-------------------------------------------------------------------
 \label{cap4:sec:traintest}
 
-In \ref{fig:work_diagram_1} is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.
+At this point, we have explained how we reached the first objective we set on the Section \ref{cap1:sec:intro:subsec:objectives} and for accomplish the second, there is a series of different files the should be created, in order to test the classifiers and see how can we obtain the best results. The initial Log File, after being labelled, presents a total of 57502 labelled patterns, which 38972 patterns are allowed and 18530 are denied. We observed that more than half of the initial amount of patterns are labelled, and that the proportion is 2:1 in allows to denies. Hence, after a first set of experiments we obtained the results of Table \ref{tabresults_todos}. From these results, we took the top five classifiers and then prove them with the rest of the files.
 
-In \ref{fig:work_diagram_2} is displayed that two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files.
+The 2:1 proportion means that the data is unbalanced, and that balancing techniques may affect in the results when applied. Also, as it may be recalled, the data tested with the classifiers was used both for training and test by crossvalidation. For the results to be more accurate, the next step is to build separate training and test files to assure that the data used for training is not used again for testing, and vice versa.
+
+The way they have been generated is pretty trivial, but what matters is that each time that some file is created randomly, me made 3 generations of files and the same experiments with every one of them. Then, if an 80\% training file was created by taking the log entries generating a random number, we repeated the process two times more and at the end we had three sets of training and test files, and three group of five experiments for each one. After that, the means and standard deviations were calculated. The statistics of the number of patterns and how the labels are distributed can be found at Tables \ref{tab_stats1}, \ref{tab_stats2}, and \ref{tab_stats3}.
+
+When all the experiments were finished, we went for a step beyond, and realised that some of the connections were made trough the Squid proxy, thus in those cases, the entries were almost the same, but \ac{IP}s changed. Consequently, new files were generated.
+
+Another `issue' related to classification accuracies, was taking care of the repeated core domains. Like with the connections, if a Log Entry with a certain core domain, goes to a training file, and another one (even if the rest of the fields are different) goes to the test file, it may affect the results. As a result, a whole new set of files were created and studied.
+
+This being said, the work has been distributed as follows:
+
+\begin{itemize}
+  \item In \ref{fig:work_diagram_1} is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and then again but with those files separated in training and test files, both randomly and consecutively taken. Two different separations were made: 80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing. The reason for generating these files also keeping the sequence of the initial data and not only randomly, is because the requested \ac{URL}s, or the time of the requesting, can be related.
+  \item In \ref{fig:work_diagram_2} is displayed that two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files. In these steps, the separation 60\% for tranining, 40\% for testing was added.
+\end{itemize}
+
+In the next chapter we will present the results of the experiments, and in Chapter \ref{cap6:conclusions}, the derived conclussions.
+
+\begin{table}[htpb]
+\centering 
+{\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            57502 & 38972 & 18530 & 100 & 67.77 & 32.22 \\
+\hline
+Training 80\% &  45837 & 31026 & 14811 & 79.71 & 67.69 & 32.31 \\
+\hline
+Test 20\% &           11665 & 7946 & 3719 & 20.29 & 68.11 & 31.88 \\
+\hline
+Training 90\% &  51764 & 35102 & 16662 & 90.02 & 67.81 & 32.19 \\
+\hline
+Test 10\% &           5738 & 3870 & 1868 & 9.97 & 67.44 & 32.55 \\
+\hline
+Training 80\% &  46002 & 31178 & 14824 & 80.00 & 67.78 & 32.22 \\
+\hline
+Test 20\% &           11500 & 7794 & 3706 & 19.99 & 67.77 & 32.23 \\
+\hline
+Training 90\% &  51752 & 35075 & 16677 & 90.00 & 67.78 & 32.22 \\
+\hline
+Test 10\% &           5750 & 3897 & 1853 & 9.99 & 67.77 & 32.23 \\
+\hline
+\end{tabular}
+}
+\caption{\label{tab_stats1} Statistics of the files created from the initial file of unbalanced data. It can be seen that after the partition, the ratio between allows and denies remains the same.}
+\end{table}
+
+\begin{table}[htpb]
+\centering 
+{\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            38081 & 19569 & 18512 & 99.99 & 51.38 & 48.61 \\
+\hline
+Training 80\% &  30486 & 15664 & 14822 & 80.05 & 51.38 & 48.61 \\
+\hline
+Test 20\% &           7594 & 3905 & 3689 & 19.94 & 51.42 & 48.58 \\
+\hline
+Training 90\% &  34184 & 17536 & 16648 & 89.76 & 51.29 & 48.70 \\
+\hline
+Test 10\% &           3896 & 2033 & 1863 & 10.23 & 52.18 & 47.81 \\
+\hline
+Training 80\% &  30465 & 15655 & 14810 & 80.00 & 51.38 & 48.61 \\
+\hline
+Test 20\% &           7615 & 3914 & 3701 & 19.99 & 51.39 & 48.60 \\
+\hline
+Training 90\% &  34273 & 17612 & 16661 & 90.00 & 51.38 & 48.61 \\
+\hline
+Test 10\% &           3807 & 1957 & 1850 & 9.99 & 51.40 & 48.59 \\
+\hline
+\end{tabular}
+}
+\caption{\label{tab_stats2} Statistics of the files created after the \textbf{undersampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
+\end{table}
+
+\begin{table}[htpb]
+\centering 
+{\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            76032 & 38972 & 37060 & 99.99 & 51.25 & 48.74 \\
+\hline
+Training 80\% &  60748 & 31104 & 29644 & 79.89 & 51.20 & 48.79 \\
+\hline
+Test 20\% &           15283 & 7867 & 7416 & 20.10 & 51.47 & 48.52 \\
+\hline
+Training 90\% &  68477 & 35047 & 33430 & 90.06 & 51.18 & 48.81 \\
+\hline
+Test 10\% &           7554 & 3924 & 3630 & 9.93 & 51.94 & 48.05 \\
+\hline
+Training 80\% &  60826 & 31178 & 29648 & 80.00 & 51.25 & 48.74 \\
+\hline
+Test 20\% &           15205 & 7793 & 7412 & 19.99 & 51.25 & 48.74 \\
+\hline
+Training 90\% &  68429 & 35075 & 33354 & 90.00 & 51.25 & 48.74 \\
+\hline
+Test 10\% &           7602 & 3896 & 3706 & 9.99 & 51.24 & 48.75 \\
+\hline
+\end{tabular}
+}
+\caption{\label{tab_stats3} Statistics of the files created after the \textbf{oversampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
+\end{table}
 
 \figuraEx{Vectorial/work_diagram_1.pdf}{width=0.8\textwidth}{fig:work_diagram_1}%
 {Diagram showing the first group of experiments performed.}{It is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.}

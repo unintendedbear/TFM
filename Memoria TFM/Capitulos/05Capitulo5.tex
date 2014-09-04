@@ -30,6 +30,106 @@ DALEK. Doctor Who. \textit{The Parting of the Ways}.
 
 All the result tables are publicly accessible through the following link: \url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}
 
+\begin{table*}[htpb]
+\centering
+ \caption{\label{tabresults_nobalan} Percentage of correctly classified patterns for non-balanced data}
+{\small
+\begin{tabular}{|l|l|l|l|l|}
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{80\% Training - 20\% Test} & \multicolumn{2}{c|}{90\% Training - 10\% Test} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & Random (mean) & Sequential & Random (mean) & Sequential \\ 
+\hline
+J48 & 97.56 $\pm$ 0.20 & 88.48 & 97.70 $\pm$ 0.15 & 82.28 \\ 
+\cline{1-1}
+Random Forest & 97.68 $\pm$ 0.20 & 89.77 & 97.63 $\pm$ 0.13 & 82.59 \\ 
+\cline{1-1}
+REP Tree & 97.47 $\pm$ 0.11 & 88.34 & 97.57 $\pm$ 0.01 & 83.20 \\ 
+\cline{1-1}
+NNge & 97.23 $\pm$ 0.10 & 84.41 & 97.38 $\pm$ 0.36 & 80.34 \\ 
+\cline{1-1}
+PART & 97.06 $\pm$ 0.19 & 89.11 & 97.40 $\pm$ 0.16 & 84.17 \\ 
+\hline
+\end{tabular}
+}
+\end{table*}
+
+\begin{table*}[htpb]
+\centering
+ \caption{\label{tabresults_balan} Percentage of correctly classified patterns for balanced data (under- and oversampling)}
+{\small
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\cline{2-9}
+\multicolumn{1}{l|}{} & \multicolumn{4}{c|}{80\% Training - 20\% Test} & \multicolumn{4}{c|}{90\% Training - 10\% Test} \\ 
+\cline{2-9}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} \\ 
+\cline{2-9}
+\multicolumn{1}{l|}{} & Rand (mean) & Sequential & Rand (mean) & Sequential & Rand (mean) & Sequential & Rand (mean) & Sequential \\ 
+\hline
+J48 & 97.05 $\pm$ 0.25 & 84.29 & 97.40 $\pm$ 0.03 & 85.66 & 96.85 $\pm$ 0.35 & 76.44 & 97.37 $\pm$ 0.06 & 74.24 \\ 
+\cline{1-1}
+Random Forest & 96.61 $\pm$ 0.17 & 88.59 & 97.16 $\pm$ 0.19 & 89.03 & 96.99 $\pm$ 0.13 & 79.98 & 97.25 $\pm$ 0.33 & 81.33 \\ 
+\cline{1-1}
+REP Tree & 96.52 $\pm$ 0.13 & 85.54 & 97.13 $\pm$ 0.25 & 85.41 & 96.55 $\pm$ 0.10 & 77.65 & 97.14 $\pm$ 0.09 & 76.81 \\ 
+\cline{1-1}
+NNge & 96.56 $\pm$ 0.42 & 85.28 & 96.90 $\pm$ 0.28 & 83.46 & 96.33 $\pm$ 0.05 & 81.93 & 96.91 $\pm$ 0.06 & 78.73 \\ 
+\cline{1-1}
+PART & 96.19 $\pm$ 0.14 & 85.16 & 96.82 $\pm$ 0.09 & 84.50 & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\ 
+\hline
+\end{tabular}
+}
+\end{table*}
+
+\begin{description}
+  \item[Applying Undersampling] In comparison with those results from Table \ref{tabresults_nobalan}, these go down one point (in the case of randomly made divisions) to six points (sequential divisions). The reason why this happens is that when randomly removing ALLOW patterns, we are really losing information, i. e. key patterns that could be decisive in a good classification of a certain set of test patterns. 
+  \item[Applying Oversampling] Here we have duplicated the DENY patterns so their number could be up to that of the ALLOW patterns. However, it does not work as well as in other approaches which uses numerical computations for creating the new patterns to include in the minority class. Consequently, the results have been decreased.
+\end{description}
+
+In both cases it is noticeable that taking the data in a sequential way, instead of randomly, lower the results. It is clear that due to the fact that performing undersampling some patterns are lost while in the case of oversampling they all remain, \textit{undersampling results} are better. Then, in this case the algorithm with best performance is \textit{J48}, though \textit{Random Forest} follows its results very closely in random datasets processing, and \textit{REP Tree}, which is better than the rest when working with sequential data. Nevertheless, generally speaking and given the aforementioned reasons, performing data balancing methods yields worse results.
+
+Furthermore, we have found that for the data sets taken consecutively, the methods always classify worse the DENY labels, as they label them as ALLOW patterns. This is worth further study because it is the worst situation. It would be preferable to have a false positive in a DENY pattern, rather than a false negative and permit a request that is forbidden in the ISP.
+            % podríais citar los trabajos de bancarrotas que hemos
+            % hecho, donde se optimizan por separado los dos tipos de
+            % errores - JJ 
+
+Regarding the obtained rules/trees, we want to remark that the majority are based on the URL in order to discriminate between the two classes, however we also found several ones which consider variables/features different of this to make the decision. For instance:\\
+
+\begin{verbatim}
+IF server_or_cache_address = "90.84.53.17" 
+THEN DENY
+
+IF server_or_cache_address = "173.194.78.103" 
+THEN ALLOW
+
+IF content_type = 
+ "application/vnd.google.safebrowsing-update" 
+THEN DENY
+
+IF server_or_cache_address = "173.194.78.94" 
+AND content_type_MCT = "text"
+AND content_type = "text/html"
+AND http_reply_code = "200"
+AND bytes > 772
+THEN ALLOW
+
+IF server_or_cache_address = "173.194.34.225"
+AND http_method = "GET"
+AND duration_milliseconds > 52
+THEN ALLOW
+
+IF server_or_cache_address = "90.84.53.49"
+AND time <= 33758000
+THEN ALLOW
+\end{verbatim}
+
+These are the interesting rules for our purposes, since they are somehow independent of the URL to which the client requests to access. Thus, it would be potentially possible to allow or deny the access to unknown URLs just taking into account some parameters of the session.
+
+Of course, some of these features depend on the session itself, i.e. they will be computed after the session is over, but the idea in that case would be 'to refine' somehow the existing set of URLs in the White List.
+Thus, when a client requests access to a Whitelisted URL, this will be allow, but after the session is over, and depending on the obtained values, and on one of these classifiers, the URL could be labelled as DENIED for further requests.
+This could be a useful decision-aid tool for the CSO in a company, for instance.
+In the case that the features considered in the rule can be known in advance, such as \texttt{http\_method}, or \texttt{server\_or\_cache\_address}, for instance, the decision could be made in real-time, and thus, a granted URL (Whitelisted) could be DENIED or the other way round.
+
+The tree-based methods also yield several useful branches in this sense, but they have not been plotted here because of the difficulty for showing/visualizing them properly.
 
 
 
