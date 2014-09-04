@@ -140,8 +140,20 @@ Once the two hashes of data were created, they were compared in such a way that 
 One of the problems was to extract from a whole URL the part that was more interesting for our purposes. It is important to point out that in a log with thousands of entries, an enormous variety of \ac{URL}s can be found, since some can belong to advertisements, images, videos, or even some others does not have a domain name but are given directly by
 an \ac{IP} address. For this reason, we have taken into account that for a domain name, many subdomains (separated by dots) could be considered, and their hierarchy grows from the right towards the left. The highest level of the domain name space is the \ac{TLD} at the right-most part of the domain name, divided itself in country code TLDs and generic \ac{TLD}s. Then, a domain and a number of subdomains follow the \ac{TLD} (again, from right to left). In this way, the \ac{URL}s in the used log are such as \textit{http://subdomain...subdomain.domain.TLD/} \textit{other\_subdirectories}. However, for the ARFF\footnote{Format of Weka files.} file to be created, only the domain (without the subdomains and the \ac{TLD}) should be considered, because there are too many different \ac{URL}s to take into consideration. Hence, applying another regular expression, the data parser implemented in Perl obtains all the core domains of the \ac{URL}s, which makes 976 domains in total.
 
+
 \begin{figure}[htb]
 \centering
+\subfloat[Squid Log Entry in CSV]{
+\begin{tabular}{ | l | }
+\hline
+``http\_reply\_code'';``http\_method'';``duration\_milliseconds'';``content\_type'';\\``server\_or\_cache\_address'';``time'';``squid\_hierarchy'';``bytes'';\\``url'';``client\_address'' \\
+\\
+  200;``GET'';1114;``application/octet-stream'';\\``x.x.x.x'';``08:30:08'';``DEFAULT\_PARENT'';106961;\\``http://www.one.example.com'';``x.x.x.x'' \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Hash Log Entry in Perl]{
 \begin{tabular}{ p{0.1cm} p{0.1cm} p{6cm} }
   \texttt{\%logdata~=~(} & & \\
    & \texttt{entry~=>\{} & \\
@@ -158,10 +170,11 @@ an \ac{IP} address. For this reason, we have taken into account that for a domai
    & \texttt{\},} & \\
   \texttt{);} & & \\
 \end{tabular}
-\caption{Perl hash with an example entry. The actual hash used for this work has a total of 100000 entries, with more than a half labelled as \textit{ALLOW} or \textit{DENY} after the comparing process. \label{fig:data_hash}}
+}
+\caption{(a) Structure of a log entry (fields and an entry example) of Squid. (b) Perl hash with an example entry. The actual hash used for this work has a total of 100000 entries, with more than a half labelled as \textit{ALLOW} or \textit{DENY} after the comparing process. \label{fig:data_hash}}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[]
 \begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Java,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
 public LogEntry (int http_reply_code, String http_method, int duration_milliseconds, String content_type_MCT, String content_type, String server_or_cache_address, String time, String squid_hierarchy, int bytes, String url, String url_core, String url_TLD, String client_address) {
 		this.http_reply_code = http_reply_code;

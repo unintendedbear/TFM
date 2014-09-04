@@ -18,19 +18,150 @@ CLARA: What's wrong? Do you think it's not done yet?
 \end{FraseCelebre}
 
 %-------------------------------------------------------------------
-\section{Perl Implementation}
+\section{Part I, Perl}
 %-------------------------------------------------------------------
 \label{cap4:sec:Perl}
 
+Perl was chosen for the initial development of the environment in which the data would be prepocessed and experiments would be developed. As a scripting language, it allows a faster application development than other languages such C or Java (although we have used Java in this work too, and in Section \ref{cap4:sec:Java} it is explained why), and faster performance too. In \citep{oreilly_perl07}, Tim O'Reilly, founder and \ac{CEO} of O'Reilly Media Inc \footnote{\url{http://www.oreilly.com/}}, and Ben Smith deeply describe the advantages of using Perl for every application, and also they present 11 actual cases in where the use of Perl enhanced their situations.
+
+But the most important advantage of Perl is that is the best language for Information Processing. Thus, by means of its regular expressions, patterns of any type (depending on what the programmer is looking for) can be recognised, processed, stored, or studied. And even though Java uses regular expressions too, Perl scripting nature makes easier to use them. Furthermore, \ac{URL} study and HTML (body of free form text) processing is the ideal application for this Perl feature.
+
 %-------------------------------------------------------------------
-\subsection{Perl advantages and disadvantages}
+\subsection{Implementation}
 %-------------------------------------------------------------------
-\label{cap4:sec:Perl:subsec:advantages}
+\label{cap4:sec:Perl:subsec:implement}
+
+We already presented in Sections \ref{cap3:sec:rules:subsec:drools} and \ref{cap3:sec:rules:subsec:logdata} the structure of the data to be processed and the desired output. As said before, Perl has the possibility of a quick parsing of files (bigger or small size) by using regular expressions. The next subsections describe how the parsing methods for Drool Rules and Squid Log Files were implemented. Then, it is explained how we ended with a Weka File (ARFF format) after a labelling process, and this way we accomplish the first objective of this work (see Section \ref{cap1:sec:intro:subsec:objectives}).
+
+%-------------------------------------------------------------------
+\subsubsection{Rules}
+%-------------------------------------------------------------------
+\label{cap4:sec:Perl:subsec:implement:subsec:rules}
+
+As seen in Figure \ref{fig:drools_hash} (a), we are interested in both left and right side of the rule. In Table \ref{tab:drools_example} is depicted an example of the format of those sides of a normal rule, extracted from the policy ``Every intent of visualisation of a MP4 video streaming will be denied from the system''. More precisely, this example rule has four conditions, which have to occur in a log entry to finally apply a \textit{DENY} over it. At the same time, a condition has three fields: data type, relationship, and value.
+
+To this end, we have applied the regular expressions defined in Figure \ref{fig:perl_rule_recognition} and obtained a hash with the format shown in Figure \ref{fig:drools_hash} (b).
+
+\begin{table}[htpb]
+\centering
+{
+\begin{tabular}{ | l | }
+\hline
+  /* Left Side of the Rule */ \\
+  \hline
+  squid:Squid(dif\_MCT == "video", bytes > 1000000, content\_type matches\\"*.application.*, url matches "*.p2p.* ) \\
+  \hline
+  /* Right Side of the Rule */ \\
+  \hline
+  PolicyDecisionPoint.deny(); \\
+\hline
+\end{tabular} 
+}
+\caption{Specification of a Rule in Drools, using also Squid syntax. \label{tab:drools_example}}
+\end{table}
+
+\begin{figure}[]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Perl,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+#Regular expressions to detect the left side of the rule: the conditions.
+/\s*(.*)(==)"(.+)"/
+/\s*(.+)([>|<|=])(\d+)/
+/\s*(.+) (.+) "?\*\.(.+)\.\*"?/
+#Regular expression to detect the action to apply to a log entry that meets the conditions.
+/^\D+\.(.+)\(\)\;/
+\end{lstlisting}
+\caption{Perl regular expressions for obtaining information from the Rules.\label{fig:perl_rule_recognition}}
+\end{figure}
+
+%-------------------------------------------------------------------
+\subsubsection{Log Data}
+%-------------------------------------------------------------------
+\label{cap4:sec:Perl:subsec:implement:subsec:log}
+
+The first file to be processed was already mentioned in Section \ref{cap3:sec:log}, and it is a file with CSV extension, with the hundred thousand entries belonging to two work hours of the company. There is an example of one of the log entries in Figure \ref{fig:data_hash} (a), and some points have to be taken into account:
+
+\begin{enumerate}
+  \item The first row of the CSV file contains the fields that identify each one of the values in the subsequent rows.
+  \item The values are separated by a semicolon.
+  \item Some values are in between quotation marks, and others are not.
+  \item The format of the data in the values is important when constructing a regular expression (for instance, the time).
+  \item We are interested in extracting information about some values before storing them. First, "content\_type" (MIME types)\footnote{\url{http://www.w3.org/TR/html4/types.html\#h-6.7}} is usually formed by the \ac{MCT} (application, video, etc) and a subtype, and the parsing method should extract both (when present).
+  \item Also, the lexical features of the \ac{URL} should be studied (see Section \ref{cap2:sec:url}). In this first research, we have worked with the core domains, due to many many rules in the supplied policies were focused in avoiding employees to enter dangerous sites.
+\end{enumerate}
+
+Hence, the created regular expressions for the creation of a hash with the data (shown in Figure \ref{fig:data_hash} (b)) are described in Figure \ref{fig:perl_log_recognition}.
+
+\begin{figure}[]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Perl,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+#Cleaning quotation marks of the values which have them
+/"(.+)"/
+#Detecting and storing separately the Main Content Type and the subtype (in case there is a subtype)
+/^(\w+-*\w+)[\/?]\w+/
+#Detecting time format
+/^\d{1,2}\:\d{2}\:\d{2}/
+#Regular expressions related to URLs, they are already prepared for storing other lexical properties for its study, such as Top Level Domains, subdomains, and paths.
+/^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/
+/^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/
+/^NONE\:\/\// #This has to be included in order to avoid carrying errors during the process.
+\end{lstlisting}
+\caption{Perl regular expressions for obtaining information from the Log File.\label{fig:perl_log_recognition}}
+\end{figure}
+
+%-------------------------------------------------------------------
+\subsubsection{Labelling and creating the ARFF file}
+%-------------------------------------------------------------------
+\label{cap4:sec:Perl:subsec:implement:subsec:labels}
+
+To finally fullfill the first objective, and now that we have two hashes with information, a method should be created in order to see if any log entry meets enough conditions to be labelled. It may happen, though, that for a certain connection, more than one rule could be applied. If those rules have the same action to take (all allow the action, or all deny it), there is no conflict, but it is the other way around. When a conflict appears between an allow and a deny label, we always apply the deny label over the allow, for security reasons.
+
+Therefore, we make a verification for each entry, to see what rules can be apply to it and, at the end, we add a label as another field of the data hash. If there is no rule to apply to the connection in the log entry, the label field contains \textit{no\_label}.
+
+Finally, data is needed to be in a format that Weka can manage, and hence we translate the obtained hash of labelled data to ARFF format, they way it is described in Figure \ref{fig:perl_arff}. Ir worths a comment that in Perl is very easy to obtain the rank of values for a categorical attribute, by following this process:
+
+\begin{enumerate}
+  \item Create a hash for each categorical attribute.
+  \item Go over the values of the attribute, adding them to the hash as keys.
+  \item If a value is repeated, the value of the pair `key-value' is incremented by 1.
+  \item We obtain the rank of values simply accessing to the array of keys of the hash.
+\end{enumerate}
+
+Then, we fill the rest of the ARFF file by adding the same entries as were in the CSV, but taking care of the new features (including them in the same order as they are initialised in the attributes specification) and their format.
+
+\begin{figure}[]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Perl,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+my $header=<<EOC;
+\@RELATION logsUrl
+
+EOC
+  $header .= "\@ATTRIBUTE http_reply_code { ".join(",", @respuestas ).
+    " }\n\@ATTRIBUTE http_method { ".join(",", @metodos).
+      " }\n\@ATTRIBUTE duration_milliseconds REAL".
+	"\n\@ATTRIBUTE content_type_MCT { ".join(",", @MCTs ).
+	" }\n\@ATTRIBUTE content_type { ".join(",", @ctype ).
+	" }\n\@ATTRIBUTE server_or_cache_address { ".join(",", @serveradd ).
+	" }\n\@ATTRIBUTE time DATE \"HH:mm:ss\"".
+	"\n\@ATTRIBUTE squid_hierarchy { ".join(",", @squidh ).
+	" }\n\@ATTRIBUTE bytes REAL".
+	"\n\@ATTRIBUTE url { ".join(",", @coredomains ).
+	" }\n\@ATTRIBUTE client_address { ".join(",", @clientadd ).
+	" }\n\@ATTRIBUTE label { ".join(",", @etiquetas ).
+	" }\n\n\@DATA\n";
+
+my $salida = "$header\n";
+my $count = 0;
+for my $r (@rows ) {
+	$salida .= join(", ", @$r ).", ".$logentradas{$total_entradas[$count]}{"etiqueta"}."\n";
+	$count++;
+}
+\end{lstlisting}
+\caption{Perl code for transforming a hash of data into ARFF format, in order to be read by Weka.\label{fig:perl_arff}}
+\end{figure}
 
 %-------------------------------------------------------------------
 \section{Weka}
 %-------------------------------------------------------------------
 \label{cap4:sec:Weka}
+
+The reason for using Weka \citep{weka:site} is because it is a collection of State-of-the-Art machine learning algorithms and data preprocessing tools that are key for data mining processes \citep{Frank2011}. Then, it matches perfectly with our needing of trying as many classification methods as possible, to see which ones work better with our data.
 
 As said in Section \ref{cap3:sec:log}, the data used for this work is not only numerical or nominal, thus, only classification algorithms that support both types of data have been considered. Weka has a great number of possible algorithms to work with, so we have conducted a preselection phase trying to choose those which would yield better results in the experiments. More specifically, we have focused on rule-based and decision-tree-based algorithms. 
 
@@ -41,15 +172,14 @@ In this way, a decision-tree algorithm is a group of conditions organised in a t
 A reference to each Weka classifier can be found at \citep{Frank2011}. Below are described the top five techniques, obtained from the best results (See Table \ref{tabresults_todos}) of the experiments done in this stage, along with more specific bibliography. Naïve Bayes method \citep{Bayesian_Classifier_97} has been included as a baseline, normally used in text categorization problems. According to the results, the five selected classifiers are much better than this method.
 
 \begin{table}[htpb]
-\centering
- \caption{\label{tabresults_todos} Results of all the tested classification methods on balanced data. The best ones are marked in boldface.}
+\centering 
 {\small
 \begin{tabular}{|l|l|l|}
 \cline{2-3}
 \multicolumn{1}{l|}{} & Undersampling & Oversampling \\ 
 \hline
 Naïve Bayes & 91.12 & 91.77 \\ 
-\hline
+\cline{1-1}
 Conjunctive Rule & 60.14 & 60.02 \\ 
 \cline{1-1}
 Decision Table & 94.08 & 90.29 \\ 
@@ -84,31 +214,223 @@ REP Tree & \textbf{96.79} & \textbf{97.67} \\
 \hline
 \end{tabular}
 }
+\caption{\label{tabresults_todos} Results of all the tested classification methods on balanced data. The best ones are marked in boldface.}
 \end{table}
 
-
 \begin{description}
-   \item[J48] This classifier generates a pruned or unpruned C4.5 decision tree. Described for the first time in 1993 by \cite{Quinlan1993}, this machine learning method builds a decision tree selecting, for each node, the best attribute for splitting and create the next nodes. An attribute is selected as `the best' by evaluating the difference in entropy (information gain) resulting from choosing that attribute for splitting the data. In this way, the tree continues to grow till there are not attributes anymore for further splitting, meaning that the resulting nodes are instances of single classes. 
+   \item[J48] This classifier generates a pruned or unpruned C4.5 decision tree. Described for the first time in 1993 by \citep{Quinlan1993}, this machine learning method builds a decision tree selecting, for each node, the best attribute for splitting and create the next nodes. An attribute is selected as `the best' by evaluating the difference in entropy (information gain) resulting from choosing that attribute for splitting the data. In this way, the tree continues to grow till there are not attributes anymore for further splitting, meaning that the resulting nodes are instances of single classes. 
    \item[Random Forest] This manner of building a decision tree can be seen as a randomization of the previous C4.5 process. It was stated by \citep{Breiman2001} and consist of, instead of choosing `the best' attribute, the algorithm randomly chooses one between a group of attributes from the top ones. The size of this group is customizable in Weka.
    \item[REP Tree] Is another kind of decision tree, it means Reduced Error Pruning Tree. Originally stated by \citep{Quinlan1987}, this method builds a decision tree using information gain, like C4.5, and then prunes it using reduced-error pruning. That means that the training dataset is divided in two parts: one devoted to make the tree grow and another for pruning. For every subtree (not a class/leaf) in the tree, it is replaced by the best possible leaf in the pruning three and then it is tested with the test dataset if the made prune has improved the results. A deep analysis about this technique and its variants can be found in \citep{Elomaa2001}.
    \item[NNge] Nearest-Neighbor machine learning method of generating rules using non-nested generalised exemplars, i.e., the so called `hyperrectangles' for being multidimensional rectangular regions of attribute space \citep{Martin1995}. The NNge algorithm builds a ruleset from the creation of this hyperrectangles. They are non-nested (overlapping is not permitted), which means that the algorithm checks, when a proposed new hyperrectangle created from a new generalisation, if it has conflicts with any region of the attribute space. This is done in order to avoid that an example is covered by more than one rule (two or more).
    \item[PART] It comes from `partial' decision trees, for it builds its rule set from them \citep{Frank1998}. The way of generating a partial decision tree is a combination of the two aforementioned strategies ``divide-and-conquer'' and ``separate-and-conquer'', gaining then flexibility and speed. When a tree begins to grow, the node with lowest information gain is the chosen one for starting to expand. When a subtree is complete (it has reached its leaves), its substitution by a single leaf is considered. At the end the algorithm obtains a partial decision tree instead of a fully explored one, because the leafs with largest coverage become rules and some subtrees are thus discarded.
  \end{description} 
 
-These methods will be deeply tested on the dataset (balanced and unbalanced) in the following Chapter.
+These methods are then deeply tested on the datasets that result from applying balancing methods over the initial one, and by makin a partition in training and test files. These processes are described in Section \ref{cap4:sec:traintest}.
 
 %-------------------------------------------------------------------
-\section{Java Implementation}
+\section{Part II, Java}
 %-------------------------------------------------------------------
 \label{cap4:sec:Java}
 
+Weka had been implemented in Java, and for that reason we started a second implementation with this language. As said in the previous Section \ref{cap4:sec:Perl}, the developing time with Java is higher, but in general the performance is better (see results in Section \ref{cap4:sec:Java:subsec:perlvsjava}), and we also have the possibility of developing a method for lauching the experiments and not doing them one by one. But if Perl had the advantage of being the best for preprocessing with the regular expressions, Java has the feature of directly process Weka output and, this way, obtaining reports and rankings with the best techniques.
+
 %-------------------------------------------------------------------
-\subsection{Java advantages and disadvantages}
+\subsection{Implementation}
 %-------------------------------------------------------------------
-\label{cap4:sec:Java:subsec:advantages}
+\label{cap4:sec:Java:subsec:implement}
+
+The part of data preprocessing through regular expressions is not worth to be detailed, because they are the same as the ones in Perl (see Section \ref{cap4:sec:Perl:subsec:implement}), with little or no difference, and implemented with \texttt{Pattern} and \texttt{Matcher} classes. One difference with Perl is that here is not necessary to have both rules and log data hashes to compare, but here we have created three objects: \texttt{Condition.java}, \texttt{Rule.java}, and \texttt{LogEntry.java}, so the data is stored as an \texttt{ArrayList} of the correspondant objects. These objects has been described in Chapter \ref{cap3:data}.
+
+Now, with regard to the direct management of Weka in Java, an \texttt{ExperimentRunner.java} has been implemented and it is detailed as follows. Starting from the location where the ARFF file is, and the desired type of classifier, we create an Object of the type \texttt{Experiment} (from the weka.jar JAR) and start to customise it:
+
+\begin{verbatim}
+public static Double experimenter(String[] ARFF_File_input,
+                                  String classifier_type)
+                                  throws Exception {
+	
+System.out.println("Setting up...");
+Experiment exp = new Experiment();
+exp.setPropertyArray(new Classifier[0]);
+exp.setUsePropertyIterator(true);
+  
+SplitEvaluator se  = new ClassifierSplitEvaluator();
+Classifier sec = ((ClassifierSplitEvaluator) se).getClassifier();
+\end{verbatim}
+
+In the code above it is also specified that we are performing classification and not regression.
+
+la la \ref{fig:java_exp} y \ref{fig:java_exp_method}
 
 
 
+\begin{verbatim}
+CrossValidationResultProducer cvrp = new CrossValidationResultProducer();
+cvrp.setNumFolds(10);
+cvrp.setSplitEvaluator(se);
+      
+PropertyNode[] propertyPath = new PropertyNode[2];
+try {
+ propertyPath[0] = new PropertyNode(se,
+ 		new PropertyDescriptor("splitEvaluator",
+   	CrossValidationResultProducer.class),
+   	CrossValidationResultProducer.class);
+ propertyPath[1] = new PropertyNode( sec,
+   	new PropertyDescriptor("classifier",
+   					se.getClass()),
+   					se.getClass());
+} catch (IntrospectionException e) {
+   	e.printStackTrace();
+}	    
+exp.setResultProducer(cvrp);
+exp.setPropertyPath(propertyPath);
+\end{verbatim}
+
+\begin{verbatim}
+exp.setRunLower(1);
+exp.setRunUpper(1);
+\end{verbatim}
+
+\begin{verbatim}
+String[] options = Utils.splitOptions(classifier_type);
+String classname = options[0];
+options[0]  = "";
+Classifier c = (Classifier) Utils.forName(Classifier.class,
+                                          classname,
+                                          options);
+exp.setPropertyArray(new Classifier[]{c});
+\end{verbatim}
+
+\begin{verbatim}
+DefaultListModel model = new DefaultListModel();
+File file = new File(ARFF_File_input[1]);
+model.addElement(file);
+exp.setDatasets(model);
+\end{verbatim}
+
+\begin{verbatim}
+InstancesResultListener irl = new InstancesResultListener();
+String ARFF_File_name = ARFF_File_input[0].substring(0,
+                                          ARFF_File_input[0].length()-5);
+File ARFF_File_output = new File("/home/paloma/workspace/KRS_Prototype
+                    /ARFF/"+ARFF_File_name+"_experimenter_results.arff");
+irl.setOutputFile(ARFF_File_output);
+exp.setResultListener(irl);
+\end{verbatim}
+
+\begin{verbatim}
+System.out.println("Initializing...");
+exp.initialize();
+System.out.println("Running...");
+exp.runExperiment();
+System.out.println("Finishing...");
+exp.postProcess();
+\end{verbatim}
+
+\begin{figure}[]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Perl,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+/* Definition of the Weka experiments. */
+String[] experiments = new String[11];
+experiments[0] = "NaiveBayes";
+experiments[1] = "DecisionTable -X 1 -S \"weka.attributeSelection.BestFirst -D 1 -N 5\"";
+experiments[2] = "JRip -F 3 -N 2.0 -O 2 -S 1";
+experiments[3] = "OneR -B 6";
+experiments[4] = "PART -M 2 -C 0.25 -Q 1";
+experiments[5] = "ZeroR";
+experiments[6] = "DecisionStump";
+experiments[7] = "J48 -C 0.25 -M 2";
+experiments[8] = "RandomForest -I 10 -K 0 -S 1 -num-slots 1";
+experiments[9] = "RandomTree -K 0 -M 1.0 -V 0.001 -S 1";
+experiments[10] = "REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
+
+/* Array percentages for storing the accuracy obtained after each experiment. */
+Double[] percentages = new Double[experiments.length]; 
+
+/* Loop for launching the experiments. */	
+int i;
+for ( i = 0; i < experiments.length; i++) {
+	System.out.println("Launching "+experiments[i]+"...");
+	Double temp_percentage = ExperimentRunner.experimenter(ARFF_File_name, experiments[i]);
+	if (!temp_percentage.isNaN()) {	
+		percentages[i] = temp_percentage;
+		System.out.println(percentages[i]);
+	}
+}
+\end{lstlisting}
+\caption{Java code for setting up the experiments with Weka and obtain an array of percentages of successfulness with each classifier.\label{fig:java_exp}}
+\end{figure}
+
+\begin{figure}[]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Perl,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+PairedTTester tester = new PairedCorrectedTTester();
+Instances result = new Instances(new BufferedReader(new FileReader(irl.getOutputFile())));
+tester.setInstances(result);
+tester.setSortColumn(-1);
+tester.setRunColumn(result.attribute("Key_Run").index());
+tester.setFoldColumn(result.attribute("Key_Fold").index());
+tester.setDatasetKeyColumns(
+new Range(
+   "" 
+   + (result.attribute("Key_Dataset").index() + 1)));
+tester.setResultsetKeyColumns(
+new Range(
+   "" 
+   + (result.attribute("Key_Scheme").index() + 1)
+   + ","
+   + (result.attribute("Key_Scheme_options").index() + 1)
+   + ","
+   + (result.attribute("Key_Scheme_version_ID").index() + 1)));
+tester.setResultMatrix(new ResultMatrixPlainText());
+tester.setDisplayedResultsets(null);       
+tester.setSignificanceLevel(0.05);
+tester.setShowStdDevs(true);
+
+/* Fill result matrix (but discarding the output) */
+tester.multiResultsetFull(0, result.attribute("Percent_correct").index());
+ResultMatrix matrix = tester.getResultMatrix();
+return matrix.getMean(0, 0);
+\end{lstlisting}
+\caption{Java code for obtaining the output both in an ARFF file and returning a double with the accuracy percentage.\label{fig:java_exp_method}}
+\end{figure}
+
+%-------------------------------------------------------------------
+\subsection{Perl performance vs. Java performance}
+%-------------------------------------------------------------------
+\label{cap4:sec:Java:subsec:perlvsjava}
+
+bla bla \ref{tab:perl_vs_java}.
+
+\begin{table}[htpb]
+\centering 
+{\small
+\begin{tabular}{l|l|l|}
+\cline{2-3}
+& \multicolumn{2}{ |c| }{Average time (sec)}\\ 
+\hline
+\multicolumn{1}{ |l| }{Action performed} & Perl & Java \\ 
+\hline
+\multicolumn{1}{ |l| }{Parsing Rules and Data} & 2.156 & 16.663 \\ 
+\hline
+\multicolumn{1}{ |l| }{Labelling and Creating ARFF format File} & 74.355 & 50.816 \\ 
+\hline
+\end{tabular}
+}
+\caption{Comparison of the performance time while preprocessing the information between Perl and Java.{\label{tab:perl_vs_java}}}
+\end{table}
+
+%-------------------------------------------------------------------
+\section{File partitioning}
+%-------------------------------------------------------------------
+\label{cap4:sec:traintest}
+
+In \ref{fig:work_diagram_1} is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.
+
+In \ref{fig:work_diagram_2} is displayed that two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files.
+
+\figuraEx{Vectorial/work_diagram_1.pdf}{width=0.8\textwidth}{fig:work_diagram_1}%
+{Diagram showing the first group of experiments performed.}{It is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.}
+
+\figuraEx{Vectorial/work_diagram_2.pdf}{width=0.8\textwidth}{fig:work_diagram_2}%
+{Diagram showing the second and third group of experiments made.}{Two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files.}
 
 
 % Variable local para emacs, para  que encuentre el fichero maestro de

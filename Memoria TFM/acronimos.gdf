@@ -30,6 +30,8 @@
 
 @entry{CSO, , \emph{Chief Security Officer}}
 
+@entry{CEO, , \emph{Chief Executive Officer}}
+
 @entry{CISO, , \emph{Chief Information Security Officer}}
 
 @entry{LDAP, , \emph{Lightweight Directory Access Control}}
@@ -67,3 +69,5 @@
 @entry{CSP, , \emph{Company Security Policies}}
 
 @entry{CI, , \emph{Computational Intelligence}}
+
+@entry{MCT, , \emph{Main Content Type}}
