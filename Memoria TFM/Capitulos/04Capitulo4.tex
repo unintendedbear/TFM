@@ -84,7 +84,7 @@ The first file to be processed was already mentioned in Section \ref{cap3:sec:lo
   \item The values are separated by a semicolon.
   \item Some values are in between quotation marks, and others are not.
   \item The format of the data in the values is important when constructing a regular expression (for instance, the time).
-  \item We are interested in extracting information about some values before storing them. First, "content\_type" (MIME types)\footnote{\url{http://www.w3.org/TR/html4/types.html\#h-6.7}} is usually formed by the \ac{MCT} (application, video, etc) and a subtype, and the parsing method should extract both (when present).
+  \item We are interested in extracting information about some values before storing them. First, ``content\_type'' (MIME types)\footnote{\url{http://www.w3.org/TR/html4/types.html\#h-6.7}} is usually formed by the \ac{MCT} (application, video, etc) and a subtype, and the parsing method should extract both (when present).
   \item Also, the lexical features of the \ac{URL} should be studied (see Section \ref{cap2:sec:url}). In this first research, we have worked with the core domains, due to many many rules in the supplied policies were focused in avoiding employees to enter dangerous sites.
 \end{enumerate}
 
@@ -120,7 +120,7 @@ Finally, data is needed to be in a format that Weka can manage, and hence we tra
 \begin{enumerate}
   \item Create a hash for each categorical attribute.
   \item Go over the values of the attribute, adding them to the hash as keys.
-  \item If a value is repeated, the value of the pair `key-value' is incremented by 1.
+  \item If a value is repeated, the value of the pair ``key-value'' is incremented by 1.
   \item We obtain the rank of values simply accessing to the array of keys of the hash.
 \end{enumerate}
 
@@ -228,7 +228,7 @@ REP Tree & \textbf{96.79} & \textbf{97.67} \\
 These methods are then deeply tested on the datasets that result from applying balancing methods over the initial one, and by makin a partition in training and test files. These processes are described in Section \ref{cap4:sec:traintest}.
 
 %-------------------------------------------------------------------
-\section{Second implementation}
+\section{Second implementation, Java}
 %-------------------------------------------------------------------
 \label{cap4:sec:Java}
 
@@ -430,11 +430,11 @@ It is expected to have a quicker performing by developing in Java, but instead o
 %-------------------------------------------------------------------
 \label{cap4:sec:traintest}
 
-At this point, we have explained how we reached the first objective we set on the Section \ref{cap1:sec:intro:subsec:objectives} and for accomplish the second, there is a series of different files the should be created, in order to test the classifiers and see how can we obtain the best results. The initial Log File, after being labelled, presents a total of 57502 labelled patterns, which 38972 patterns are allowed and 18530 are denied. We observed that more than half of the initial amount of patterns are labelled, and that the proportion is 2:1 in allows to denies. Hence, after a first set of experiments we obtained the results of Table \ref{tabresults_todos}. From these results, we took the top five classifiers and then prove them with the rest of the files.
+At this point, we have explained how we reached the first objective we set on the Section \ref{cap1:sec:intro:subsec:objectives} and for accomplish the second, there is a series of different files the should be created, in order to test the classifiers and see how can we obtain the best results. The initial Log File, after being labelled, presents a total of 57502 labelled patterns, which 38972 patterns are allowed and 18530 are denied. We observed that more than half of the initial amount of patterns are labelled, and that the ratio is 2:1 in allows to denies. Hence, after a first set of experiments we obtained the results of Table \ref{tabresults_todos}. From these results, we took the top five classifiers and then prove them with the rest of the files.
 
-The 2:1 proportion means that the data is unbalanced, and that balancing techniques may affect in the results when applied. Also, as it may be recalled, the data tested with the classifiers was used both for training and test by crossvalidation. For the results to be more accurate, the next step is to build separate training and test files to assure that the data used for training is not used again for testing, and vice versa.
+The 2:1 ratio means that the data is unbalanced, and that balancing techniques may affect in the results when applied. Also, as it may be recalled, the data tested with the classifiers was used both for training and test by crossvalidation. For the results to be more accurate, the next step is to build separate training and test files to assure that the data used for training is not used again for testing, and vice versa.
 
-The way they have been generated is pretty trivial, but what matters is that each time that some file is created randomly, me made 3 generations of files and the same experiments with every one of them. Then, if an 80\% training file was created by taking the log entries generating a random number, we repeated the process two times more and at the end we had three sets of training and test files, and three group of five experiments for each one. After that, the means and standard deviations were calculated. The statistics of the number of patterns and how the labels are distributed can be found at Tables \ref{tab_stats1}, \ref{tab_stats2}, and \ref{tab_stats3}.
+The way they have been generated is pretty trivial, but what matters is that each time that some file is created randomly, me made 3 generations of files and the same experiments with every one of them. Then, if an 80\% training file was created by taking the log entries generating a random number, we repeated the process two times more and at the end we had three sets of training and test files, and three group of five experiments for each one. After that, the means and standard deviations were calculated. The statistics of the number of patterns and how the labels are distributed can be found at Tables \ref{tab_stats1}, \ref{tab_stats2}, and \ref{tab_stats3}. These are tables that contain the number of samples (patterns, or log entries) that were obteined after each separation on training and test files. So these tables show that the implemented method would effectively split them. As it is shown, percentages are obtained, although not exact, almost equal on random generations, and equal on consecutive.
 
 When all the experiments were finished, we went for a step beyond, and realised that some of the connections were made trough the Squid proxy, thus in those cases, the entries were almost the same, but \ac{IP}s changed. This fact could affect in what matters to classification, an then, new files had to be generated.
 
@@ -449,95 +449,227 @@ This being said, the work has been distributed as follows:
 
 In the next chapter we will present the results of the experiments, and in Chapter \ref{cap6:conclusions}, the derived conclussions.
 
-\begin{table}[htpb]
-\centering 
-{\small
+\begin{figure}[htb]
+\centering
+\subfloat[Training and Test files, random]{
+\small
 \begin{tabular}[t]{|l|c|c|c|c|c|c|}
 \hline
 File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
 \hline
-Original &            57502 & 38972 & 18530 & 100 & 67.77 & 32.22 \\
+Original &            57502 & 38972 & 18530 & 100 & 67.78 & 32.22 \\
 \hline
 Training 80\% &  45837 & 31026 & 14811 & 79.71 & 67.69 & 32.31 \\
 \hline
-Test 20\% &           11665 & 7946 & 3719 & 20.29 & 68.11 & 31.88 \\
+Test 20\% &           11665 & 7946 & 3719 & 20.29 & 68.12 & 31.88 \\
 \hline
 Training 90\% &  51764 & 35102 & 16662 & 90.02 & 67.81 & 32.19 \\
 \hline
-Test 10\% &           5738 & 3870 & 1868 & 9.97 & 67.44 & 32.55 \\
+Test 10\% &           5738 & 3870 & 1868 & 9.98 & 67.45 & 32.55 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, consecutive]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            57502 & 38972 & 18530 & 100 & 67.78 & 32.22 \\
 \hline
 Training 80\% &  46002 & 31178 & 14824 & 80.00 & 67.78 & 32.22 \\
 \hline
-Test 20\% &           11500 & 7794 & 3706 & 19.99 & 67.77 & 32.23 \\
+Test 20\% &           11500 & 7794 & 3706 & 20.00 & 67.77 & 32.23 \\
 \hline
 Training 90\% &  51752 & 35075 & 16677 & 90.00 & 67.78 & 32.22 \\
 \hline
-Test 10\% &           5750 & 3897 & 1853 & 9.99 & 67.77 & 32.23 \\
+Test 10\% &           5750 & 3897 & 1853 & 10.00 & 67.77 & 32.23 \\
 \hline
 \end{tabular}
 }
-\caption[Statistics of the files created from the initial file of unbalanced data.]{\label{tab_stats1} Statistics of the files created from the initial file of unbalanced data. It can be seen that after the partition, the ratio between allows and denies remains the same.}
-\end{table}
+\caption[Statistics of the files created from the initial file of unbalanced data.]{\label{tab_stats1} Statistics of the files created from the initial file of unbalanced data. It can be seen that after the partition, the ratio between allows and denies remains the same. (a) Files generated by randomly taking patterns from the original file. (b) Files generated by consecutively taking patterns from the original file.}
+\end{figure}
 
-\begin{table}[htpb]
-\centering 
-{\small
+\begin{figure}[htb]
+\centering
+\subfloat[Training and Test files, random]{
+\small
 \begin{tabular}[t]{|l|c|c|c|c|c|c|}
 \hline
 File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
 \hline
-Original &            38081 & 19569 & 18512 & 99.99 & 51.38 & 48.61 \\
+Original &            38081 & 19569 & 18512 & 100 & 51.39 & 48.61 \\
 \hline
-Training 80\% &  30486 & 15664 & 14822 & 80.05 & 51.38 & 48.61 \\
+Training 80\% &  30486 & 15664 & 14822 & 80.06 & 51.38 & 48.62 \\
 \hline
 Test 20\% &           7594 & 3905 & 3689 & 19.94 & 51.42 & 48.58 \\
 \hline
-Training 90\% &  34184 & 17536 & 16648 & 89.76 & 51.29 & 48.70 \\
+Training 90\% &  34184 & 17536 & 16648 & 89.77 & 51.30 & 48.70 \\
 \hline
-Test 10\% &           3896 & 2033 & 1863 & 10.23 & 52.18 & 47.81 \\
-\hline
-Training 80\% &  30465 & 15655 & 14810 & 80.00 & 51.38 & 48.61 \\
-\hline
-Test 20\% &           7615 & 3914 & 3701 & 19.99 & 51.39 & 48.60 \\
-\hline
-Training 90\% &  34273 & 17612 & 16661 & 90.00 & 51.38 & 48.61 \\
-\hline
-Test 10\% &           3807 & 1957 & 1850 & 9.99 & 51.40 & 48.59 \\
+Test 10\% &           3896 & 2033 & 1863 & 10.23 & 52.18 & 47.82 \\
 \hline
 \end{tabular}
 }
-\caption[Statistics of the files created after the \textbf{undersampling} technique was applied.]{\label{tab_stats2} Statistics of the files created after the \textbf{undersampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
-\end{table}
 
-\begin{table}[htpb]
-\centering 
-{\small
+\subfloat[Training and Test files, consecutive]{
+\small
 \begin{tabular}[t]{|l|c|c|c|c|c|c|}
 \hline
 File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
 \hline
-Original &            76032 & 38972 & 37060 & 99.99 & 51.25 & 48.74 \\
+Original &            38081 & 19569 & 18512 & 100 & 51.38 & 48.61 \\
 \hline
-Training 80\% &  60748 & 31104 & 29644 & 79.89 & 51.20 & 48.79 \\
+Training 80\% &  30465 & 15655 & 14810 & 80.00 & 51.39 & 48.61 \\
 \hline
-Test 20\% &           15283 & 7867 & 7416 & 20.10 & 51.47 & 48.52 \\
+Test 20\% &           7615 & 3914 & 3701 & 20.00 & 51.40 & 48.61 \\
 \hline
-Training 90\% &  68477 & 35047 & 33430 & 90.06 & 51.18 & 48.81 \\
+Training 90\% &  34273 & 17612 & 16661 & 90.00 & 51.39 & 48.61 \\
 \hline
-Test 10\% &           7554 & 3924 & 3630 & 9.93 & 51.94 & 48.05 \\
-\hline
-Training 80\% &  60826 & 31178 & 29648 & 80.00 & 51.25 & 48.74 \\
-\hline
-Test 20\% &           15205 & 7793 & 7412 & 19.99 & 51.25 & 48.74 \\
-\hline
-Training 90\% &  68429 & 35075 & 33354 & 90.00 & 51.25 & 48.74 \\
-\hline
-Test 10\% &           7602 & 3896 & 3706 & 9.99 & 51.24 & 48.75 \\
+Test 10\% &           3807 & 1957 & 1850 & 10.00 & 51.41 & 48.59 \\
 \hline
 \end{tabular}
 }
-\caption[Statistics of the files created after the \textbf{oversampling} technique was applied.]{\label{tab_stats3} Statistics of the files created after the \textbf{oversampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
-\end{table}
+\caption[Statistics of the files created after the \textbf{undersampling} technique was applied.]{\label{tab_stats2} Statistics of the files created after the \textbf{undersampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are balanced now. (a) Files generated by randomly taking patterns from the original file. (b) Files generated by consecutively taking patterns from the original file.}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\subfloat[Training and Test files, random]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            76032 & 38972 & 37060 & 100 & 51.26 & 48.74 \\
+\hline
+Training 80\% &  60748 & 31104 & 29644 & 79.90 & 51.20 & 48.80 \\
+\hline
+Test 20\% &           15283 & 7867 & 7416 & 20.10 & 51.48 & 48.52 \\
+\hline
+Training 90\% &  68477 & 35047 & 33430 & 90.06 & 51.18 & 48.82 \\
+\hline
+Test 10\% &           7554 & 3924 & 3630 & 9.94 & 51.95 & 48.05 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, consecutive]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            76032 & 38972 & 37060 & 100 & 51.26 & 48.74 \\
+\hline
+Training 80\% &  60826 & 31178 & 29648 & 80.00 & 51.26 & 48.74 \\
+\hline
+Test 20\% &           15205 & 7793 & 7412 & 20.00 & 51.25 & 48.75 \\
+\hline
+Training 90\% &  68429 & 35075 & 33354 & 90.00 & 51.26 & 48.74 \\
+\hline
+Test 10\% &           7602 & 3896 & 3706 & 10.00 & 51.25 & 48.75 \\
+\hline
+\end{tabular}
+}
+\caption[Statistics of the files created after the \textbf{oversampling} technique was applied.]{\label{tab_stats3} Statistics of the files created after the \textbf{oversampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are balanced now. (a) Files generated by randomly taking patterns from the original file. (b) Files generated by consecutively taking patterns from the original file.}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\subfloat[Training and Test files, random, 1st generation]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 & 68.15 & 31.85 \\
+\hline
+Training 80\% &  30080 & 20261 & 9819 & 77.89 & 67.36 & 32.64 \\
+\hline
+Test 20\% &           8539 & 6057 & 2482 & 22.11 & 70.93 & 29.07 \\
+\hline
+Training 90\% &  33917 & 22981 & 10936 & 87.82 & 67.76 & 32.24 \\
+\hline
+Test 10\% &           4702 & 3337 & 1365 & 12.18 & 70.97 & 29.03 \\
+\hline
+Training 60\% &  21771 & 14519 & 7252 & 56.37 & 66.69 & 33.31 \\
+\hline
+Test 40\% &           16848 & 11799 & 5049 & 43.63 & 70.03 & 29.97 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, random, 2nd generation]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 & 68.15 & 31.85 \\
+\hline
+Training 80\% &  30034 & 20394 & 9640 & 77.77 & 67.90 & 32.10 \\
+\hline
+Test 20\% &           8585 & 5924 & 2661 & 22.23 & 69.00 & 31.00 \\
+\hline
+Training 90\% &  33839 & 22873 & 10966 & 87.62 & 67.59 & 32.41 \\
+\hline
+Test 10\% &           4780 & 3345 & 1335 & 12.38 & 69.98 & 27.93 \\
+\hline
+Training 60\% &  22447 & 15213 & 7234 & 58.12 & 67.77 & 32.23 \\
+\hline
+Test 40\% &           16172 & 11105 & 5067 & 41.88 & 68.67 & 31.33 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, random, 3rd generation]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 & 68.15 & 31.85 \\
+\hline
+Training 80\% &  30096 & 20198 & 9898 & 77.93 & 67.11 & 32.89 \\
+\hline
+Test 20\% &           8523 & 6120 & 2403 & 22.07 & 71.81 & 28.19 \\
+\hline
+Training 90\% &  33854 & 22793 & 11061 & 87.66 & 67.33 & 32.67 \\
+\hline
+Test 10\% &           4765 & 3525 & 1240 & 12.34 & 73.98 & 26.02 \\
+\hline
+Training 60\% &  22390 & 15026 & 7364 & 57.98 & 67.11 & 32.89 \\
+\hline
+Test 40\% &           16229 & 11292 & 4937 & 42.02 & 69.58 & 30.42 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, consecutive.]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original & \%Allows & \%Denies \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 & 68.15 & 31.85 \\
+\hline
+Training 80\% &  30895 & 21054 & 9841 & 80.00 & 68.15 & 31.85 \\
+\hline
+Test 20\% &           7723 & 5263 & 2460 & 20.00 & 68.15 & 31.85 \\
+\hline
+Training 90\% &           34757 & 23686 & 11071 & 90.00 & 68.15 & 31.85 \\
+\hline
+Test 10\% &           3861 & 2631 & 1230 & 10.00 & 68.14 & 31.86 \\
+\hline
+Training 60\% &           23172 & 15791 & 7381 & 60.00 & 68.15 & 31.85 \\
+\hline
+Test 40\% &           15446 & 10526 & 4920 & 40.00 & 68.15 & 31.85 \\
+\hline
+\end{tabular}
+}
+\caption[Statistics of the files created after the duplicated connections were removed.]{\label{tab_stats3} Statistics of the files created after the duplicated connections were removed. It can be seen that after the partitions, the ratio between allows and denies remains the same, unbalanced. (a), (b), and (c) Three generations of files generated by randomly taking patterns from the original file. (d) Files generated by consecutively taking patterns from the original file.}
+\end{figure}
 
 \figuraEx{Vectorial/work_diagram_1.pdf}{width=0.8\textwidth}{fig:work_diagram_1}%
 {It is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.}{Diagram showing the first group of experiments performed.}

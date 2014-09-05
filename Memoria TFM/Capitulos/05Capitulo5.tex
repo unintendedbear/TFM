@@ -59,6 +59,7 @@ For its part, results obtained from unbalanced data are shown in Table \ref{tabr
 \begin{figure}[htb]
 \centering
 \subfloat[80\% for training, \%20 for testing]{
+\small
 \begin{tabular}{|l|l|l|l|l|}
 \cline{2-5}
 \multicolumn{1}{l|}{} & \multicolumn{4}{c|}{80\% Training - 20\% Test} \\ 
@@ -81,6 +82,7 @@ PART & 96.19 $\pm$ 0.14 & 85.16 & 96.82 $\pm$ 0.09 & 84.50 \\
 }
 
 \subfloat[90\% for tranining, 10\% for testing]{
+\small
 \begin{tabular}{|l|l|l|l|l|}
 \cline{2-5}
 \multicolumn{1}{l|}{} & \multicolumn{4}{c|}{90\% Training - 10\% Test} \\ 
@@ -166,13 +168,14 @@ REP Tree & \textbf{97.32} & \textbf{96.38 $\pm$ 0.07} & 97.67 \\
 \caption[Global classification methods ranking after step 2.]{\label{tab:gobalrank_repurls} Results of all tested classification methods on unbalanced and balanced data, after the repeated requests have been removed. The best ones are marked in boldface.}
 \end{table}
 
-The process is again the same, with the difference that now it has been included \textit{Naïve Bayes} as a reference in all the groups of experiments. The results are displayed in Tables \ref{tab:repurl_unb_traintest} (a) and (b). With regard to the 60\% - 40\% partition of part (b), files could only be separated and created randomly. This is because, taking into account step 3 (see Figure \ref{fig:work_diagram_2}), when a certain log entry happens to be placed in the training, or testing, file, all the others which share the same \ac{URL} core domain, will follow to the same file, and therefore the percentages are lost.
+The process is again the same, with the difference that now it has been included \textit{Naïve Bayes} as a reference in all the groups of experiments. The results are displayed in Tables \ref{tab:repurl_unb_traintest} (a) and (b). With regard to the 60\% - 40\% partition of part (b), . 
 
 We can see that the results are slightly worse than the ones obtained in step 1, but they are still good, and definitely better than Naïve Bayes, our result reference. It is not a surprise that, again, results for files with the patterns taken consecutively lower significantly. As previously, this is because the possible loss of information. Best results are obtained by both \textit{Random Forest} and \textit{REP Tree} classifiers, with a 96\% of accuracy.
 
 \begin{figure}[htb]
 \centering
 \subfloat[80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing]{
+\small
 \begin{tabular}{|l|l|l|l|l|}
 \cline{2-5}
 \multicolumn{1}{l|}{} & \multicolumn{2}{c|}{80\% Training - 20\% Test} & \multicolumn{2}{c|}{90\% Training - 10\% Test} \\ 
@@ -195,6 +198,7 @@ PART & 96.84 $\pm$ 0.18 & 86.68 & 96.55 $\pm$ 0.87 & 83.61 \\
 }
 
 \subfloat[60\% for tranining, 40\% for testing]{
+\small
 \begin{tabular}{|l|c|}
 \cline{2-2}
 \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{60\% Training - 40\% Test} \\ 
@@ -217,6 +221,124 @@ PART & 96.05 $\pm$ 0.45 \\
 }
 \caption[Correctly classified patterns for non-balanced data after the step 2.]{Percentage of correctly classified patterns for non-balanced data, after the step 2. (a) 80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing. (b) 60\% for tranining, 40\% for testing. \label{tab:repurl_unb_traintest}}
 \end{figure}
+
+%-------------------------------------------------------------------
+\subsection{Enhancing the creation of training and test files}
+%-------------------------------------------------------------------
+\label{cap5:sec:exp:coredomains}
+
+The last step taken in this research was to try to better separate the patterns from the initial file. Thus, we tried to avoid possible classification errors by assuring that entries with the same core domain end in the same file (either for training o testing) (see Figure \ref{fig:work_diagram_2}).
+
+It must be pointed out that, for the moment, there are no generations of training and test files with the patterns taken consecutively. The reason for this can be seen also in Table \ref{tab:coredom_stats}: taking into account this way of separating the data, when a certain log entry happens to be placed in the training, or testing, file, all the others which share the same \ac{URL} core domain, will follow to the same file, and therefore is impossible to reach the desired percentages.
+
+Furthermore, taking a look at the results in Table \ref{tab:coredom_unb_traintest}, they are by far the worst we obtained. It seems that a lot of information is lost by performing this step. Figures \ref{fig:results_8020}, \ref{fig:results_9010}, and \ref{fig:results_6040} show a comparison between the tested classifiers during this process. It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (between 70.69\& and 74.72\% of accuracy).
+
+\begin{figure}[htb]
+\centering
+\subfloat[Training and Test files, random, 1st generation]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 \\
+\hline
+Training 80\% &  30466 & 20169 & 10297 & 78.79  \\
+\hline
+Test 20\% &           8153 & 6149 & 2004 & 21.11  \\
+\hline
+Training 90\% &  29964 & 20454 & 9510 & 77.59  \\
+\hline
+Test 10\% &           8655 & 5864 & 2791 & 22.41  \\
+\hline
+Training 60\% &  19272 & 13705 & 5567 & 49.90  \\
+\hline
+Test 40\% &           19347 & 12613 & 6734 & 50.10 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, random, 2nd generation]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 \\
+\hline
+Training 80\% &  28368 & 18206 & 10162 & 73.46 \\
+\hline
+Test 20\% &           10251 & 8112 & 2139 & 26.54 \\
+\hline
+Training 90\% &  31463 & 20776 & 10687 & 81.47 \\
+\hline
+Test 10\% &           7156 & 5542 & 1614 & 18.53 \\
+\hline
+Training 60\% &  21945 & 14814 & 7131 & 56.82 \\
+\hline
+Test 40\% &           16674 & 11504 & 5170 & 43.18 \\
+\hline
+\end{tabular}
+}
+
+\subfloat[Training and Test files, random, 3rd generation]{
+\small
+\begin{tabular}[t]{|l|c|c|c|c|}
+\hline
+File &             Total & Allow & Deny & \% of Original \\
+\hline
+Original &            38619 & 26318 & 12301 & 100 \\
+\hline
+Training 80\% &  31068 & 21862 & 9206 & 80.45 \\
+\hline
+Test 20\% &           7551 & 4456 & 3095 & 19.55 \\
+\hline
+Training 90\% &  32034 & 21119 & 10915 & 82.95 \\
+\hline
+Test 10\% &           6585 & 5199 & 1386 & 17.05 \\
+\hline
+Training 60\% &  23337 & 14416 & 8921 & 60.43 \\
+\hline
+Test 40\% &           15282 & 11902 & 3380 & 39.57 \\
+\hline
+\end{tabular}
+}
+\caption[Statistics of the files created after the duplicated connections were removed.]{\label{tab:coredom_stats} Statistics of the files created after the duplicated connections were removed. It can be seen that after the partitions, the ratio between allows and denies remains the same, unbalanced. (a), (b), and (c) Three generations of files generated by randomly taking patterns from the original file. (d) Files generated by consecutively taking patterns from the original file.}
+\end{figure}
+
+
+\begin{table}[htpb]
+\centering
+{\small
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|l|}{Percentage training \& test} & \multicolumn{1}{c|}{80\% - 20\%} & \multicolumn{1}{c|}{90\% - 10\%} & \multicolumn{1}{c|}{60\% - 40\%} \\ 
+\hline
+Naïve Bayes & 48.67 $\pm$ 11.70 & 44.99 $\pm$ 18.59 & 44.58 $\pm$ 10.73 \\ 
+\cline{1-1}
+Random Forest & 67.48 $\pm$ 9.61 & 74.21 $\pm$ 6.01 & 70.29 $\pm$ 5.06 \\ 
+\cline{1-1}
+J48 & 71.19 $\pm$ 10.71 & 74.72 $\pm$ 6.08 & 70.69 $\pm$ 6.51 \\ 
+\cline{1-1}
+NNge & 58.19 $\pm$ 4.18 & 65.82 $\pm$ 5.70 & 53.77 $\pm$ 5.59 \\ 
+\cline{1-1}
+REP Tree & 71.19 $\pm$ 10.71 & 74.72 $\pm$ 6.08 & 70.69 $\pm$ 6.51 \\ 
+\cline{1-1}
+PART & 68.37 $\pm$ 13.36 & 67.52 $\pm$ 9.60 & 64.23 $\pm$ 5.82 \\ 
+\hline
+\end{tabular}
+}
+\caption[Correctly classified patterns for non-balanced data after the step 3.]{\label{tab:coredom_unb_traintest} Percentage of correctly classified patterns for non-balanced data after the step 3. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\end{table}
+
+\figuraEx{Vectorial/trtst8020.pdf}{width=1.\textwidth}{fig:results_8020}%
+{It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (71.19\% of accuracy).}{Comparison between classifiers, with 80\% for training, \%20 for testing, in performance at step 3.}
+
+\figuraEx{Vectorial/trtst9010.pdf}{width=1.\textwidth}{fig:results_9010}%
+{It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (74.72\% of accuracy)}{Comparison between classifiers, with 90\% for training, \%10 for testing, in performance at step 3.}
+
+\figuraEx{Vectorial/trtst6040.pdf}{width=1.\textwidth}{fig:results_6040}%
+{It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (70.69\% of accuracy)}{Comparison between classifiers, with 60\% for training, \%40 for testing, in performance at step 3.}
 
 %-------------------------------------------------------------------
 \section{Rules obtained, a study case}
