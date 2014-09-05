@@ -214,7 +214,7 @@ REP Tree & \textbf{96.79} & \textbf{97.67} \\
 \hline
 \end{tabular}
 }
-\caption{\label{tabresults_todos} Results of all the tested classification methods on balanced data. The best ones are marked in boldface.}
+\caption[Global classification methods ranking after step 1.]{\label{tabresults_todos} Results of all tested classification methods on balanced data. The best ones are marked in boldface.}
 \end{table}
 
 \begin{description}
@@ -362,7 +362,7 @@ for ( i = 0; i < experiments.length; i++) {
 	}
 }
 \end{lstlisting}
-\caption{Java code for setting up the experiments with Weka and obtain an array of percentages of successfulness with each classifier.\label{fig:java_exp}}
+\caption[Java code for setting up the experiments with Weka.]{Java code for setting up the experiments with Weka and obtain an array of percentages of successfulness with each classifier.\label{fig:java_exp}}
 \end{figure}
 
 \begin{figure}[]
@@ -436,7 +436,7 @@ The 2:1 proportion means that the data is unbalanced, and that balancing techniq
 
 The way they have been generated is pretty trivial, but what matters is that each time that some file is created randomly, me made 3 generations of files and the same experiments with every one of them. Then, if an 80\% training file was created by taking the log entries generating a random number, we repeated the process two times more and at the end we had three sets of training and test files, and three group of five experiments for each one. After that, the means and standard deviations were calculated. The statistics of the number of patterns and how the labels are distributed can be found at Tables \ref{tab_stats1}, \ref{tab_stats2}, and \ref{tab_stats3}.
 
-When all the experiments were finished, we went for a step beyond, and realised that some of the connections were made trough the Squid proxy, thus in those cases, the entries were almost the same, but \ac{IP}s changed. Consequently, new files were generated.
+When all the experiments were finished, we went for a step beyond, and realised that some of the connections were made trough the Squid proxy, thus in those cases, the entries were almost the same, but \ac{IP}s changed. This fact could affect in what matters to classification, an then, new files had to be generated.
 
 Another `issue' related to classification accuracies, was taking care of the repeated core domains. Like with the connections, if a Log Entry with a certain core domain, goes to a training file, and another one (even if the rest of the fields are different) goes to the test file, it may affect the results. As a result, a whole new set of files were created and studied.
 
@@ -476,7 +476,7 @@ Test 10\% &           5750 & 3897 & 1853 & 9.99 & 67.77 & 32.23 \\
 \hline
 \end{tabular}
 }
-\caption{\label{tab_stats1} Statistics of the files created from the initial file of unbalanced data. It can be seen that after the partition, the ratio between allows and denies remains the same.}
+\caption[Statistics of the files created from the initial file of unbalanced data.]{\label{tab_stats1} Statistics of the files created from the initial file of unbalanced data. It can be seen that after the partition, the ratio between allows and denies remains the same.}
 \end{table}
 
 \begin{table}[htpb]
@@ -506,7 +506,7 @@ Test 10\% &           3807 & 1957 & 1850 & 9.99 & 51.40 & 48.59 \\
 \hline
 \end{tabular}
 }
-\caption{\label{tab_stats2} Statistics of the files created after the \textbf{undersampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
+\caption[Statistics of the files created after the \textbf{undersampling} technique was applied.]{\label{tab_stats2} Statistics of the files created after the \textbf{undersampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
 \end{table}
 
 \begin{table}[htpb]
@@ -536,14 +536,14 @@ Test 10\% &           7602 & 3896 & 3706 & 9.99 & 51.24 & 48.75 \\
 \hline
 \end{tabular}
 }
-\caption{\label{tab_stats3} Statistics of the files created after the \textbf{oversampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
+\caption[Statistics of the files created after the \textbf{oversampling} technique was applied.]{\label{tab_stats3} Statistics of the files created after the \textbf{oversampling} technique was applied. It can be seen that after the partition, the ratio between allows and denies remains the same, and they are not unbalanced.}
 \end{table}
 
 \figuraEx{Vectorial/work_diagram_1.pdf}{width=0.8\textwidth}{fig:work_diagram_1}%
-{Diagram showing the first group of experiments performed.}{It is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.}
+{It is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and again but with those files parted in training and test files, both randomly and consecutively taken.}{Diagram showing the first group of experiments performed.}
 
 \figuraEx{Vectorial/work_diagram_2.pdf}{width=0.8\textwidth}{fig:work_diagram_2}%
-{Diagram showing the second and third group of experiments made.}{Two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files.}
+{Two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files.}{Diagram showing the second and third group of experiments made.}
 
 
 % Variable local para emacs, para  que encuentre el fichero maestro de

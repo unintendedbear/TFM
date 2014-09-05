@@ -105,7 +105,7 @@ PART & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\
 \hline
 \end{tabular}
 }
-\caption{Percentage of correctly classified patterns for balanced data (under- and oversampling). (a) 80\% for training, \%20 for testing. (b) 90\% for tranining, 10\% for testing. \label{tabresults_balan}}
+\caption[Percentage of correctly classified patterns for balanced data, after step 1.]{Percentage of correctly classified patterns for balanced data (undersampling and oversampling). (a) 80\% for training, \%20 for testing. (b) 90\% for tranining, 10\% for testing. \label{tabresults_balan}}
 \end{figure}
 
 \begin{description}
@@ -113,9 +113,62 @@ PART & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\
   \item[Applying Oversampling] Here we have duplicated the DENY patterns so their number could be up to that of the ALLOW patterns. However, it does not work as well as in other approaches which uses numerical computations for creating the new patterns to include in the minority class. Consequently, the results have been decreased.
 \end{description}
 
-In both cases it is noticeable that taking the data in a sequential way, instead of randomly, lower the results. It is clear that due to the fact that performing undersampling some patterns are lost while in the case of oversampling they all remain, \textit{undersampling results} are better. Then, in this case the algorithm with best performance is \textit{J48}, though \textit{Random Forest} follows its results very closely in random datasets processing, and \textit{REP Tree}, which is better than the rest when working with sequential data. Nevertheless, generally speaking and given the aforementioned reasons, performing data balancing methods yields worse results.
+It is noticeable in both cases that taking the data in a sequential way, instead of randomly, lower the results. It is clear that due to the fact that performing undersampling some patterns are lost while in the case of oversampling they all remain, \textit{undersampling results} are better. Then, in this case the algorithm with best performance is \textit{J48}, though \textit{Random Forest} follows its results very closely in random datasets processing, and \textit{REP Tree}, which is better than the rest when working with sequential data. Nevertheless, generally speaking and given the aforementioned reasons, performing data balancing methods yields worse results.
 
 Furthermore, we have found that for the data sets taken consecutively, the methods always classify worse the DENY labels, as they label them as ALLOW patterns. This is worth further study because it is the worst situation. It would be preferable to have a false positive in a DENY pattern, rather than a false negative and permit a request that is forbidden in the ISP.
+
+%-------------------------------------------------------------------
+\subsection{Removal of duplicated requests}
+%-------------------------------------------------------------------
+\label{cap5:sec:exp:repurls}
+
+lalalalalal at \ref{tab:gobalrank_repurls}
+
+\begin{table}[htpb]
+\centering
+{\small
+\begin{tabular}{|l|l|l|l|}
+\cline{2-3-4}
+\multicolumn{1}{l|}{} & Unbalanced & Undersampling & Oversampling \\
+\hline
+Naïve Bayes & 92.30 & 90.77 $\pm$ 0.06 & 91.77 \\
+\cline{1-1}
+Conjunctive Rule & 73.31 & 59.53 $\pm$ 0.15 & 60.02 \\
+\cline{1-1}
+Decision Table & 95.21 & 93.73 $\pm$ 0.18 & 90.29 \\
+\cline{1-1}
+DTNB & 95.55 & 94.75 $\pm$ 0.07 & 95.65 \\
+\cline{1-1}
+JRip & 92.95 & 89.64 $\pm$ 0.32 & 92.47 \\
+\cline{1-1}
+NNge & \textbf{97.18} & \textbf{96.33 $\pm$ 0.14} & \textbf{98.76} \\
+\cline{1-1}
+One R & 94.86 & 93.53 $\pm$ 0.04 & 93.70 \\
+\cline{1-1}
+PART & & \textbf{97.41} \textbf{96.32 $\pm$ 0.10} & \textbf{97.54} \\
+\cline{1-1}
+Ridor & 89.21 & 86.19 $\pm$ 0.79 & 89.87 \\
+\cline{1-1}
+Zero R & 68.14 & 51.68 $\pm$ 0.17 & 51.26 \\
+\cline{1-1}
+AD Tree & 85.23 & 78.01 $\pm$ 0.10 & 77.68 \\
+\cline{1-1}
+Decision Stump & 73.31 & 59.53 $\pm$ 0.15 & 60.02 \\
+\cline{1-1}
+J48 & - & \textbf{96.65 $\pm$ 0.04} & \textbf{98.00} \\
+\cline{1-1}
+LAD Tree & 86.87 & 80.24 $\pm$ 0.04 & 79.97 \\
+\cline{1-1}
+Random Forest & \textbf{97.57} & \textbf{96.75 $\pm$ 0.05} & \textbf{98.84} \\
+\cline{1-1}
+Random Tree & 96.11 & 95.45 $\pm$ 0.66 & 98.35 \\
+\cline{1-1}
+REP Tree & \textbf{97.32} & \textbf{96.38 $\pm$ 0.07} & \textbf{97.67} \\
+\hline
+\end{tabular}
+}
+\caption[Global classification methods ranking after step 2.]{\label{tab:gobalrank_repurls} Results of all tested classification methods on unbalanced and balanced data, after the repeated requests have been removed. The best ones are marked in boldface.}
+\end{table}
 
 %-------------------------------------------------------------------
 \section{Rules obtained, a study case}
