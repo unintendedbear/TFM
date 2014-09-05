@@ -3,7 +3,7 @@
 %                          Chapter 5
 %
 %---------------------------------------------------------------------
-
+\renewcommand{\figurename}{Figure}
 \chapter{Results}
 \label{cap5:results}
 
@@ -21,11 +21,7 @@ DALEK. Doctor Who. \textit{The Parting of the Ways}.
 %-------------------------------------------------------------------
 \label{cap5:sec:exp}
 
-All the result tables are publicly accessible through the following link:
-
-\url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}
-
-The initial group of conducted experiments was presented in Section \ref{cap4:sec:Weka}, and the top five was formed by the classifiers: J48, Random Forest, REP Tree, NNge, and PART. These five classifiers were training and tested with both training and test files, as explained in Section \ref{cap4:sec:traintest}. First results can be found in Table \ref{tabresults_nobalan}.
+The initial group of conducted experiments was presented in Section \ref{cap4:sec:Weka}, and the top five was formed by the classifiers: J48, Random Forest, REP Tree, NNge, and PART. These five classifiers were training and tested with both training and test files, as explained in Section \ref{cap4:sec:traintest}. First results can be found in Table \ref{tabresults_nobalan} \footnote{All result tables are publicly accessible through the following link: \url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}}.
 
 \begin{table*}[htpb]
 \centering
@@ -122,13 +118,13 @@ Furthermore, we have found that for the data sets taken consecutively, the metho
 %-------------------------------------------------------------------
 \label{cap5:sec:exp:repurls}
 
-lalalalalal at \ref{tab:gobalrank_repurls}
+After performing the step 2 that is depicted in Figure \ref{fig:work_diagram_2}, a whole new ranking of classification performance was created, in orde to see if the new situation has some influence on the results. However, Table  \ref{tab:gobalrank_repurls} shows that the best results are from the same classifiers, with slightly difference when performing oversampling, where \textit{Random Tree} was better than \textit{REP Tree} but less than one point.
 
 \begin{table}[htpb]
 \centering
 {\small
 \begin{tabular}{|l|l|l|l|}
-\cline{2-3-4}
+\cline{2-4}
 \multicolumn{1}{l|}{} & Unbalanced & Undersampling & Oversampling \\
 \hline
 Naïve Bayes & 92.30 & 90.77 $\pm$ 0.06 & 91.77 \\
@@ -145,7 +141,7 @@ NNge & \textbf{97.18} & \textbf{96.33 $\pm$ 0.14} & \textbf{98.76} \\
 \cline{1-1}
 One R & 94.86 & 93.53 $\pm$ 0.04 & 93.70 \\
 \cline{1-1}
-PART & & \textbf{97.41} \textbf{96.32 $\pm$ 0.10} & \textbf{97.54} \\
+PART & \textbf{97.41} & \textbf{96.32 $\pm$ 0.10} & \textbf{97.54} \\
 \cline{1-1}
 Ridor & 89.21 & 86.19 $\pm$ 0.79 & 89.87 \\
 \cline{1-1}
@@ -155,20 +151,72 @@ AD Tree & 85.23 & 78.01 $\pm$ 0.10 & 77.68 \\
 \cline{1-1}
 Decision Stump & 73.31 & 59.53 $\pm$ 0.15 & 60.02 \\
 \cline{1-1}
-J48 & - & \textbf{96.65 $\pm$ 0.04} & \textbf{98.00} \\
+J48 & \textbf{97.37} & \textbf{96.65 $\pm$ 0.04} & \textbf{98.00} \\
 \cline{1-1}
 LAD Tree & 86.87 & 80.24 $\pm$ 0.04 & 79.97 \\
 \cline{1-1}
 Random Forest & \textbf{97.57} & \textbf{96.75 $\pm$ 0.05} & \textbf{98.84} \\
 \cline{1-1}
-Random Tree & 96.11 & 95.45 $\pm$ 0.66 & 98.35 \\
+Random Tree & 96.11 & 95.45 $\pm$ 0.66 & \textbf{98.35} \\
 \cline{1-1}
-REP Tree & \textbf{97.32} & \textbf{96.38 $\pm$ 0.07} & \textbf{97.67} \\
+REP Tree & \textbf{97.32} & \textbf{96.38 $\pm$ 0.07} & 97.67 \\
 \hline
 \end{tabular}
 }
 \caption[Global classification methods ranking after step 2.]{\label{tab:gobalrank_repurls} Results of all tested classification methods on unbalanced and balanced data, after the repeated requests have been removed. The best ones are marked in boldface.}
 \end{table}
+
+The process is again the same, with the difference that now it has been included \textit{Naïve Bayes} as a reference in all the groups of experiments. The results are displayed in Tables \ref{tab:repurl_unb_traintest} (a) and (b). With regard to the 60\% - 40\% partition of part (b), files could only be separated and created randomly. This is because, taking into account step 3 (see Figure \ref{fig:work_diagram_2}), when a certain log entry happens to be placed in the training, or testing, file, all the others which share the same \ac{URL} core domain, will follow to the same file, and therefore the percentages are lost.
+
+We can see that the results are slightly worse than the ones obtained in step 1, but they are still good, and definitely better than Naïve Bayes, our result reference. It is not a surprise that, again, results for files with the patterns taken consecutively lower significantly. As previously, this is because the possible loss of information. Best results are obtained by both \textit{Random Forest} and \textit{REP Tree} classifiers, with a 96\% of accuracy.
+
+\begin{figure}[htb]
+\centering
+\subfloat[80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing]{
+\begin{tabular}{|l|l|l|l|l|}
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{80\% Training - 20\% Test} & \multicolumn{2}{c|}{90\% Training - 10\% Test} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & Random (mean) & Sequential & Random (mean) & Sequential \\ 
+\hline
+Naïve Bayes & 93.01 $\pm$ 0.32 & 82.61 & 93.09 $\pm$ 0.91 & 83.04 \\ 
+\cline{1-1}
+Random Forest & 96.97 $\pm$ 0.47 & 91.03 & 96.79 $\pm$ 0.97 & 80.60 \\ 
+\cline{1-1}
+J48 & 96.90 $\pm$ 0.26 & 87.78 & 96.50 $\pm$ 1.00 & 84.49 \\ 
+\cline{1-1}
+NNge & 96.21 $\pm$ 0.28 & 81.17 & 96.11 $\pm$ 1.13 & 81.92 \\ 
+\cline{1-1}
+REP Tree & 96.97 $\pm$ 0.40 & 87.75 & 96.62 $\pm$ 0.87 & 85.57 \\ 
+\cline{1-1}
+PART & 96.84 $\pm$ 0.18 & 86.68 & 96.55 $\pm$ 0.87 & 83.61 \\ 
+\hline
+\end{tabular}
+}
+
+\subfloat[60\% for tranining, 40\% for testing]{
+\begin{tabular}{|l|c|}
+\cline{2-2}
+\multicolumn{1}{l|}{} & \multicolumn{1}{c|}{60\% Training - 40\% Test} \\ 
+\cline{2-2}
+\multicolumn{1}{l|}{} & Random (mean) \\ 
+\hline
+Naïve Bayes & 92.76 $\pm$ 1.34 \\ 
+\cline{1-1}
+Random Forest & 96.45 $\pm$ 0.67 \\ 
+\cline{1-1}
+J48 & 96.44 $\pm$ 0.19 \\ 
+\cline{1-1}
+NNge & 95.98 $\pm$ 0.34 \\ 
+\cline{1-1}
+REP Tree & 96.41 $\pm$ 0.27 \\ 
+\cline{1-1}
+PART & 96.05 $\pm$ 0.45 \\ 
+\hline
+\end{tabular}
+}
+\caption[Correctly classified patterns for non-balanced data after the step 2.]{Percentage of correctly classified patterns for non-balanced data, after the step 2. (a) 80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing. (b) 60\% for tranining, 40\% for testing. \label{tab:repurl_unb_traintest}}
+\end{figure}
 
 %-------------------------------------------------------------------
 \section{Rules obtained, a study case}

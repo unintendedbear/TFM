@@ -3,7 +3,7 @@
 %                          Chapter 3
 %
 %---------------------------------------------------------------------
-
+\renewcommand{\figurename}{Figure}
 \chapter{Data description and preprocessing}
 \label{cap3:data}
 
@@ -28,7 +28,7 @@ In order to perform an analysis over the obtained logs such as more frequent eve
 \begin{description}
   \item[Classification] The aim is to use database information (logs) to look for patterns that had been allowed or denied, in order to build a classifier. When an incoming connection (or session) has no rule to apply on, the classifier should tell the similarity with previous (and already labelled) patterns.
   \item[Clustering] The patterns could be grouped considering some similarity criteria, in order to deal with them as a set. This could be used for providing data visuallization mechanisms. In order to make it easier to interpret the data interaction and the distribution in clusters with respect to the different properties/features of the patterns.
-  \item[Feature Selection] It consists of extracting the most important features from the data. This could be done by means of one of the previous techniques, and could be useful if we want to discard non-key features. This is useful in order to reduce the database weight, or for improving the classification running time and even the performance of the system.
+  \item[Feature Classification] It consists of extracting the most important features from the data. This could be done by means of one of the previous techniques, and could be useful if we want to discard non-key features. This is useful in order to reduce the database weight, or for improving the classification running time and even the performance of the system.
 \end{description}
 
 %-------------------------------------------------------------------

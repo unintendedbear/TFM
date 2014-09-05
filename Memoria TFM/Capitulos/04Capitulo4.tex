@@ -3,7 +3,7 @@
 %                          Chapter 4
 %
 %---------------------------------------------------------------------
-
+\renewcommand{\figurename}{Figure}
 \chapter{Methodology}
 \label{cap4:methodology}
 
@@ -444,7 +444,7 @@ This being said, the work has been distributed as follows:
 
 \begin{itemize}
   \item In \ref{fig:work_diagram_1} is shown that experiments were made with files of unbalanced and balanced data (with both undersampling and oversampling balancing techniques), and then again but with those files separated in training and test files, both randomly and consecutively taken. Two different separations were made: 80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing. The reason for generating these files also keeping the sequence of the initial data and not only randomly, is because the requested \ac{URL}s, or the time of the requesting, can be related.
-  \item In \ref{fig:work_diagram_2} is displayed that two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files. In these steps, the separation 60\% for tranining, 40\% for testing was added.
+  \item In \ref{fig:work_diagram_2} is displayed that two main files were created. First, requests between the client and the server that passed through the proxy (duplicated, from the point of view of classification training), were reduced. Then, when parting the main file into training and test files, it was made avoiding repetition of core domains in both files. In these steps, the separation 60\% for tranining, 40\% for testing was added when possible.
 \end{itemize}
 
 In the next chapter we will present the results of the experiments, and in Chapter \ref{cap6:conclusions}, the derived conclussions.
