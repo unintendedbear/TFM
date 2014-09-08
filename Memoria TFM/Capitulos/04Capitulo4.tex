@@ -21,7 +21,9 @@ CLARA: What's wrong? Do you think it's not done yet?
 \section{First implementation, Perl}
 %-------------------------------------------------------------------
 \label{cap4:sec:Perl}
-
+% first requirements, then language. What did you want? I wanted this
+% and that. And Perl fulfilled those requirements. Don't post-justify
+% - JJ 
 Perl was chosen for the initial development of the environment in which the data would be prepocessed and experiments would be developed. As a scripting language, it allows a faster application development than other languages such C or Java (although we have used Java in this work too, and in Section \ref{cap4:sec:Java} it is explained why), and faster performance too. In \citep{oreilly_perl07}, Tim O'Reilly, founder and \ac{CEO} of O'Reilly Media Inc \footnote{\url{http://www.oreilly.com/}}, and Ben Smith deeply describe the advantages of using Perl for every application, and also they present 11 actual cases in where the use of Perl enhanced their situations.
 
 But the most important advantage of Perl is that is the best language for Information Processing. Thus, by means of its regular expressions, patterns of any type (depending on what the programmer is looking for) can be recognised, processed, stored, or studied. And even though Java uses regular expressions too, Perl scripting nature makes easier to use them. Furthermore, \ac{URL} study and HTML (body of free form text) processing is the ideal application for this Perl feature.
@@ -231,6 +233,8 @@ These methods are then deeply tested on the datasets that result from applying b
 \section{Second implementation, Java}
 %-------------------------------------------------------------------
 \label{cap4:sec:Java}
+
+% same as above. Requirements, then solution - JJ
 
 Weka had been implemented in Java, and for that reason we started a second implementation with this language. As said in the previous Section \ref{cap4:sec:Perl}, the developing time with Java is higher, but in general the performance is better (see results in Section \ref{cap4:sec:Java:subsec:perlvsjava}), and we also have the possibility of developing a method for lauching the experiments and not doing them one by one. But if Perl had the advantage of being the best for preprocessing with the regular expressions, Java has the feature of directly process Weka output and, this way, obtaining reports and rankings with the best techniques.
 
@@ -685,3 +689,6 @@ Test 40\% &           15446 & 10526 & 4920 & 40.00 & 68.15 & 31.85 \\
 %%% mode: latex
 %%% TeX-master: "../Tesis.tex"
 %%% End:
+
+% Only talking about implementation, you should tell how you are doing
+% the experimental design - JJ
