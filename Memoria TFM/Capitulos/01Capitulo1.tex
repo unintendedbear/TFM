@@ -21,7 +21,13 @@ Ha, ha! Whoo hoo hoo! Ah! Geronimo!
 %-------------------------------------------------------------------
 \label{cap1:sec:intro}
 
-The way in how data has been stored and accessed in the companies has completely changed over the last few years\footnote{http://mozy.com/infographics/the-past-present-and-future-of-data-storage/}. On the one hand, start-up companies get a great benefit either by using services of the Cloud \citep{Vaqu_Cloud09}, or by offering their services through it \citep{Leav_Cloud09}. For bigger companies, on the other hand, the use of company-owned servers being accessed from desktop PCs (and maybe laptops) from within the company facilities has been transformed. Now, these data are distributed among a number of machines, even not all bemacselonging to the company, and working over a Cloud Computing environment.
+The way in how data has been stored and accessed in the companies has
+completely changed over the last few
+years\footnote{http://mozy.com/infographics/the-past-present-and-future-of-data-storage/}. %use
+                                %uniform style for articles, that is,
+                                %bibtex. Footnotes are for aclarations
+                                %- JJ
+On the one hand, start-up companies get a great benefit either by using services of the Cloud \citep{Vaqu_Cloud09}, or by offering their services through it \citep{Leav_Cloud09}. For bigger companies, on the other hand, the use of company-owned servers being accessed from desktop PCs (and maybe laptops) from within the company facilities has been transformed. Now, these data are distributed among a number of machines, even not all bemacselonging to the company, and working over a Cloud Computing environment.
 %why Cloud in Caps? - JJ
 Besides, being stored in the Cloud or not, data are being consulted and modified through a wide amount of devices, some of them owned by the company's users. This is the so-called \ac{BYOD} \citep{Cald_byod12} philosophy, which also means that people do not use their smart devices for one purpose only (personal life or business) anymore. It is becoming highly successful due to the impact that portable devices (such as smartphones and tablets) are having in the market. And because of data security and privacy are key factors for a company, it is usual to define Organisational Security Policies in order to ensure them \citep{Blaze_SecPolic99}. Their definition is nowadays a very difficult problem, since that \ac{BYOD} tendency means that several factors must be considered \citep{Opp_Security11}, most of them previously ignored or non considered in security systems, for instance the current mixture between personal and professional information in these devices (the user could navigate inside social networks where there could be friends and also company partners or clients).
 
@@ -40,7 +46,22 @@ Then, another issue to cope with is the elaboration of a good \ac{ISP}, understa
 
 Normally, the enterprise network architecture was being adapted to cope with external attackers \citep{MIT_05}. With the incorporation of \ac{BYOD}, the threat is about corporate assets being compromised due to employees' devices with vulnerabilities \citep{Orth_Android12}, or leaked because they are being accessed from a device connected through an unsecure (public) network.
 
-Thus now, more things should be considered than the usual ones when designing a company network architecture. In Figure \ref{fig:proposed_diagram} there is a proposal which can be used for the beginning of the study of solutions that may secure such a dynamic environment. It includes the possibility of having employee-owned mobile (smartphones and tablets) and portable (laptops) devices, and also the opportunity that the employees have of connecting these devices either from inside or outside the company premises. Moreover, company's information assets are constantly accessed under these conditions, considering that an information asset means every \textit{piece of information} that has a \textit{value} (cost depending on the risk of being lost or leaked) for the company. It can be referred to files with sensitive information to certain mails, or even to company applications.
+Thus now, more things should be considered than the usual ones when
+designing a company network architecture. In Figure
+\ref{fig:proposed_diagram} there is a proposal which can be used for
+the beginning of the study of solutions that may secure such a dynamic
+% too many loops and speak straight: this figure shows
+% an approach to the system architecture of... - JJ
+environment. It includes the possibility of having employee-owned
+mobile (smartphones and tablets) and portable (laptops) devices, and
+also the opportunity that the employees have of connecting these
+devices either from inside or outside the company premises. Moreover,
+company's information assets are constantly accessed under these
+conditions, considering that an information asset means every
+\textit{piece of information} that has a \textit{value} (cost
+depending on the risk of being lost or leaked) for the company. It can
+be referred to files with sensitive information to certain mails, or
+even to company applications. 
 
 \figuraEx{Vectorial/proposed_diagram.pdf}{width=0.9\textwidth}{fig:proposed_diagram}%
 {Architecture approach of an Enterprise Network assuming that the Company has adopted the \ac{BYOD} philosophy.}{Architecture approach of an Enterprise Network assuming that the Company has adopted the \ac{BYOD} philosophy.}
@@ -66,7 +87,14 @@ The next objective is to obtain the best classification accuracies as possible, 
 
 Finally, with a trained classifier, those patterns that were unlabelled, are expected to be now labelled (at least, most of them). Therefore, a system that adopts that classifier, would be able to adapt to new situations and new policies could be written for coping with them.
 
-The Thesis is structured as follows. Next Chapter (Chapter \ref{cap2:SotA}) describes the state of the art about applications or devices related to \ac{BYOD} being adopted by companies, and protection of the users' privacy. Also, it described related work with regard to the application of Data Mining and Machine Learning techniques to security issues inside a company and, finally, introduces some work review about the study of \ac{URL}s and its use for security menaces detection.
+The Thesis is structured as follows. Next Chapter (Chapter
+\ref{cap2:SotA}) describes the state of the art of applications or
+devices related to \ac{BYOD} being adopted by companies, and
+protection of the users' privacy. Also, it described related work with
+regard to the application of Data Mining and Machine Learning
+techniques to security issues inside a company and, finally,
+introduces some work review about the study of \ac{URL}s and its use
+for security menaces detection. 
 In Chapter \ref{cap3:data}, we recall again the problem this work tries to solve and describe the type of policies and rules used to label the data, as well as the datasets we have worked with. The followed methodology is described in Chapter \ref{cap4:methodology}, concerning the data preprocessing and the implementations done in Perl and Java languages. Chapter \ref{cap5:results} is devoted to present the results. From a first round of experiments comparing different classification methods, to once the best of them are selected, the set of conducted experiments, the different partitions of the datasets, and result tables. Finally, the conclusions and future lines of research are presented in Chapter \ref{cap6:conclusions}.
 
 
