@@ -14,3 +14,13 @@ sudo apt-get install glosstex
 ```
 
 Para compilar, cambiad al directorio `Memoria TFM` y escribid `make`
+
+## Para el *deploy*
+ 
+```
+ git clone git@github.com:aprende-git/aprende-git.github.io.git
+```
+
+y `mv aprende-git.github.io _deploy`
+
+Y veremos a ver si eso funciona, tomo notas *on the fly* 
