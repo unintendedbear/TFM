@@ -12,3 +12,5 @@ Hay que instalar tex-live y, al menos, glosstex con
 ```
 sudo apt-get install glosstex
 ```
+
+Para compilar, cambiad al directorio `Memoria TFM` y escribid `make`
