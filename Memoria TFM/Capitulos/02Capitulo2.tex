@@ -23,6 +23,9 @@ The present Master Thesis tries to obtain a URL classification tool for enhancin
 %-------------------------------------------------------------------
 \label{cap2:sec:tools}
 
+% your thesis is not about BYOD, is about classifying threats. You
+% devote too much space to BYOD and too little to classification, web
+% logs processing, soft computing tools applied to them... - JJ
 Now that \ac{BYOD} philosophy is becoming a tendency, a number of tools appeared by now, and others are under development but expected to be released soon. They were specifically designed for \ac{CSO}s and \ac{CISO}s to secure, monitor, and act over spartphones and other personal mobile or portable devices, when they become too risky.
 
 %Extender
@@ -66,7 +69,15 @@ Then, the Enterprise App Store included in Sophos Mobile Control allows the comp
 %-------------------------------------------------------------------
 \label{cap2:sec:tools:subsec:knox}
 
-As part of its SAFE (Samsung for enterprise) brand, Samsung revealed at the Barcelona Mobile World Congress 2013 \footnote{http://www.zdnet.com/mwc-2013-samsungs-knox-system-takes-byod-fight-to-blackberry-7000011770/} the Knox application \citep{Samsung_tool}, and was publicited at the congress again this year \footnote{https://www.samsungknox.com/es/blog/new-knox-solutions-being-announced-mwc}. The solution is available since December 2013.
+As part of its SAFE (Samsung for enterprise) brand, Samsung revealed
+at the Barcelona Mobile World Congress 2013
+\footnote{http://www.zdnet.com/mwc-2013-samsungs-knox-system-takes-byod-fight-to-blackberry-7000011770/}
+the Knox application \citep{Samsung_tool}, and was publicited at the
+congress again this year
+\footnote{https://www.samsungknox.com/es/blog/new-knox-solutions-being-announced-mwc}. The
+solution is available since December 2013. % don't use footnotes for
+                                % articles, cite them. They also want
+                                % their H to increase - JJ
 The main feature of this security package is the use of different containers, or environments, for business and personal sides. Each one even includes its own graphic configuration (wallpapers, colours, and so on), in order to be more easily recognised and distinguished by the user.
 There will be needed introducing a password to enter into the business side and, once \textit{logged in} this container, no more passwords will be required for the business applications. The applications approved by the company \ac{IT} department must meet Samsung's security standards and allow single sign-on. A Knox \ac{API} will also be provided for the company to be capable of accessing over almost 205 predefined IT policies (the SAFE \ac{API} grows this number to 475). Also, Knox would allow different VPNs for individual apps.
 Regarding the information protection methods, data files saved by applications of each environment are encrypted with AES 256-bit algorithm, in such manner that only the appropriate container can access these files. In the same way, the user won't be able to share data between the two environments, e.g. creating separate contact lists so the user cannot send a contact from one side to the other, or if the user copies data to the clipboard in the Knox container, it won't be there in the personal container. Figure \ref{fig:img_knox_01} shows the device architecture with three main parts, each one in charge of deploying some of the mentioned characteristics.

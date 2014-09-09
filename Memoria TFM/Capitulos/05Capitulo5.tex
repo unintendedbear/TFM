@@ -332,10 +332,29 @@ PART & 68.37 $\pm$ 13.36 & 67.52 $\pm$ 9.60 & 64.23 $\pm$ 5.82 \\
 \end{table}
 
 \figuraEx{Vectorial/trtst8020.pdf}{width=1.\textwidth}{fig:results_8020}%
-{It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (71.19\% of accuracy).}{Comparison between classifiers, with 80\% for training, \%20 for testing, in performance at step 3.}
+{It is shown that the best classifiers are \textit{J48} and
+  \textit{REP Tree} (71.19\% of accuracy).}{Comparison between
+  classifiers, with 80\% for training, \%20 for testing, in
+  performance at step 3.} % Don't use "it is shown", ahórrate
+                          % pasiva. Di "This figure shows" - JJ
 
 \figuraEx{Vectorial/trtst9010.pdf}{width=1.\textwidth}{fig:results_9010}%
-{It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (74.72\% of accuracy)}{Comparison between classifiers, with 90\% for training, \%10 for testing, in performance at step 3.}
+{It is shown that the best classifiers are \textit{J48} and
+  \textit{REP Tree} (74.72\% of accuracy)}{Comparison between
+  classifiers, with 90\% for training, \%10 for testing, in
+  performance at step 3.} %describe qué hace la figura, no pongas
+                          %conclusiones aquí. Que sea mejor o peor
+                          %debe decidirlo quien lo ve.
+
+% Errores múltiples con las figuras
+% * usas capturas de pantalla. usa R y no Excel. Si usas Excel (o lo
+% que sea), exporta a HTML y te salen los JPG monísimos en el
+% directorio de ficheros.
+% * Los ejes deben de empezar siempre en 0. 
+% * No estoy muy seguro de que debas representar las incorrectamente
+% clasificadas. Son 100 - las bien clasificadas, es información
+% espúrea - JJ
+% * Siempre hay que representar la desviación estándar - JJ
 
 \figuraEx{Vectorial/trtst6040.pdf}{width=1.\textwidth}{fig:results_6040}%
 {It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (70.69\% of accuracy)}{Comparison between classifiers, with 60\% for training, \%40 for testing, in performance at step 3.}
@@ -393,3 +412,6 @@ In case that the features considered in the rule can be known in advance, such a
 %%% mode: latex
 %%% TeX-master: "../Tesis.tex"
 %%% End:
+
+% Debes añadir una sección donde digas qué es lo que funciona mejor y
+% por qué - JJ

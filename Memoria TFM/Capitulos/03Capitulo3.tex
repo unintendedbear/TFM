@@ -59,14 +59,14 @@ In this work we have considered Drools \citep{drools:site} as the tool to create
 \end{tabular}
 }
 ~
-\subfloat[Hash Rule in Perl]{
+\subfloat[Rule as a Perl hash]{
 \begin{tabular}{ p{0.5cm} p{0.5cm} p{3.5cm} }
   \texttt{\%rules~=~(} & & \\
    & \texttt{rule~=>\{} & \\
    & & \texttt{field => xxx} \\
    & & \texttt{relation => xxx} \\
    & & \texttt{value => xxx} \\
-   & & \texttt{action => [allow, deny]} \\
+   & & \texttt{action => [allow, deny]} \\ % Maybe strings? - JJ
    & \texttt{\},} & \\
   \texttt{);} & & \\
 \end{tabular}
@@ -92,7 +92,10 @@ In this work we have considered Drools \citep{drools:site} as the tool to create
 %-------------------------------------------------------------------
 \label{cap3:sec:log}
 
-The analysed data come from an \texttt{access.log} of the Squid proxy application \citep{squid:site}, in a real Spanish company. This open source tool works as a proxy, but with the advantage of storing a cache of recent transactions so future requests may be answered without asking the origin server again \citep{DuaneWessels2004}. Every pattern, namely a URL session has ten variables associated, which we describe in Table \ref{tabdata}, indicating if the variable is numeric or nominal/categorical.
+The analysed data come from an \texttt{access.log} of the Squid proxy
+application \citep{squid:site}, in a real Spanish company. % maybe
+                                % actual instead of real? - JJ 
+This open source tool works as a proxy, but with the advantage of storing a cache of recent transactions so future requests may be answered without asking the origin server again \citep{DuaneWessels2004}. Every pattern, namely a URL session has ten variables associated, which we describe in Table \ref{tabdata}, indicating if the variable is numeric or nominal/categorical.
 
 \begin{sidewaystable}[htpb]
 \centering
@@ -215,3 +218,5 @@ Taking into account that the study performed along this Master Thesis has the ob
 %%% mode: latex
 %%% TeX-master: "../Tesis.tex"
 %%% End:
+
+% A bit too short, maybe... 
