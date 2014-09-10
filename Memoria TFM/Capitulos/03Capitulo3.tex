@@ -43,7 +43,18 @@ Goguen et al. \citep{Goguen_SecPol82} defined the concept of \textit{security po
 %-------------------------------------------------------------------
 \label{cap3:sec:rules:subsec:drools}
 
-In this work we have considered Drools \citep{drools:site} as the tool to create, and therefore, manage rules in a business environment. This so called Business Rule Management System (BRMS) has been developed by the JBoss community under an Apache License and it is written in Java. Though this platform consist of many components, here we focus on Drools Expert and the \ac{DRL} \citep{drools:doc}). Then, the defined rules for a certain company are inside of a file with a \texttt{.drl} extension, the file that needs to be parsed to obtain the final set of rules. In Figure \ref{fig:drools_hash}, (a), there is the typical rule syntax in \ac{DRL}. Two main things should be obtained from the parsing method: both left and right sides of the rule, taking into account that the left side is where the company specifies the conditions required to apply the action indicated in the right side. Also, for describing the conditions, Squid syntax is used (see Section \ref{cap3:sec:rules:subsec:logdata}), having thus the following structure: \texttt{squid:Squid(\textit{conditions})}. Finally, from the right side of the rule, the \textit{ALLOW} or \textit{DENY} label to apply on the data that matches with the conditions, will be extracted. The Perl parser that we have implemented applies two regular expressions, one for each side of the rule, and returns a hash with all the rules with the conditions and actions defined. The `before and after' performing the parsing over the \texttt{.drl} file is in Figure \ref{fig:drools_hash} (b and c).
+In this work we have considered Drools \citep{drools:site} as the tool to create, and therefore, manage rules in a business environment. This so called Business Rule Management System (BRMS) has been developed by the JBoss community under an Apache License and it is written in Java. Though this platform consist of many components, here we focus on Drools Expert and the \ac{DRL} \citep{drools:doc}). Then, the defined rules for a certain company are inside of a file with a \texttt{.drl} extension, the file that needs to be parsed to obtain the final set of rules. In Figure \ref{fig:drools_hash}, (a), there is the typical rule syntax in \ac{DRL}. Two main things should be obtained from the parsing method: both left and right sides of the rule, taking into account that the left side is where the company specifies the conditions required to apply the action indicated in the right side. Also, for describing the conditions, Squid syntax is used (see Section \ref{cap3:sec:rules:subsec:logdata}), having thus the following structure: \texttt{squid:Squid(\textit{conditions})}. Finally, from the right side of the rule, the \textit{ALLOW} or \textit{DENY} label to apply on the data that matches with the conditions, will be extracted.
+
+The Perl parser that we have implemented applies two regular expressions, one for each side of the rule, and returns a hash with all the rules with the conditions and actions defined. The `before and after' performing the parsing over the \texttt{.drl} file is in Figure \ref{fig:drools_hash} (b and c). They show how the rule has been \textit{translated} into Perl and Java languages. Figure \ref{fig:drools_hash} (b) shows the rule as a Perl hash of hashes; the main key is the number of the rule (for instance, `rule15' meaning `the 15th rule in the set of rules'), and the value is another hash that includes the fields of the rule: 
+
+\begin{description}
+  \item[field] is a string that contains the data type (content type, main content type, url, bytes, etc).
+  \item[relation] is a string with four possible values: <, >, and == for numbers, and \textit{matches} for comparing strings.
+  \item[value] is a string the value of the data type in \textit{field} that we are looking for.
+  \item[action] as shown in the Figure, a string indicating if the rule is supossed to deny or allow the pattern that meets the conditions.
+\end{description}
+
+On the other hand, Figure \ref{fig:drools_hash} (c) shows the way to represent the same rule but as a Java Object. The attributes of its constructor are: a \texttt{String action}, the same as in the Perl hash, and a Java List of another Java Object that we have define, \texttt{Condition}. Thus, Figure \ref{fig:condition_object} depicts the constructor of this Condition Object. This Object has three strings: \texttt{dataType}, \texttt{relationship}, and \texttt{value}. They have the same meaning as in the Perl hash. 
 
 \begin{figure}[htb]
 \centering
@@ -87,13 +98,26 @@ In this work we have considered Drools \citep{drools:site} as the tool to create
 \caption[Rule format and results after parsing it.]{(a) Structure of a rule in Drools Expert. (b) Resulting rule, after the parsing, in a global hash of rules in Perl. (c) Java constructor of the object type Rule. \label{fig:drools_hash}}
 \end{figure}
 
+\begin{figure}[]
+\begin{lstlisting}[basicstyle={\scriptsize\ttfamily},breaklines=true,language=Java,numbers=left,stepnumber=1,numberstyle={\scriptsize},tabsize=3]
+public Condition(String dataType, String relationship, String value) {
+		
+		this.dataType = dataType;
+		this.relationship = relationship;
+		this.value = value;
+		
+	}
+\end{lstlisting}
+\caption[Created object Condition in Java]{Constructor method of the object type Condition in Java.\label{fig:condition_object}}
+\end{figure}
+
 %-------------------------------------------------------------------
 \section{Company Log}
 %-------------------------------------------------------------------
 \label{cap3:sec:log}
 
 The analysed data come from an \texttt{access.log} of the Squid proxy
-application \citep{squid:site}, in a real Spanish company. % maybe
+application \citep{squid:site}, in an actual Spanish company. % maybe
                                 % actual instead of real? - JJ 
 This open source tool works as a proxy, but with the advantage of storing a cache of recent transactions so future requests may be answered without asking the origin server again \citep{DuaneWessels2004}. Every pattern, namely a URL session has ten variables associated, which we describe in Table \ref{tabdata}, indicating if the variable is numeric or nominal/categorical.
 
@@ -220,3 +244,4 @@ Taking into account that the study performed along this Master Thesis has the ob
 %%% End:
 
 % A bit too short, maybe... 
+% incluídas más cosas

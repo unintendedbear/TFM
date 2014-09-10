@@ -26,6 +26,7 @@ The present Master Thesis tries to obtain a URL classification tool for enhancin
 % your thesis is not about BYOD, is about classifying threats. You
 % devote too much space to BYOD and too little to classification, web
 % logs processing, soft computing tools applied to them... - JJ
+% ok, a ver lo que me da tiempo a meter...
 Now that \ac{BYOD} philosophy is becoming a tendency, a number of tools appeared by now, and others are under development but expected to be released soon. They were specifically designed for \ac{CSO}s and \ac{CISO}s to secure, monitor, and act over spartphones and other personal mobile or portable devices, when they become too risky.
 
 %Extender
@@ -71,10 +72,10 @@ Then, the Enterprise App Store included in Sophos Mobile Control allows the comp
 
 As part of its SAFE (Samsung for enterprise) brand, Samsung revealed
 at the Barcelona Mobile World Congress 2013
-\footnote{http://www.zdnet.com/mwc-2013-samsungs-knox-system-takes-byod-fight-to-blackberry-7000011770/}
+\citep{mwc_2013}
 the Knox application \citep{Samsung_tool}, and was publicited at the
 congress again this year
-\footnote{https://www.samsungknox.com/es/blog/new-knox-solutions-being-announced-mwc}. The
+\citep{mwc_2014}. The
 solution is available since December 2013. % don't use footnotes for
                                 % articles, cite them. They also want
                                 % their H to increase - JJ
@@ -98,7 +99,7 @@ It is important to take into account that if an enterprise decides to deploy thi
 %-------------------------------------------------------------------
 \label{cap2:sec:tools:subsec:good}
 
-The philosophy followed by Good's solution is similar to Samsung's Knox one: to create a secure container that places an unreachable partition between personal and business data in order to protect company assets. The solutions that they offer \citep{Good_tool} are similar than the previous ones. They have focused in mobile (not laptops) devices, though they support a different of \ac{OS}s, and in separating personal and company data. A Good's secure Network Operations Center (NOC) is introduced for dealing with the unauthorised devices, or for providing access to secure collaboration solutions (email, PIM, calendar), intranet, and in-house or third-party mobile applications. Finally, Good offers best practise recommendations to help the company's \ac{BYOD} policies such as reimbursements and stipends. There is a document available at Good's webpage\footnote{http://www1.good.com/mobility-management-solutions/bring-your-own-device}  which contains several questions about \ac{ISP}s and how to cope with all of them.
+The philosophy followed by Good's solution is similar to Samsung's Knox one: to create a secure container that places an unreachable partition between personal and business data in order to protect company assets. The solutions that they offer \citep{Good_tool} are similar than the previous ones. They have focused in mobile (not laptops) devices, though they support a different of \ac{OS}s, and in separating personal and company data. A Good's secure Network Operations Center (NOC) is introduced for dealing with the unauthorised devices, or for providing access to secure collaboration solutions (email, PIM, calendar), intranet, and in-house or third-party mobile applications. Finally, Good offers best practise recommendations to help the company's \ac{BYOD} policies such as reimbursements and stipends. There is a document available at Good's webpage \citep{Good_tool} which contains several questions about \ac{ISP}s and how to cope with all of them.
                                 
 %-------------------------------------------------------------------
 \subsection{BlackBerry Balance}
@@ -117,7 +118,7 @@ On the other side, employees are able to access information and applications rel
 %-------------------------------------------------------------------
 \label{cap2:sec:tools:subsec:blackphone}
 
-One of the most acclaimed devices that were presented in this year Mobile World Congress (Barcelona, Spain), was the Blackphone \footnote{\url{http://www.pcmag.com/article2/0,2817,2453964,00.asp}}. It is a phone developed with the objective of keeping the user safe at all moments, so it is a perfect match for a BYOD ecosystem. The data stored on the device can be wiped remotely at any time, and the use of the Blackphone Security Center is really helpful for the user, as it is possible completely control every application that is installed.
+One of the most acclaimed devices that were presented in this year Mobile World Congress (Barcelona, Spain), was the Blackphone \citep{mwc_2014_blacb}. It is a phone developed with the objective of keeping the user safe at all moments, so it is a perfect match for a BYOD ecosystem. The data stored on the device can be wiped remotely at any time, and the use of the Blackphone Security Center is really helpful for the user, as it is possible completely control every application that is installed.
 
 Blackphone's Operative System, called PrivateOS, is a version of Android customised to offer the maximum security, and it has the hability, for example, of ignoring any Wi-Fi spot except for those that are trusted by the user. In Figure \ref{fig:blackphone} there is a list of the main advantages and security and privacy enhancements that PrivatOS has with respect to a standard Android OS.
 
@@ -187,7 +188,7 @@ However almost all the approaches deal with numerical (real, integer) data.
 
 One interesting point about URL classification is that the study of the distance between \ac{URL}s may be based in the distance between two strings, but Blanco et al. \citep{Blanco2011} argues that the lexical distance between two URLs is not enough to classify them. In addition, the heuristic study of \ac{URL}s for security purposes in the user side is not a novel practice. Also, the use of Blacklists (in this work, the \textit{denied} \ac{URL}s) and Whitelists (\textit{allowed} URLs) are very extended practices. For instance, phishing is a problem of security that Sheng et al.  and Khonki et al. \citep{Khonji2011} tried to solve. The first work uses Blacklists as reference to avoid phishing attacks made by e-mail; the second one aims for an heuristic analysis of the \ac{URL}s domain names and its ranks, in a way that a phished \ac{URL} can be detected.
 
-Also, doing some web searching we have found that a lot of companies stands for the use of one between Blacklist and Whitelist \footnote{http://kevtownsend.wordpress.com/2011/08/24/whitelisting-vs-blacklisting/}. While whitelisting is the more restrictive solution and therefore the more secure, we think that the best solution is to use both, and for this reason the set of rules that we used covers a succession of either allowed and denied web sites.
+Also, doing some web searching we have found that a lot of companies stands for the use of one between Blacklist and Whitelist \citep{whiteblack_list}. While whitelisting is the more restrictive solution and therefore the more secure, we think that the best solution is to use both, and for this reason the set of rules that we used covers a succession of either allowed and denied web sites.
 
 What refers to the used techniques, \ac{DM}, as well as \ac{ML}, has been used since long ago in many scientific fields,
 and given that research in computer security was growing since the eighties \citep{computer_security_80}, it was in the nineties when these techniques began to be applied to security issues \citep{Clifton1996}. 
