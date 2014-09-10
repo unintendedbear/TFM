@@ -7,6 +7,9 @@
 % Contiene el capítulo del resumen.
 %
 % Se crea como un capítulo sin numeración.
+% 
+% Aquí no se pueden poner los acrónimos como \ac{__} porque no los reconoce, 
+% así que los pongo a mano.
 %
 %---------------------------------------------------------------------
 
@@ -17,27 +20,34 @@ Corporate workers increasingly use their own devices for work
 purposes, in a trend that has come to be called the \textit{Bring Your
   Own Device} (BYOD) philosophy and companies are starting to include
 it in their policies. For this reason, corporate security systems need
-to be redefined and adapted, by the corporate workforce, to these
+to be redefined and adapted, by the corporate Information Technology (IT) department, to these
 emerging behaviours. %adapted _by the workforce_? Why? -JJ
-This work proposes applying soft-computing techniques to improve the
-security mechanisms % policies más que mechanisms, ¿no? - JJ
-inside a company.  The actions performed be company workers under a BYOD situation will be treated as events: an action or set of actions yielding to a response. Some of those events might cause a non compliance with some corporate policies, and then it would be necessary to define a set of security rules (action, consequence). Furthermore, the processing of the extracted knowledge will allow the rules to be adapted.
+%creo que hace tiempo yo puse otra cosa y alguien me lo cambió a workforce, pero lo cambio otra vez
+This work proposes applying soft-computing techniques, in order to help the Chief Security Officer (CSO) of a company (in charge of the IT department) to improve the
+security policies. % policies más que mechanisms, ¿no? - JJ
+%cierto, lo cambio
+The actions performed be company workers under a BYOD situation will be treated as events: an action or set of actions yielding to a response. Some of those events might cause a non compliance with some corporate policies, and then it would be necessary to define a set of security rules (action, consequence). Furthermore, the processing of the extracted knowledge will allow the rules to be adapted.
 
 The goals of this work are the following:
 
 \begin{itemize}
- \item Applying data mining techniques to extract information from
-   Company set % company-set security policies or the set of security
+ \item Extracting information from
+   a set % company-set security policies or the set of security
                % polices set by the company? - JJ
-of Security Policies, and from a set of Internet
-   connection patterns of its employees. % No es un objetivo, es un
+               % culpa mía porque esto creo que lo puse tal cual lo pusimos en la proposición del TFM, lo pongo mejor
+of Corporate Security Polocies (CSP) (also called Information Security Policies (ISP)), and from a set of Internet
+   connection patterns of its employees, by applying Data Mining techniques. % No es un objetivo, es un
                                 % medio para alcanzar un objetivo - JJ
+                                % claro, el objetivo es extraer la información. Lo redacto de nuevo.
  \item Combining that information to detect interesting or suspicious
-   patterns, since they could lead to security incidents. %interesting
+   patterns from the point of view of a CSO. They are relevant because they could lead to security incidents, assuming that a security incident is a pattern that is not compliant with the rules derived from security policies. %interesting
                                 %for whom? - JJ
+                                %creo que está bastante claro si se dice que pueden dar lugar a incidentes de seguridad...
+                                %pero incluyo lo del CSO para más aclaración.
  \item Performing a deep study of the labelled patterns with the Weka
    tool, and find the best classification method and the most
-   significant features. % features of what? - JJ
+   significant data features. % features of what? - JJ
+                              % cambio 'features' por 'data features'
 \end{itemize}
 
 All the development of the code, research, and writing of this Thesis has been done on Github \footnote{\url{https://github.com}}. It is open and accesible at: \url{https://github.com/unintendedbear/TFM/}.
