@@ -168,59 +168,12 @@ for my $r (@rows ) {
 
 As said in Section \ref{cap3:sec:log}, the data used for this work is not only numerical or nominal, thus, only classification algorithms that support both types of data have been considered. Weka \citep{weka:site} is a collection of State-of-the-Art machine learning algorithms and data preprocessing tools that are key for data mining processes \citep{Frank2011}. With such a great number of possible algorithms to work with, we have conducted a preselection phase trying to choose those which would yield better results in the experiments. More specifically, we have focused on rule-based and decision-tree-based algorithms. 
 
-It is important to point out that rules can become trees, but rules cannot always be derived from trees (for instance, a tree modelling a mathematical operation).
-
 In this way, a decision-tree algorithm is a group of conditions organised in a top-down recursive manner in a way that a class is assigned following a path of conditions, from the root of the tree to one of its leaves. Generally speaking, the possible classes to choose are mutually exclusive. Furthermore, these algorithms are also called ``divide-and-conquer'' algorithms. On the other hand, there are the ``separate-and-conquer'' algorithms, which work creating rules one at a time, then the instances covered by the created rule are removed and the next rule is generated from the remaining instances.
 
-A reference to each Weka classifier can be found at \citep{Frank2011}. Below are described the top five techniques, obtained from the best results (See Table \ref{tabresults_todos}) of the experiments done in this stage, along with more specific bibliography. Naïve Bayes method \citep{Bayesian_Classifier_97} has been included as a baseline, normally used in text categorization problems. According to the results, the five selected classifiers are much better than this method. Deeper results are shown in Chapter \ref{cap5:results}.
-
-\begin{table}[htpb]
-\centering 
-{\small
-\begin{tabular}{|l|l|l|}
-\cline{2-3}
-\multicolumn{1}{l|}{} & Undersampling & Oversampling \\ 
-\hline
-Naïve Bayes & 91.12 & 91.77 \\ 
-\cline{1-1}
-Conjunctive Rule & 60.14 & 60.02 \\ 
-\cline{1-1}
-Decision Table & 94.08 & 90.29 \\ 
-\cline{1-1}
-DTNB & 94.75 & 95.65 \\ 
-\cline{1-1}
-JRip & 90.08 & 92.47 \\ 
-\cline{1-1}
-NNge & \textbf{96.49} & \textbf{98.76} \\ 
-\cline{1-1}
-One R & 93.45 & 93.70 \\ 
-\cline{1-1}
-PART & \textbf{96.45} & \textbf{97.54} \\ 
-\cline{1-1}
-Ridor & 87.22 & 89.87 \\ 
-\cline{1-1}
-Zero R & 51.39 & 51.26 \\ 
-\cline{1-1}
-AD Tree & 77.73 & 77.68 \\ 
-\cline{1-1}
-Decision Stump & 60.14 & 60.02 \\ 
-\cline{1-1}
-J48 & \textbf{97.02} & \textbf{98.00} \\ 
-\cline{1-1}
-LAD Tree & 79.95 & 79.97 \\ 
-\cline{1-1}
-Random Forest & \textbf{96.87} & \textbf{98.84} \\ 
-\cline{1-1}
-Random Tree & 95.14 & 98.35 \\ 
-\cline{1-1}
-REP Tree & \textbf{96.79} & \textbf{97.67} \\ 
-\hline
-\end{tabular}
-}
-\caption[Global classification methods ranking after step 1.]{\label{tabresults_todos} Results of all tested classification methods on balanced data. The best ones are marked in boldface.}
-\end{table}
+A reference to each Weka classifier can be found at \citep{Frank2011}. Below are described the top five techniques, obtained from the best results  of the experiments done in this stage, along with more specific bibliography. Naïve Bayes method \citep{Bayesian_Classifier_97} has been included as a baseline, normally used in text categorization problems. According to the results, the five selected classifiers are much better than this method. Deeper results are shown in Chapter \ref{cap5:results}.
 
 \begin{description}
+  \item[Naïve Bayes] It is the classification technique that we have used as a reference for either its simplicity and ease to understand. Its basis relies on the Bayes Theorem and the possibility of represent the relationship between two random variables as a Bayesian network \ref{rish2001empirical}. Then, by assigning values to the variables probabilities, the probabilities of the occurrences between them can be obtained. Thus, assuming that a set of attributes are independent one from another, and using the Bayes Theorem, patterns can be classified without the need of trees or rule creation, just by calculating probabilities.
    \item[J48] This classifier generates a pruned or unpruned C4.5 decision tree. Described for the first time in 1993 by \citep{Quinlan1993}, this machine learning method builds a decision tree selecting, for each node, the best attribute for splitting and create the next nodes. An attribute is selected as `the best' by evaluating the difference in entropy (information gain) resulting from choosing that attribute for splitting the data. In this way, the tree continues to grow till there are not attributes anymore for further splitting, meaning that the resulting nodes are instances of single classes. 
    \item[Random Forest] This manner of building a decision tree can be seen as a randomization of the previous C4.5 process. It was stated by \citep{Breiman2001} and consist of, instead of choosing `the best' attribute, the algorithm randomly chooses one between a group of attributes from the top ones. The size of this group is customizable in Weka.
    \item[REP Tree] Is another kind of decision tree, it means Reduced Error Pruning Tree. Originally stated by \citep{Quinlan1987}, this method builds a decision tree using information gain, like C4.5, and then prunes it using reduced-error pruning. That means that the training dataset is divided in two parts: one devoted to make the tree grow and another for pruning. For every subtree (not a class/leaf) in the tree, it is replaced by the best possible leaf in the pruning three and then it is tested with the test dataset if the made prune has improved the results. A deep analysis about this technique and its variants can be found in \citep{Elomaa2001}.
@@ -236,6 +189,7 @@ These methods are then deeply tested on the datasets that result from applying b
 \label{cap4:sec:Java}
 
 % same as above. Requirements, then solution - JJ
+% fixed
 
 Weka had been implemented in Java, and for that reason we started a second implementation with this language. As said in the previous Section \ref{cap4:sec:Perl}, the developing time with Java is higher, but in general the performance is better (see results in Section \ref{cap4:sec:Java:subsec:perlvsjava}), and we also have the possibility of developing a method for lauching the experiments and not doing them one by one. But if Perl had the advantage of being the best for preprocessing with the regular expressions, Java has the feature of directly process Weka output and, this way, obtaining reports and rankings with the best techniques.
 
