@@ -168,7 +168,7 @@ REP Tree & \textbf{97.32} & \textbf{96.38 $\pm$ 0.07} & 97.67 \\
 \caption[Global classification methods ranking after step 2.]{\label{tab:gobalrank_repurls} Results of all tested classification methods on unbalanced and balanced data, after the repeated requests have been removed. The best ones are marked in boldface.}
 \end{table}
 
-The process is again the same, with the difference that now it has been included \textit{Naïve Bayes} as a reference in all the groups of experiments. The results are displayed in Tables \ref{tab:repurl_unb_traintest} (a) and (b). With regard to the 60\% - 40\% partition of part (b), . 
+The process is again the same, with the difference that now it has been included \textit{Naïve Bayes} as a reference in all the groups of experiments. The results are displayed in Tables \ref{tab:repurl_unb_traintest} (a) and (b).
 
 We can see that the results are slightly worse than the ones obtained in step 1, but they are still good, and definitely better than Naïve Bayes, our result reference. It is not a surprise that, again, results for files with the patterns taken consecutively lower significantly. As previously, this is because the possible loss of information. Best results are obtained by both \textit{Random Forest} and \textit{REP Tree} classifiers, with a 96\% of accuracy.
 
@@ -199,23 +199,23 @@ PART & 96.84 $\pm$ 0.18 & 86.68 & 96.55 $\pm$ 0.87 & 83.61 \\
 
 \subfloat[60\% for tranining, 40\% for testing]{
 \small
-\begin{tabular}{|l|c|}
-\cline{2-2}
-\multicolumn{1}{l|}{} & \multicolumn{1}{c|}{60\% Training - 40\% Test} \\ 
-\cline{2-2}
-\multicolumn{1}{l|}{} & Random (mean) \\ 
+\begin{tabular}{|l|c|c|}
+\cline{2-3}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{60\% Training - 40\% Test} \\ 
+\cline{2-3}
+\multicolumn{1}{l|}{} & Random (mean) & Sequential\\ 
 \hline
-Naïve Bayes & 92.76 $\pm$ 1.34 \\ 
+Naïve Bayes & 92.76 $\pm$ 1.34 & 77.74 \\ 
 \cline{1-1}
-Random Forest & 96.45 $\pm$ 0.67 \\ 
+Random Forest & 96.45 $\pm$ 0.67 & 87.50 \\ 
 \cline{1-1}
-J48 & 96.44 $\pm$ 0.19 \\ 
+J48 & 96.44 $\pm$ 0.19 & 87.42 \\ 
 \cline{1-1}
-NNge & 95.98 $\pm$ 0.34 \\ 
+NNge & 95.98 $\pm$ 0.34 & 84.73 \\ 
 \cline{1-1}
-REP Tree & 96.41 $\pm$ 0.27 \\ 
+REP Tree & 96.41 $\pm$ 0.27 & 88.91 \\ 
 \cline{1-1}
-PART & 96.05 $\pm$ 0.45 \\ 
+PART & 96.05 $\pm$ 0.45 & 81.29 \\ 
 \hline
 \end{tabular}
 }
@@ -231,7 +231,7 @@ The last step taken in this research was to try to better separate the patterns 
 
 It must be pointed out that, for the moment, there are no generations of training and test files with the patterns taken consecutively. The reason for this can be seen also in Table \ref{tab:coredom_stats}: taking into account this way of separating the data, when a certain log entry happens to be placed in the training, or testing, file, all the others which share the same \ac{URL} core domain, will follow to the same file, and therefore is impossible to reach the desired percentages.
 
-Furthermore, taking a look at the results in Table \ref{tab:coredom_unb_traintest}, they are by far the worst we obtained. It seems that a lot of information is lost by performing this step. Figures \ref{fig:results_8020}, \ref{fig:results_9010}, and \ref{fig:results_6040} show a comparison between the tested classifiers during this process. It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (between 70.69\& and 74.72\% of accuracy).
+Furthermore, taking a look at the results in Table \ref{tab:coredom_unb_traintest}, they are by far the worst we obtained. It seems that a lot of information is lost by performing this step. These Tables show a comparison between the tested classifiers during this process. It can be seen that the best classifiers are \textit{J48} and \textit{REP Tree} (between 70.69\& and 74.72\% of accuracy).
 
 \begin{figure}[htb]
 \centering
@@ -331,33 +331,86 @@ PART & 68.37 $\pm$ 13.36 & 67.52 $\pm$ 9.60 & 64.23 $\pm$ 5.82 \\
 \caption[Correctly classified patterns for unbalanced data after the step 3.]{\label{tab:coredom_unb_traintest} Percentage of correctly classified patterns for unbalanced data after the step 3. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
 \end{table}
 
-\figuraEx{Vectorial/trtst8020.pdf}{width=1.\textwidth}{fig:results_8020}%
-{It is shown that the best classifiers are \textit{J48} and
-  \textit{REP Tree} (71.19\% of accuracy).}{Comparison between
-  classifiers, with 80\% for training, \%20 for testing, in
-  performance at step 3.} % Don't use "it is shown", ahórrate
-                          % pasiva. Di "This figure shows" - JJ
+% Al final he quitado las figuras porque total, estaban hechas para ponerlas en Hamgurgo. Si me da tiempo las hago bien y las pongo.
 
-\figuraEx{Vectorial/trtst9010.pdf}{width=1.\textwidth}{fig:results_9010}%
-{It is shown that the best classifiers are \textit{J48} and
-  \textit{REP Tree} (74.72\% of accuracy)}{Comparison between
-  classifiers, with 90\% for training, \%10 for testing, in
-  performance at step 3.} %describe qué hace la figura, no pongas
-                          %conclusiones aquí. Que sea mejor o peor
-                          %debe decidirlo quien lo ve.
+%-------------------------------------------------------------------
+\subsection{Filtering the features of the URL}
+%-------------------------------------------------------------------
+\label{cap5:sec:exp:tlds}
 
-% Errores múltiples con las figuras
-% * usas capturas de pantalla. usa R y no Excel. Si usas Excel (o lo
-% que sea), exporta a HTML y te salen los JPG monísimos en el
-% directorio de ficheros.
-% * Los ejes deben de empezar siempre en 0. 
-% * No estoy muy seguro de que debas representar las incorrectamente
-% clasificadas. Son 100 - las bien clasificadas, es información
-% espúrea - JJ
-% * Siempre hay que representar la desviación estándar - JJ
+As said in... Tables \ref{tab:tld_unb_traintest}, \ref{tab:tld_und_traintest}, and \ref{tab:tld_ov_traintest}.
 
-\figuraEx{Vectorial/trtst6040.pdf}{width=1.\textwidth}{fig:results_6040}%
-{It is shown that the best classifiers are \textit{J48} and \textit{REP Tree} (70.69\% of accuracy)}{Comparison between classifiers, with 60\% for training, \%40 for testing, in performance at step 3.}
+\begin{table}[htpb]
+\centering
+{\small
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|l|}{Percentage training \& test} & \multicolumn{1}{c|}{80\% - 20\%} & \multicolumn{1}{c|}{90\% - 10\%} & \multicolumn{1}{c|}{60\% - 40\%} \\ 
+\hline
+Naïve Bayes & 81.56 $\pm$ 2.68 & 79.68 $\pm$ 0.67 & 79.85 $\pm$ 0.77 \\ 
+\cline{1-1}
+Random Forest & 95.42 $\pm$ 0.32 & 95.69 $\pm$ 0.27 & 95.16 $\pm$ 0.22 \\ 
+\cline{1-1}
+J48 & 95.00 $\pm$ 0.27 & 94.89 $\pm$ 0.15 & 93.97 $\pm$ 0.15 \\ 
+\cline{1-1}
+NNge & 95.47 $\pm$ 0.09 & 94.50 $\pm$ 0.42 & 93.97 $\pm$ 0.22 \\ 
+\cline{1-1}
+REP Tree & 94.20 $\pm$ 0.30 & 93.95 $\pm$ 0.16 & 93.12 $\pm$ 0.26 \\ 
+\cline{1-1}
+PART & 94.77 $\pm$ 0.12 & 95.02 $\pm$ 0.08 & 94.13 $\pm$ 0.11 \\ 
+\hline
+\end{tabular}
+}
+\caption[Correctly classified patterns for unbalanced data after the step 4.]{\label{tab:tld_unb_traintest} Percentage of correctly classified patterns for unbalanced data after the step 4. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\end{table}
+
+\begin{table}[htpb]
+\centering
+{\small
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|l|}{Percentage training \& test} & \multicolumn{1}{c|}{80\% - 20\%} & \multicolumn{1}{c|}{90\% - 10\%} & \multicolumn{1}{c|}{60\% - 40\%} \\ 
+\hline
+Naïve Bayes & 79.70 $\pm$ 0.25 & 79.96 $\pm$ 0.72 & 79.43 $\pm$ 1.72 \\ 
+\cline{1-1}
+Random Forest & 94.01 $\pm$ 0.28 & 95.46 $\pm$ 1.73 & 93.32 $\pm$ 0.11 \\ 
+\cline{1-1}
+J48 & 92.93 $\pm$ 0.37 & 93.23 $\pm$ 0.14 & 92.15 $\pm$ 0.39 \\ 
+\cline{1-1}
+NNge & 93.07 $\pm$ 0.23 & 93.28 $\pm$ 0.26 & 92.51 $\pm$ 0.14 \\ 
+\cline{1-1}
+REP Tree & 91.80 $\pm$ 0.24 & 91.90 $\pm$ 0.35 & 90.94 $\pm$ 0.16 \\ 
+\cline{1-1}
+PART & 93.03 $\pm$ 0.09 & 94.46 $\pm$ 1.69 & 92.28 $\pm$ 0.49 \\ 
+\hline
+\end{tabular}
+}
+\caption[Correctly classified patterns for balanced data (undersampling technique) after the step 4.]{\label{tab:tld_und_traintest} Percentage of correctly classified patterns for balanced data (with undersampling technique) after the step 4. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\end{table}
+
+\begin{table}[htpb]
+\centering
+{\small
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|l|}{Percentage training \& test} & \multicolumn{1}{c|}{80\% - 20\%} & \multicolumn{1}{c|}{90\% - 10\%} & \multicolumn{1}{c|}{60\% - 40\%} \\ 
+\hline
+Naïve Bayes & 79.57 $\pm$ 0.98 & 79.87 $\pm$ 0.20 & 79.49 $\pm$ 0.88 \\ 
+\cline{1-1}
+Random Forest & 97.09 $\pm$ 0.06 & 97.90 $\pm$ 0.22 & 96.24 $\pm$ 0.14 \\ 
+\cline{1-1}
+J48 & 95.77 $\pm$ 0.42 & 96.25 $\pm$ 0.17 & 94.92 $\pm$ 0.12 \\ 
+\cline{1-1}
+NNge & 96.82 $\pm$ 0.27 & 97.66 $\pm$ 0.25 & 95.78 $\pm$ 0.16 \\ 
+\cline{1-1}
+REP Tree & 94.63 $\pm$ 0.27 & 95.23 $\pm$ 0.34 & 93.80 $\pm$ 0.09 \\ 
+\cline{1-1}
+PART & 95.73 $\pm$ 0.30 & 96.12 $\pm$ 0.05 & 94.86 $\pm$ 0.16 \\ 
+\hline
+\end{tabular}
+}
+\caption[Correctly classified patterns for balanced data (oversampling technique) after the step 4.]{\label{tab:tld_ov_traintest} Percentage of correctly classified patterns for balanced data (with oversampling technique) after the step 4. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\end{table}
 
 %-------------------------------------------------------------------
 \section{Rules obtained, a study case}
