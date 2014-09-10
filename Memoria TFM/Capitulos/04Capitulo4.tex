@@ -17,6 +17,8 @@ CLARA: What's wrong? Do you think it's not done yet?
 \end{Fuente}
 \end{FraseCelebre}
 
+This Chapter describes the two implementations that followed this research work. First, a fast analysis of both security policies and log data files required a language whith tools for an easy implementation of a parser for these kind of files. Section \ref{cap4:sec:Perl} describes why Perl was used for this task and how the first system (as a set of Perl scripts) was implemented. Then, for processing the data that has been analysed, and trying as many classification methods as possible, to see which ones work better with our data, we worked with Weka. Followed methodology with Weka is reported in section \ref{cap4:sec:Weka}. Finally, after a first round of experiments was done, before continue doing more experiments, and due to the high quantity of different files that needed to be created (separation of the original file in training and test files, as explained in Section \ref{cap4:sec:traintest}), a second implementation, not with Perl, was proposed. That implementation was required to be compatible with the use of Weka, in order to make things faster and automated. As Weka is developed in Java, the second part of the implementation was made in it, and the details are in Section \ref{cap4:sec:Java}.
+
 %-------------------------------------------------------------------
 \section{First implementation, Perl}
 %-------------------------------------------------------------------
@@ -24,6 +26,7 @@ CLARA: What's wrong? Do you think it's not done yet?
 % first requirements, then language. What did you want? I wanted this
 % and that. And Perl fulfilled those requirements. Don't post-justify
 % - JJ 
+% lo voy a intentar arreglar poniendo una introducción antes de empezar la sección
 Perl was chosen for the initial development of the environment in which the data would be prepocessed and experiments would be developed. As a scripting language, it allows a faster application development than other languages such C or Java (although we have used Java in this work too, and in Section \ref{cap4:sec:Java} it is explained why), and faster performance too. In \citep{oreilly_perl07}, Tim O'Reilly, founder and \ac{CEO} of O'Reilly Media Inc \footnote{\url{http://www.oreilly.com/}}, and Ben Smith deeply describe the advantages of using Perl for every application, and also they present 11 actual cases in where the use of Perl enhanced their situations.
 
 But the most important advantage of Perl is that is the best language for Information Processing. Thus, by means of its regular expressions, patterns of any type (depending on what the programmer is looking for) can be recognised, processed, stored, or studied. And even though Java uses regular expressions too, Perl scripting nature makes easier to use them. Furthermore, \ac{URL} study and HTML (body of free form text) processing is the ideal application for this Perl feature.
@@ -163,9 +166,7 @@ for my $r (@rows ) {
 %-------------------------------------------------------------------
 \label{cap4:sec:Weka}
 
-The reason for using Weka \citep{weka:site} is because it is a collection of State-of-the-Art machine learning algorithms and data preprocessing tools that are key for data mining processes \citep{Frank2011}. Then, it matches perfectly with our needing of trying as many classification methods as possible, to see which ones work better with our data.
-
-As said in Section \ref{cap3:sec:log}, the data used for this work is not only numerical or nominal, thus, only classification algorithms that support both types of data have been considered. Weka has a great number of possible algorithms to work with, so we have conducted a preselection phase trying to choose those which would yield better results in the experiments. More specifically, we have focused on rule-based and decision-tree-based algorithms. 
+As said in Section \ref{cap3:sec:log}, the data used for this work is not only numerical or nominal, thus, only classification algorithms that support both types of data have been considered. Weka \citep{weka:site} is a collection of State-of-the-Art machine learning algorithms and data preprocessing tools that are key for data mining processes \citep{Frank2011}. With such a great number of possible algorithms to work with, we have conducted a preselection phase trying to choose those which would yield better results in the experiments. More specifically, we have focused on rule-based and decision-tree-based algorithms. 
 
 It is important to point out that rules can become trees, but rules cannot always be derived from trees (for instance, a tree modelling a mathematical operation).
 
