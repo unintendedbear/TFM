@@ -16,6 +16,8 @@ Whatever happens today, will change future events, create its own timeline, its 
 \end{Fuente}
 \end{FraseCelebre}
 
+Finally, this last Chapter is devoted to draw the conclusions over this research work, and names the papers that followed it. Also, as we want to continue researching in this topic, new objectives of future work are set out.
+
 %-------------------------------------------------------------------
 \section{Discussion}
 %-------------------------------------------------------------------
@@ -53,7 +55,12 @@ successful and it would be a useful tool in an enterprise.
 %-------------------------------------------------------------------
 \label{cap6:sec:future}
 
-Future lines of work include conducting a deeper set of experiments trying to test the generalisation power of the method, maybe considering bigger data divisions, bigger data sets (from a whole day or working day), or adding some kind of `noise'  to the dataset. One of the future steps to follow will be to perform experiments with the other two datasets (one bigger of 5 million entries, and a 1 million entries subset of it) described in Section \ref{cap3:sec:log}, and obtained almost at the end of this research work.
+Future lines of work include conducting a deeper set of experiments trying to test the generalisation power of the method, maybe considering bigger data divisions, bigger data sets (from a whole day or working day), or adding some kind of `noise'  to the dataset. One of the future steps to follow will be to perform experiments with other two datasets which we have recently had access to: 
+
+\begin{itemize}
+  \item A log file provided in JSON format, which contains log entries from 12 days, and 5 million patterns. As can be found in \ac{CPAN} \citep{cpan_json}, there is a Perl module to directly work with this format, so is a great opportunity to continue testing.
+  \item Another log file, in CSV format as the one processed during this research work, that is a subset of the previous data set and contains 1 million entries. This one colud be processed before the one in JSON format, given that we already have the implementation to preprocess CSV log files. 
+\end{itemize}
 
 So that, considering the good classification results obtained, another next step could be the application of these methods in the real system from which data was gathered, counting with the opinion of expert \ac{CSO}s, in order to know the real value of the proposal.
 The study of other classification methods could be another research

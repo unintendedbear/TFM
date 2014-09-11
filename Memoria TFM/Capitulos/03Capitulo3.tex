@@ -16,6 +16,8 @@ K9. Doctor Who. \textit{Full Circle}.
 \end{Fuente}
 \end{FraseCelebre}
 
+This Chapter is devoted to the first part, a very important one, in every Data Mining process: data preprocessing. In the following sections, the data we have worked with will be deeply described, as well as the way it has been preprocessed. At the end, data will be ready to be analysed with a methodology that will be specified in the next Chapter.
+
 %-------------------------------------------------------------------
 \section{Introduction}
 %-------------------------------------------------------------------
@@ -146,13 +148,7 @@ Variable name & Description & Type & Rank/Number of Values (if categorical)\\
 
 The dependent variable or class is a label which inherently assigns an decision (and so the following action) to every request. This can be: \textit{ALLOW} if the access is permitted according to the \ac{ISP}, or can be \textit{DENY}, if the connection is not permitted. These patterns are labelled using an `engine' based in a set of security rules, that specify the decision to make. This process is described in Chapter \ref{cap4:methodology}.
 
-During the time of research for this Master Thesis, we have had access to three different log files:
-
-\begin{itemize}
-  \item In the first one, data were gathered along a period of two hours, from 8.30 to 10.30 am (30 minutes after the work started), monitoring the activity of all the employees in a medium-size Spanish company (80-100 people), obtaining 100000 patterns. We consider this dataset quite complete because it contains a very diverse amount of connection patterns, going from personal (traditionally addressed at the first hour of work) to professional issues (the rest of the day). The file was in CSV format.
-  \item The second one was provided in JSON format, and it contains log entries from 12 days, and 5 million patterns.
-  \item A third one, again in CSV format, that is a subset of the second dataset and contains 1 million entries.
-\end{itemize}
+During the time of research for this Master Thesis, we have had access to a set containing data that were gathered along a period of two hours, from 8.30 to 10.30 am (30 minutes after the work started), monitoring the activity of all the employees in a medium-size Spanish company (80-100 people), obtaining 100000 patterns. We consider this dataset quite complete because it contains a very diverse amount of connection patterns, going from personal (traditionally addressed at the first hour of work) to professional issues (the rest of the day). The file was in CSV format.
 
 
 %-------------------------------------------------------------------
