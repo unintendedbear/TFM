@@ -23,7 +23,7 @@ This Chapter reports all the experiments thas have been conducted, from the firs
 %-------------------------------------------------------------------
 \label{cap5:sec:exp}
 
-As explained in Section \ref{cap4:sec:Weka}, an initial group of experiments was conducted and te results can be consulted at Table \ref{tabresults_todos}. The top five was formed by the classifiers: J48, Random Forest, REP Tree, NNge, and PART, plus Naïve Bayes as a reference. These five classifiers were then training and tested with both training and test files, as explained in Section \ref{cap4:sec:traintest}. First results can be found in Table \ref{tabresults_nobalan} \footnote{All result tables are publicly accessible through the following link: \url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}}.
+As explained in Section \ref{cap4:sec:Weka}, an initial group of experiments was conducted and te results can be consulted at Table \ref{tabresults_todos}. The top five was formed by the classifiers: J48, Random Forest, REP Tree, NNge, and PART, plus Naïve Bayes as a reference. These five classifiers were then training and tested with both training and test files, as explained in Section \ref{cap4:sec:traintest}. First results can be found in Table \ref{tabresults_nobalan} \footnote{All result tables are publicly accessible through the following link: \url{https://drive.google.com/folderview?id=0B0Rvxfh8NwQRMi1RYU9uT3FmQzg&usp=sharing}}. Results in that Table were obtained after a balancing process applied over the initial file, as explained in Section \ref{cap4:sec:traintest}. Then, when performing \textit{undersampling}, half of the total of the `allowed' patterns were randomly removed, and when \textit{oversampling} was applied, each of the the `denied' patterns were repeated till the total of `denied' patterns was the same as `allowed'.
 
 \begin{table}[htpb]
 \centering 
@@ -34,37 +34,37 @@ As explained in Section \ref{cap4:sec:Weka}, an initial group of experiments was
 \hline
 Naïve Bayes & 91.02 $\pm$ 0.10 & 91.77 \\ 
 \cline{1-1}
-Conjunctive Rule &  $\pm$  & 60.02 \\ 
+Conjunctive Rule & 60.00 $\pm$ 0.14 & 60.02 \\ 
 \cline{1-1}
-Decision Table &  $\pm$  & 90.29 \\ 
+Decision Table & 94.31 $\pm$ 0.20 & 90.29 \\ 
 \cline{1-1}
-DTNB &  $\pm$  & 95.65 \\ 
+DTNB & 94.92 $\pm$ 0.14 & 95.65 \\ 
 \cline{1-1}
-JRip &  $\pm$  & 92.47 \\ 
+JRip & 90.03 $\pm$ 0.07 & 92.47 \\ 
 \cline{1-1}
-NNge & \textbf{} $\pm$  & \textbf{98.76} \\ 
+NNge & \textbf{96.47} $\pm$ 0.02 & \textbf{98.76} \\ 
 \cline{1-1}
-One R &  $\pm$  & 93.70 \\ 
+One R & 93.53 $\pm$ 0.08 & 93.70 \\ 
 \cline{1-1}
-PART & \textbf{} $\pm$  & \textbf{97.54} \\ 
+PART & \textbf{96.35} $\pm$ 0.09 & \textbf{97.54} \\ 
 \cline{1-1}
-Ridor &  $\pm$  & 89.87 \\ 
+Ridor & 86.60 $\pm$ 0.55 & 89.87 \\ 
 \cline{1-1}
-Zero R &  $\pm$  & 51.26 \\ 
+Zero R & 51.22 $\pm$ 0.16 & 51.26 \\ 
 \cline{1-1}
-AD Tree &  $\pm$  & 77.68 \\ 
+AD Tree & 77.65 $\pm$ 0.08 & 77.68 \\ 
 \cline{1-1}
-Decision Stump &  $\pm$  & 60.02 \\ 
+Decision Stump & 60.00 $\pm$ 0.14 & 60.02 \\ 
 \cline{1-1}
-J48 & \textbf{} $\pm$  & \textbf{98.00} \\ 
+J48 & \textbf{96.99} $\pm$ 0.04 & \textbf{98.00} \\ 
 \cline{1-1}
-LAD Tree &  $\pm$  & 79.97 \\ 
+LAD Tree & 78.93 $\pm$ 1.71 & 79.97 \\ 
 \cline{1-1}
-Random Forest & \textbf{} $\pm$  & \textbf{98.84} \\ 
+Random Forest & \textbf{96.94} $\pm$ 0.07 & \textbf{98.84} \\ 
 \cline{1-1}
-Random Tree &  $\pm$  & 98.35 \\ 
+Random Tree & 95.59 $\pm$ 0.40 & 98.35 \\ 
 \cline{1-1}
-REP Tree & \textbf{} $\pm$  & \textbf{97.67} \\ 
+REP Tree & \textbf{96.74} $\pm$ 0.04 & \textbf{97.67} \\ 
 \hline
 \end{tabular}
 }
@@ -94,17 +94,23 @@ PART & 97.06 $\pm$ 0.19 & 89.11 & 97.40 $\pm$ 0.16 & \textbf{84.17} \\
 \hline
 \end{tabular}
 }
-\caption{\label{tabresults_nobalan} Percentage of correctly classified patterns for unbalanced data}
+\caption[Percentage of correctly classified patterns for unbalanced data.]{\label{tabresults_nobalan} Percentage of correctly classified patterns for unbalanced data. The best ones are marked in boldface.}
 \end{table*}
 
-As it can be seen, all five methods achieved a high performance classifying in the right way the test dataset. Also, these results are not like this by chance, as shown by a low standard deviation. Although it was expected that the results from the 90\%-10\% division were slightly better, in the future a more aggressive division will be executed so the methods can be really proved with much less training data.
+As it can be seen, all five methods achieved a high performance classifying in the right way the test dataset. The given numbers are the mean taken from three genetations of undersampled files from the original, due to the \textit{random} nature of the process. Also, these results are not like this by chance, as shown by a low standard deviation.
 
-What matters to the results of the experiments made with the sequential data, they are worse than the obtained from the random data, but still they are good ($>$ 85\%). This is due to the occurrence of new patterns from a certain time (maybe there are some requests that are made just at one specific time in a day, or in settled days), and then there is no sufficient similarity between the training data and the classifying of the test data set may fail. The loss of 5 to 6 points in the results of the 90\%-10\% division is the first unexpected or unlogical result of the experiments, but they also reinforce the previous theory.
+Next step described in Section \ref{cap4:sec:traintest} was, then, to separate the original file into training and test files. The results are depicted in Table \ref{tabresults_nobalan}. Obtained results for the first division, 80\% of the original dataset taken for training, and the 20\% for testing the classifiers, are quite good (\textit{Random Forest} reached a 97.68\% of accuracy with a standard deviation of 0.2). As was expected, the results from the 90\%-10\% division were slightly better, and due to this a more aggressive division was executed in the following experiments so the methods can be really proved with much less training data.
 
-The technique that lightly stands out over the others is \textit{Random Forest}, being the best in almost every case, even in the experiments with the most complex sequential divisions. However, if we focus on the standard deviation, \textit{REP Tree} is the chosen one, as its results present robustness. 
+What matters to the results of the experiments made with the sequential data, they are worse than the obtained from the random data, but they are still good ($>$ 85\%). This is due to the occurrence of new patterns from a certain time (maybe there are some requests that are made just at one specific time in a day, or in settled days), and then there is no sufficient similarity between the training data and the classifying of the test data set may fail. The loss of 5 to 6 points in the results of the 90\%-10\% division is the first unexpected or unlogical result of the experiments, but they also reinforce the previous theory.
 
-For its part, results obtained from unbalanced data are shown in Table \ref{tabresults_balan}. Again the corresponding to the random partitions come from the mean of three blocks of experiments, and so are specified the standard deviations. The Table illustrates two segments of results, obtained from the undersampled data and from the oversampled data. For each one, the 90\%-10\% and 80\%-20\% divisions were also made.
+The technique that lightly stands out over the others is \textit{Random Forest}, being the best in almost every case, even in the experiments with the most complex sequential divisions. Also, \textit{J48} reached high accuracies with a lesser standard deviation. In general, all the obtained results present robustness as can be seen in the standard deviations.
 
+For its part, results obtained from unbalanced data are shown in Table \ref{tabresults_balan}. As explained in Section \ref{cap4:sec:traintest}, the corresponding to the random partitions come from the mean of three blocks of experiments, and so are specified the standard deviations. The Table illustrates two segments of results, obtained from the undersampled data and from the oversampled data. For each one, the 90\%-10\% and 80\%-20\% divisions were also made. We distinguish the results depending on:
+
+\begin{description}
+  \item[Applying Undersampling] In comparison with those results from Table \ref{tabresults_nobalan}, these go down one point (in the case of randomly made divisions) to six points (sequential divisions). The reason why this happens is that when randomly removing ALLOW patterns, we are really losing information, i. e. key patterns that could be decisive in a good classification of a certain set of test patterns. 
+  \item[Applying Oversampling] Here we have duplicated the DENY patterns so their number could be up to that of the ALLOW patterns. However, it does not work as well as in other approaches which uses numerical computations for creating the new patterns to include in the minority class. Consequently, the results have been decreased.
+\end{description}
 
 \begin{figure}[htb]
 \centering
@@ -157,17 +163,10 @@ PART & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\
 \hline
 \end{tabular}
 }
-\caption[Percentage of correctly classified patterns for balanced data, training and testing with different files.]{Percentage of correctly classified patterns for balanced data (undersampling and oversampling). (a) 80\% for training, \%20 for testing. (b) 90\% for tranining, 10\% for testing. \label{tabresults_balan}}
+\caption[Percentage of correctly classified patterns for balanced data, training and testing with different files.]{Percentage of correctly classified patterns for balanced data (undersampling and oversampling). (a) 80\% for training, \%20 for testing. (b) 90\% for tranining, 10\% for testing. Best results are marked in boldface. \label{tabresults_balan}}
 \end{figure}
 
-\begin{description}
-  \item[Applying Undersampling] In comparison with those results from Table \ref{tabresults_nobalan}, these go down one point (in the case of randomly made divisions) to six points (sequential divisions). The reason why this happens is that when randomly removing ALLOW patterns, we are really losing information, i. e. key patterns that could be decisive in a good classification of a certain set of test patterns. 
-  \item[Applying Oversampling] Here we have duplicated the DENY patterns so their number could be up to that of the ALLOW patterns. However, it does not work as well as in other approaches which uses numerical computations for creating the new patterns to include in the minority class. Consequently, the results have been decreased.
-\end{description}
-
 It is noticeable in both cases that taking the data in a sequential way, instead of randomly, lower the results. It is clear that due to the fact that performing undersampling some patterns are lost while in the case of oversampling they all remain, \textit{undersampling results} are better. Then, in this case the algorithm with best performance is \textit{J48}, though \textit{Random Forest} follows its results very closely in random datasets processing, and \textit{REP Tree}, which is better than the rest when working with sequential data. Nevertheless, generally speaking and given the aforementioned reasons, performing data balancing methods yields worse results.
-
-Furthermore, we have found that for the data sets taken consecutively, the methods always classify worse the DENY labels, as they label them as ALLOW patterns. This is worth further study because it is the worst situation. It would be preferable to have a false positive in a DENY pattern, rather than a false negative and permit a request that is forbidden in the ISP.
 
 %-------------------------------------------------------------------
 \subsection{Removal of duplicated requests}
@@ -271,7 +270,7 @@ PART & 96.05 $\pm$ 0.45 & 81.29 \\
 \hline
 \end{tabular}
 }
-\caption[Correctly classified patterns for unbalanced data after the removal of entries that coul lead to missclassification.]{Percentage of correctly classified patterns for unbalanced data, after the step 2. (a) 80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing. (b) 60\% for tranining, 40\% for testing. \label{tab:repurl_unb_traintest}}
+\caption[Correctly classified patterns for unbalanced data after the removal of entries that coul lead to missclassification.]{Percentage of correctly classified patterns for unbalanced data, after after the removal of entries that coul lead to missclassification.. (a) 80\% for training, \%20 for testing, and 90\% for tranining, 10\% for testing. (b) 60\% for tranining, 40\% for testing. Best results are marked in boldface. \label{tab:repurl_unb_traintest}}
 \end{figure}
 
 %-------------------------------------------------------------------
@@ -380,7 +379,7 @@ PART & 68.37 $\pm$ 13.36 & 67.52 $\pm$ 9.60 & 64.23 $\pm$ 5.82 \\
 \hline
 \end{tabular}
 }
-\caption[Correctly classified patterns for unbalanced data after assuring that same values for a feature of the URL go all to training or testing.]{\label{tab:coredom_unb_traintest} Percentage of correctly classified patterns for unbalanced data after assuring that same values for a feature of the URL go all to training or testing. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\caption[Correctly classified patterns for unbalanced data after assuring that same values for a feature of the URL go all to training or testing.]{\label{tab:coredom_unb_traintest} Percentage of correctly classified patterns for unbalanced data after assuring that same values for a feature of the URL go all to training or testing. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing. Best results are marked in boldface.}
 \end{table}
 
 % Al final he quitado las figuras porque total, estaban hechas para ponerlas en Hamgurgo. Si me da tiempo las hago bien y las pongo.
@@ -390,7 +389,7 @@ PART & 68.37 $\pm$ 13.36 & 67.52 $\pm$ 9.60 & 64.23 $\pm$ 5.82 \\
 %-------------------------------------------------------------------
 \label{cap5:sec:exp:tlds}
 
-As said in... Tables \ref{tab:tld_unb_traintest}, \ref{tab:tld_und_traintest}, and \ref{tab:tld_ov_traintest}.
+Last step explained in Section \ref{cap4:sec:traintest}, was the repetition of the experiments done at the beggining, but studying what would it happen if we trained the classifiers including the \ac{TLD} feature of the \ac{URL}, but excluding the core domaind used until now. Tables \ref{tab:tld_unb_traintest}, \ref{tab:tld_und_traintest}, and \ref{tab:tld_ov_traintest} show the results of this whole new set of experiments. We focused directly in testing the known-top five of classifiers, plus Naïve Bayes, with partitions for training and testing, including the 60\% for training and 40\% for testing, to see the ability for generalisation of the classifiers. Also, as we had obtained the best results for the partitions made randomly, we excluded sequential partition in these experiments, in order to focus in the best results.
 
 \begin{table}[htpb]
 \centering
@@ -413,7 +412,7 @@ PART & 94.77 $\pm$ 0.12 & 95.02 $\pm$ 0.08 & 94.13 $\pm$ 0.11 \\
 \hline
 \end{tabular}
 }
-\caption[Correctly classified patterns for unbalanced data after the core domain feature was removed for classification, and TLD was added.]{\label{tab:tld_unb_traintest} Percentage of correctly classified patterns for unbalanced data the core domain feature was removed for classification, and TLD was added. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\caption[Correctly classified patterns for unbalanced data after the core domain feature was removed for classification, and TLD was added.]{\label{tab:tld_unb_traintest} Percentage of correctly classified patterns for unbalanced data the core domain feature was removed for classification, and TLD was added. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing. Best results are marked in boldface.}
 \end{table}
 
 \begin{table}[htpb]
@@ -437,7 +436,7 @@ PART & 93.03 $\pm$ 0.09 & 94.46 $\pm$ 1.69 & 92.28 $\pm$ 0.49 \\
 \hline
 \end{tabular}
 }
-\caption[Correctly classified patterns for balanced data (undersampling technique) after the core domain feature was removed for classification, and TLD was added.]{\label{tab:tld_und_traintest} Percentage of correctly classified patterns for balanced data (with undersampling technique) after the core domain feature was removed for classification, and TLD was added. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\caption[Correctly classified patterns for balanced data (undersampling technique) after the core domain feature was removed for classification, and TLD was added.]{\label{tab:tld_und_traintest} Percentage of correctly classified patterns for balanced data (with undersampling technique) after the core domain feature was removed for classification, and TLD was added. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing. Best results are marked in boldface.}
 \end{table}
 
 \begin{table}[htpb]
@@ -461,8 +460,10 @@ PART & 95.73 $\pm$ 0.30 & 96.12 $\pm$ 0.05 & 94.86 $\pm$ 0.16 \\
 \hline
 \end{tabular}
 }
-\caption[Correctly classified patterns for balanced data (oversampling technique) after the core domain feature was removed for classification, and TLD was added.]{\label{tab:tld_ov_traintest} Percentage of correctly classified patterns for balanced data (with oversampling technique) after the step 4. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing.}
+\caption[Correctly classified patterns for balanced data (oversampling technique) after the core domain feature was removed for classification, and TLD was added.]{\label{tab:tld_ov_traintest} Percentage of correctly classified patterns for balanced data (with oversampling technique) after the step 4. There are three different sets of files: 80\% for training, \%20 for testing; 90\% for tranining, 10\% for testing; and 60\% for tranining, 40\% for testing. Best results are marked in boldface.}
 \end{table}
+
+This way, Table \ref{tab:tld_und_traintest} shows that \textit{Random Forest} is again the best classifier (95.42\% of accuracy in the separation 80\% for training, \%20 for testing, even though \textit{NNge} was the best but just in 0.05 points). The importat point derived from these results is that the accuracy percentages do not lower after not taking into account the core domain feature of the \ac{URL}, so maybe the classification is not that dependant on it.
 
 %-------------------------------------------------------------------
 \section{Rules obtained, a study case}

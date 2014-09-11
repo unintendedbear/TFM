@@ -29,20 +29,26 @@ To this aim, we have started from a big dataset (100000 patterns) about employee
 
 We have performed experiments following a series of steps (see Figures \ref{fig:work_diagram_1} and \ref{fig:work_diagram_2}), and studying how the results changed and why.
 
-The results shown, at first step, that classification accuracies are
+The results shown at the beginning experiments, that classification accuracies are
 between 95\% and 97\%, even when using the unbalanced datasets
 (Section \ref{cap5:sec:exp}). However, they have been diminished
 because of the possible loss of data that comes from performing an
 undersampling (removing patterns) method; or taking the training and
 the data sets in a sequential way from the main log file, due to the
 fact that certain \ac{URL} requests can be made only at a certain
-time. This also happened in the experiments from steps two and three,
-because the involved the removal of even more patterns (duplicated
-requests, and avoiding repetition of the same core domain feature of
-the \ac{URL}s in the same training/test file), and more loss of
-information. The last experiments shown accuracies not higher than
-74\%. Despite of that, we can conclude that the approach has been
-successful and it would be a useful tool in an enterprise.
+time.
+
+Then, taking into account the way that the connections client/server passed through a proxy, we performed a removal of patterns that could be considered `duplicated' (see Section \ref{cap5:sec:exp:repurls}). And we still hade good accuracies (more than 96\%). Then, another step was taken forward and we tried to avoid repetition of the same core domain feature of
+the \ac{URL}s in the same training/test file. This means a high loss of
+information and so it is seen in the results. The last experiments shown accuracies not higher than
+74\%.
+
+Finally, a last set of experiments was conducted, in which we trained the classifiers including the \ac{TLD} feature of the \ac{URL}, but excluding the core domaind. Accuracies were again quite high, showing resultd between 94\% and 95\%, with low standard deviations.
+
+Hence, after all the experiments done in different situations, we can conclude that the approach has been
+successful and it would be a useful implementation on a tool for an actual enterprise.
+
+Furthermore, we have found that for the data sets taken consecutively, the methods always classify worse the DENY labels, as they label them as ALLOW patterns. This is worth further study because it is the worst situation. It would be preferable to have a false positive in a DENY pattern, rather than a false negative and permit a request that is forbidden in the ISP.
 
 % This is not a discussion, it's a description of the results. You
 % should discuss why results are so bad or so good, why the methods
@@ -55,7 +61,7 @@ successful and it would be a useful tool in an enterprise.
 %-------------------------------------------------------------------
 \label{cap6:sec:papers}
 
-As a result of the work tha has been done, three papers have been accepted (two of them also already presented, and one is to be presented in October 2014) in three conferences.
+As a result of the work that has been done, three papers have been accepted (two of them also already presented, and one is to be presented in October 2014) in three conferences.
 
 The paper titled ``\textit{MUSES: A corporate user-centric system which applies computational intelligence methods}'', by A.M. Mora, P. De las Cuevas, and J.J. Merelo, was accepted in a special track session of the \textbf{ACM SAC} conference, celebrated at Gyeongju, Korea, in March 2014. This special session was called \textbf{TRECK}, from \textit{Trust, Reputation, Evidence and other Collaboration Know-how}. The paper was presented at the conference by A.M. Mora.
 
@@ -81,20 +87,20 @@ The third paper derived from this research is titled ``\textit{Going a Step Beyo
 %-------------------------------------------------------------------
 \label{cap6:sec:future}
 
-Future lines of work include conducting a deeper set of experiments trying to test the generalisation power of the method, maybe considering bigger data divisions, bigger data sets (from a whole day or working day), or adding some kind of `noise'  to the dataset. One of the future steps to follow will be to perform experiments with other two datasets which we have recently had access to: 
+Future lines of work include conducting a deeper set of experiments trying to test the generalisation power of the method, maybe considering bigger data divisions, bigger data sets (from a whole day or working day), or adding some kind of `noise'  to the dataset. Also, as the last experiments were succesful, more experiments will be conducted includind other features of the \ac{URL}. As found by reviewing the State of the Art (see Section \ref{cap2:sec:url}), the more features are extracted from the connection requests, the better results are obtained \citep{Ma_Url11}. Then, we will also extract additional information from the \ac{URL} string, than could be transformed into additional features that could be more discriminative than the current set. Moreover, a data process involving summarizing data about sessions (such as number of requests per client, or average time connection) will be also considered.
+
+Thus, one of the future steps to follow will be to perform experiments with other two datasets which we have recently had access to: 
 
 \begin{itemize}
   \item A log file provided in JSON format, which contains log entries from 12 days, and 5 million patterns. As can be found in \ac{CPAN} \citep{cpan_json}, there is a Perl module to directly work with this format, so is a great opportunity to continue testing.
   \item Another log file, in CSV format as the one processed during this research work, that is a subset of the previous data set and contains 1 million entries. This one colud be processed before the one in JSON format, given that we already have the implementation to preprocess CSV log files. 
 \end{itemize}
 
-So that, considering the good classification results obtained, another next step could be the application of these methods in the real system from which data was gathered, counting with the opinion of expert \ac{CSO}s, in order to know the real value of the proposal.
+Furthermore, considering the good classification results obtained, another next step could be the application of these methods in the real system from which data was gathered, counting with the opinion of expert \ac{CSO}s, in order to know the real value of the proposal.
 The study of other classification methods could be another research
 branch, along with the implementation of a Genetic Programming
 approach, which could deal with the imbalance problem using a
 modification of the cost associated with  misclassifying, could be done (as the authors did in \citep{cost_adjustment_07}).
-
-Finally, as found by reviewing the State of the Art (see Section \ref{cap2:sec:url}), the more features are extracted from the connection requests, the better results are obtained \citep{Ma_Url11}. Then, we will also extract additional information from the \ac{URL} string, than could be transformed into additional features that could be more discriminative than the current set. Moreover, a data process involving summarizing data about sessions (such as number of requests per client, or average time connection) will be also considered.
 
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
