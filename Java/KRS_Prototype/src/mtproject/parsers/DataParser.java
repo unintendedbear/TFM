@@ -28,7 +28,8 @@ public class DataParser {
 		String cleaningPattern = "\"(.+)\"\n?";
 		String contentTypePattern = "^(\\w+\\-*\\w+)[\\/?]\\w+";
 		String timePattern = "^\\d{1,2}\\:\\d{2}\\:\\d{2}";
-		String urlPattern = "(https?:\\/\\/([-\\w\\.]+)+(\\:\\d+)?(\\/([\\w\\/\\_\\-\\.]*(\\\\?\\S+)?)?)?)";
+		String IPPattern = "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
+		String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?([\\?\\%\\&\\:\\w\\/\\_\\-\\.\\:]*\\.([^.]+)+)?";
 		
 				
 		try {
@@ -85,16 +86,129 @@ public class DataParser {
 						//System.out.println("Found time: " + fieldValues[j] );
 						listOfValues.addElement(fieldValues[j]);						
 					} else if(matcherUrl.find()) {
-						//System.out.println("Found url: " + matcherUrl.group(2) );
+						/*
+						 * Complete URL at matcherUrl.group(0);
+						 * Protocol (http, https, etc) at matcherUrl.group(1);
+						 * www (if exists) at matcherUrl.group(2);
+						 * Subdomains, coredomain, and TLD at matcherUrl.group(3);
+						 * URL path after the / (if exists) at matcherUrl.group(4);
+						 * File extension (if exists) at matcherUrl.group(5);
+						 */
 						
 						listOfValues.addElement(fieldValues[j]);
-						// Obtener dominios de la url por separado
-						String[] urlValues = matcherUrl.group(2).split("\\.");
-						//System.out.println("Found TLD: " + urlValues[urlValues.length-1] );
-						//System.out.println("Found core domain: " + urlValues[urlValues.length-2] );
+						
+						/****************************
+						 * URL DOMAIN, SUBDOMAINS, AND TLD
+						 ****************************/
+						if (matcherUrl.group(3) != null) {
+							
+							Pattern patternForIP = Pattern.compile(IPPattern);
+							Matcher matcherIP = patternForIP.matcher(matcherUrl.group(3));					
+							
+							/* If URL domain is an IP */
+							if (matcherIP.find()) {
+								
+								listOfValues.addElement(true); // Is IP
+								listOfValues.addElement(false); // No subdomains
+								listOfValues.addElement(0); // No subdomains (num_subdomains = 0)
+								
+								int k;
+								for ( k = 0; k < 7; k++){
+									listOfValues.addElement("");
+								}
+								
+							} else {
+								
+								listOfValues.addElement(false); // Is not an IP
+								
+								/* Max subdomains in URL at the Log File is 5, then, max domain length is 7 */
+								
+								String[] urlValues = matcherUrl.group(3).split("\\.");
+								/*
+								 * TLD at urlValues[urlValues.length-1];
+								 * Core Domain at urlValues[urlValues.length-2]:
+								 */
+								
+								String noSubdomain = "";
+								int m = urlValues.length-2;
+								if (m >= 1) {
+									listOfValues.addElement(true); // Has subdomains
+									listOfValues.addElement(m); // Number of subdomains
+								} else {
+									listOfValues.addElement(false); // No subdomains
+									listOfValues.addElement(0); // No subdomains (num_subdomains = 0)
+								}
+								while (m < 5) {
+									listOfValues.addElement(noSubdomain);
+									m++;
+								}
+								
+								int n;
+								for ( n = 0; n < urlValues.length; n++){
+									listOfValues.addElement(urlValues[n]);
+								}
+							}
+						} else {
+							listOfValues.addElement(false); // Is not IP
+							listOfValues.addElement(false); // No subdomains
+							listOfValues.addElement(0); // No subdomains (num_subdomains = 0)
+							
+							int l;
+							for ( l = 0; l < 7; l++){
+								listOfValues.addElement("");
+							}
+						}
+						
+						/****************************
+						 * PATH
+						 ****************************/
+						if (matcherUrl.group(4) != null) {
+							
+							listOfValues.addElement(true); // Has path
+							String[] pathValues = matcherUrl.group(4).split("\\/");
+							
+							if (pathValues.length > 1) {
+								listOfValues.addElement(pathValues[0]);
+								listOfValues.addElement(pathValues[1]);
+							} else if (pathValues.length == 1){
+								listOfValues.addElement(pathValues[0]);
+								listOfValues.addElement("");
+							} else {
+								listOfValues.addElement("");
+								listOfValues.addElement("");
+							}						
+							
+						} else {
+							
+							listOfValues.addElement(false); // No path
+							listOfValues.addElement(""); // No folder 1
+							listOfValues.addElement(""); // No folder 2
+						}
+						
+						/****************************
+						 * FILE EXTENSION
+						 ****************************/
+						if (matcherUrl.group(5) != null) {
+							
+							listOfValues.addElement(true); // Has file extension
+							listOfValues.addElement(matcherUrl.group(5));														
+							
+						} else {
+							
+							listOfValues.addElement(false); // No file extension
+							listOfValues.addElement(""); // No file extension
+						}
+						
+						/****************************
+						 * REQUEST PROTOCOL
+						 ****************************/
+						if (matcherUrl.group(1) != null) {	
+							listOfValues.addElement(matcherUrl.group(1));
+						} else {
+							listOfValues.addElement(""); // No protocol
+						}
+						
 												
-						listOfValues.addElement(urlValues[urlValues.length-2]);
-						listOfValues.addElement(urlValues[urlValues.length-1]);						
 					} else if (is_integer(fieldValues[j])) {						
 						listOfValues.addElement(Integer.parseInt(fieldValues[j]));						
 					} else if (j == 3){
@@ -165,7 +279,7 @@ public class DataParser {
 	
 	public static LogEntry obtain_log(Vector listOfValues) {
 		
-		if (listOfValues.size() == 13) {			
+		if (listOfValues.size() == 27) {			
 			
 			int http_reply_code = (int)listOfValues.elementAt(0);
 			String http_method = (String)listOfValues.elementAt(1);
@@ -177,12 +291,52 @@ public class DataParser {
 			String squid_hierarchy = (String)listOfValues.elementAt(7);
 			int bytes = (int)listOfValues.elementAt(8);
 			String url = (String)listOfValues.elementAt(9);
-			String url_core = (String)listOfValues.elementAt(10);
-			String url_TLD = (String)listOfValues.elementAt(11);
-			String client_address = (String)listOfValues.elementAt(12);
+			Boolean url_is_IP = (Boolean)listOfValues.elementAt(10);
+			Boolean url_has_subdomains = (Boolean)listOfValues.elementAt(11);
+			int num_subdomains = (int)listOfValues.elementAt(12);
+			String subdomain5 = (String)listOfValues.elementAt(13);
+			String subdomain4 = (String)listOfValues.elementAt(14);
+			String subdomain3 = (String)listOfValues.elementAt(15);
+			String subdomain2 = (String)listOfValues.elementAt(16);
+			String subdomain1 = (String)listOfValues.elementAt(17);
+			String url_core = (String)listOfValues.elementAt(18);
+			String url_TLD = (String)listOfValues.elementAt(19);
+			Boolean url_has_path = (Boolean)listOfValues.elementAt(20);
+			String folder1 = (String)listOfValues.elementAt(21);
+			String folder2 = (String)listOfValues.elementAt(22);
+			Boolean url_has_file_extension = (Boolean)listOfValues.elementAt(23);
+			String file_extension = (String)listOfValues.elementAt(24);
+			String url_protocol = (String)listOfValues.elementAt(25);
+			String client_address = (String)listOfValues.elementAt(26);
 			// elementos en listOfValues.elementAt(número)
 		
-			LogEntry myEntry = new LogEntry(http_reply_code, http_method, duration_milliseconds, content_type_MCT, content_type, server_or_cache_address, time, squid_hierarchy, bytes, url, url_core, url_TLD, client_address);
+			LogEntry myEntry = new LogEntry(http_reply_code,
+					http_method,
+					duration_milliseconds,
+					content_type_MCT,
+					content_type,
+					server_or_cache_address,
+					time,
+					squid_hierarchy,
+					bytes,
+					url,
+					url_is_IP,
+					url_has_subdomains,
+					num_subdomains,
+					subdomain5,
+					subdomain4,
+					subdomain3,
+					subdomain2,
+					subdomain1,
+					url_core,
+					url_TLD,
+					url_has_path,
+					folder1,
+					folder2,
+					url_has_file_extension,
+					file_extension,
+					url_protocol,
+					client_address);
 		
 			return myEntry;
 		} else {

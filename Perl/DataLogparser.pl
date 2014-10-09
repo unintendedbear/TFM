@@ -40,10 +40,13 @@ my @rows;
 open (IN, "<$logfile") or die "No existe el fichero ".$logfile; #Abrir y leerlo
 my @firstrow = split /;/, <IN>; #No necesitamos la primera fila
 
+my $countsubs = 0;
+
 while (<IN>) {
 
 my @datoslog = split /;/, $_;
 my @row = ();
+
 
 for my $d (0 .. $#datoslog) { 
 
@@ -62,6 +65,14 @@ for my $d (0 .. $#datoslog) {
 	} elsif ($datoslog[$d] =~ /^\d{1,2}\:\d{2}\:\d{2}/) {
 		push @row, "\"".$datoslog[$d]."\"";
 	} elsif ($datoslog[$d] =~ /^(ht|f)tps?:\/\/([\.\-\w]*)\.([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^(ht|f)tps?:(\/\/)([\-\w]+)\.(\w+)\/[\/*\w*]*/ || $datoslog[$d] =~ /^NONE\:\/\//) {
+		if ($2) {
+			my @tempsubs = split /\./, $2;
+			my $tempsize = $#tempsubs+1;
+			if ($countsubs < $tempsize) {
+				print $2."\n";
+				$countsubs = $tempsize;
+			}
+		}
 		if ($3) { push @row, $3; } else { push @row, $datoslog[$d]; }
 		$logentradas{"entrada".$numentrada}{"url"} = $datoslog[$d];
 	} else { 
@@ -81,6 +92,8 @@ for my $d (0 .. $#datoslog) {
 }
 
 close IN;
+
+print $countsubs;
 
 #print Dumper(\%logentradas);
 

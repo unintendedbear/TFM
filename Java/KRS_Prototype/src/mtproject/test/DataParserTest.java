@@ -8,7 +8,6 @@ import mtproject.objects.*;
 import junit.framework.TestCase;
 import org.junit.Test;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -39,8 +38,22 @@ public class DataParserTest extends TestCase {
 			String test_squid_hierarchy;
 			int test_bytes;
 			String test_url;
+			Boolean test_url_is_IP;
+			Boolean test_url_has_subdomains;
+			int test_num_subdomains;
+			String test_subdomain5;
+			String test_subdomain4;
+			String test_subdomain3;
+			String test_subdomain2;
+			String test_subdomain1;
 			String test_url_core;
 			String test_url_TLD;
+			Boolean test_url_has_path;
+			String test_folder1;
+			String test_folder2;
+			Boolean test_url_has_file_extension;
+			String test_file_extension;
+			String test_url_protocol;
 			String test_client_address;
 			
 			int i;
@@ -56,8 +69,22 @@ public class DataParserTest extends TestCase {
 				test_squid_hierarchy = testEntries.get(i).getSquid_hierarchy();
 				test_bytes = testEntries.get(i).getBytes();
 				test_url = testEntries.get(i).getURL();
+				test_url_is_IP = testEntries.get(i).getURL_is_IP();
+				test_url_has_subdomains = testEntries.get(i).getURL_has_subdomains();
+				test_num_subdomains = testEntries.get(i).getNum_subdomains();
+				test_subdomain5 = testEntries.get(i).getSubdomain5();
+				test_subdomain4 = testEntries.get(i).getSubdomain4();
+				test_subdomain3 = testEntries.get(i).getSubdomain3();
+				test_subdomain2 = testEntries.get(i).getSubdomain2();
+				test_subdomain1 = testEntries.get(i).getSubdomain1();
 				test_url_core = testEntries.get(i).getURL_core();
 				test_url_TLD = testEntries.get(i).getTLD();
+				test_url_has_path = testEntries.get(i).getURL_has_Path();
+				test_folder1 = testEntries.get(i).getURL_folder1();
+				test_folder2 = testEntries.get(i).getURL_folder2();
+				test_url_has_file_extension = testEntries.get(i).getURL_has_file();
+				test_file_extension = testEntries.get(i).getURL_file();
+				test_url_protocol = testEntries.get(i).getURL_protocol();
 				test_client_address = testEntries.get(i).getIP_client();
 				
 				System.out.println("Entrada "+i+"º:\n");
@@ -71,8 +98,22 @@ public class DataParserTest extends TestCase {
 				System.out.println("test_squid_hierarchy: "+test_squid_hierarchy+"\n");
 				System.out.println("test_bytes: "+test_bytes+"\n");
 				System.out.println("test_url: "+test_url+"\n");
+				System.out.println("test_url_is_IP: "+test_url_is_IP+"\n");
+				System.out.println("test_url_has_subdomains: "+test_url_has_subdomains+"\n");
+				System.out.println("test_num_subdomains: "+test_num_subdomains+"\n");
+				System.out.println("test_subdomain5: "+test_subdomain5+"\n");
+				System.out.println("test_subdomain4: "+test_subdomain4+"\n");
+				System.out.println("test_subdomain3: "+test_subdomain3+"\n");
+				System.out.println("test_subdomain2: "+test_subdomain2+"\n");
+				System.out.println("test_subdomain1: "+test_subdomain1+"\n");
 				System.out.println("test_url_core: "+test_url_core+"\n");
 				System.out.println("test_url_TLD: "+test_url_TLD+"\n");
+				System.out.println("test_url_has_path: "+test_url_has_path+"\n");
+				System.out.println("test_folder1: "+test_folder1+"\n");
+				System.out.println("test_folder2: "+test_folder2+"\n");
+				System.out.println("test_url_has_file_extension: "+test_url_has_file_extension+"\n");
+				System.out.println("test_file_extension: "+test_file_extension+"\n");
+				System.out.println("test_url_protocol: "+test_url_protocol+"\n");
 				System.out.println("test_client_address: "+test_client_address+"\n");
 				
 			}

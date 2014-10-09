@@ -22,6 +22,11 @@ public class MainClass {
 		 */
 		//System.out.println("Hola u_u");
 		
+		long time_start, time_end;
+		time_start = System.currentTimeMillis();
+		
+		
+		
 		List<LogEntry> unlabelled_Entries = new ArrayList<LogEntry>();
 		List<Rule> DRL_Rules = new ArrayList<Rule>();
 		
@@ -29,13 +34,26 @@ public class MainClass {
 			
 			System.out.println("Parsing log...");
 			unlabelled_Entries = DataParser.parsing_Log();
+			
+			
+			
 			System.out.println("Parsing rules...");
 			DRL_Rules = RuleParser.parsing_DRL();
+			
+																																																																																																																																																																																																																																											
+			
+			
 			
 			System.out.println("Labelling...");
 			List<LogEntry> labelled_Entries = Labeller.obtain_labels(unlabelled_Entries, DRL_Rules);
 			System.out.println("Obtaining CSV...");
 			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false);
+			
+			System.out.println("Creating ARFF...");
+			String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
+			
+			time_end = System.currentTimeMillis();
+			System.out.println("the task has taken "+ ( time_end - time_start ) +" milliseconds");
 			
 			/**
 			 * Pruebas CSV
@@ -71,7 +89,7 @@ public class MainClass {
 			String[] ARFF_File_name_ts2 = ArffHandler.obtain_arff(ts_files2);
 			
 			System.out.println("Creating ARFF...");
-			String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
+			//String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
 			System.out.println("ARFF at "+ARFF_File_name[1]);
 			
 			/*
