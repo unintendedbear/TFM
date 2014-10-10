@@ -80,8 +80,8 @@ public class Labeller {
 	
 				} // for j
 				
-				LogEntry mirar = unlabelled_Entries.get(i);
-				String mirartambien = mirar.getLabel();
+				//LogEntry mirar = unlabelled_Entries.get(i); //Debugging only
+				//String mirartambien = mirar.getLabel();
 				labelled_Entries.add(unlabelled_Entries.get(i));				
 			
 			} // for i

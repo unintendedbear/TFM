@@ -65,9 +65,53 @@ public class CSVHandler {
 				CSV_Data.append(',');
 				CSV_Data.append(""+labelled_Entries.get(i).getBytes());
 				CSV_Data.append(',');
+				if (labelled_Entries.get(i).getURL_is_IP()) {
+					CSV_Data.append("1");
+				} else {
+					CSV_Data.append("0");
+				}
+				CSV_Data.append(',');
+				if (labelled_Entries.get(i).getURL_has_subdomains()) {
+					CSV_Data.append("1");
+				} else {
+					CSV_Data.append("0");
+				}
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getNum_subdomains());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getSubdomain5());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getSubdomain4());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getSubdomain3());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getSubdomain2());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getSubdomain1());
+				CSV_Data.append(',');
 				CSV_Data.append(labelled_Entries.get(i).getURL_core());
 				CSV_Data.append(',');
 				CSV_Data.append(labelled_Entries.get(i).getTLD());
+				CSV_Data.append(',');
+				if (labelled_Entries.get(i).getURL_has_Path()) {
+					CSV_Data.append("1");
+				} else {
+					CSV_Data.append("0");
+				}
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getURL_folder1());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getURL_folder2());
+				CSV_Data.append(',');
+				if (labelled_Entries.get(i).getURL_has_file()) {
+					CSV_Data.append("1");
+				} else {
+					CSV_Data.append("0");
+				}
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getURL_file());
+				CSV_Data.append(',');
+				CSV_Data.append(labelled_Entries.get(i).getURL_protocol());
 				CSV_Data.append(',');
 				CSV_Data.append(labelled_Entries.get(i).getIP_client());
 				CSV_Data.append(',');
@@ -390,9 +434,37 @@ public class CSVHandler {
 			file.append(',');
 			file.append("bytes");
 			file.append(',');
+			file.append("url_is_IP");
+			file.append(',');
+			file.append("url_has_subdomains");
+			file.append(',');
+			file.append("num_subdomains");
+			file.append(',');
+			file.append("subdomain5");
+			file.append(',');
+			file.append("subdomain4");
+			file.append(',');
+			file.append("subdomain3");
+			file.append(',');
+			file.append("subdomain2");
+			file.append(',');
+			file.append("subdomain1");
+			file.append(',');
 			file.append("url_core");
 			file.append(',');
 			file.append("url_TLD");
+			file.append(',');
+			file.append("url_has_path");
+			file.append(',');
+			file.append("folder1");
+			file.append(',');
+			file.append("folder2");
+			file.append(',');
+			file.append("url_has_file_extension");
+			file.append(',');
+			file.append("file_extension");
+			file.append(',');
+			file.append("url_protocol");
 			file.append(',');
 			file.append("client_address");
 			file.append(',');

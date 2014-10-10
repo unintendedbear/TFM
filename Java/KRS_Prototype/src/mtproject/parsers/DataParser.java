@@ -114,7 +114,7 @@ public class DataParser {
 								
 								int k;
 								for ( k = 0; k < 7; k++){
-									listOfValues.addElement("");
+									listOfValues.addElement("?");
 								}
 								
 							} else {
@@ -129,7 +129,7 @@ public class DataParser {
 								 * Core Domain at urlValues[urlValues.length-2]:
 								 */
 								
-								String noSubdomain = "";
+								String noSubdomain = "?";
 								int m = urlValues.length-2;
 								if (m >= 1) {
 									listOfValues.addElement(true); // Has subdomains
@@ -155,7 +155,7 @@ public class DataParser {
 							
 							int l;
 							for ( l = 0; l < 7; l++){
-								listOfValues.addElement("");
+								listOfValues.addElement("?");
 							}
 						}
 						
@@ -172,31 +172,31 @@ public class DataParser {
 								listOfValues.addElement(pathValues[1]);
 							} else if (pathValues.length == 1){
 								listOfValues.addElement(pathValues[0]);
-								listOfValues.addElement("");
+								listOfValues.addElement("?");
 							} else {
-								listOfValues.addElement("");
-								listOfValues.addElement("");
+								listOfValues.addElement("?");
+								listOfValues.addElement("?");
 							}						
 							
 						} else {
 							
 							listOfValues.addElement(false); // No path
-							listOfValues.addElement(""); // No folder 1
-							listOfValues.addElement(""); // No folder 2
+							listOfValues.addElement("?"); // No folder 1
+							listOfValues.addElement("?"); // No folder 2
 						}
 						
 						/****************************
 						 * FILE EXTENSION
 						 ****************************/
-						if (matcherUrl.group(5) != null) {
-							
+						if (matcherUrl.group(5) != null && matcherUrl.group(5).length() <= 4) {
+
 							listOfValues.addElement(true); // Has file extension
 							listOfValues.addElement(matcherUrl.group(5));														
 							
 						} else {
 							
 							listOfValues.addElement(false); // No file extension
-							listOfValues.addElement(""); // No file extension
+							listOfValues.addElement("?"); // No file extension
 						}
 						
 						/****************************
@@ -205,7 +205,7 @@ public class DataParser {
 						if (matcherUrl.group(1) != null) {	
 							listOfValues.addElement(matcherUrl.group(1));
 						} else {
-							listOfValues.addElement(""); // No protocol
+							listOfValues.addElement(" "); // No protocol
 						}
 						
 												

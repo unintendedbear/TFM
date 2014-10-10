@@ -33,31 +33,27 @@ public class MainClass {
 		try {
 			
 			System.out.println("Parsing log...");
-			unlabelled_Entries = DataParser.parsing_Log();
-			
-			
+			unlabelled_Entries = DataParser.parsing_Log();			
 			
 			System.out.println("Parsing rules...");
 			DRL_Rules = RuleParser.parsing_DRL();
-			
-																																																																																																																																																																																																																																											
-			
-			
 			
 			System.out.println("Labelling...");
 			List<LogEntry> labelled_Entries = Labeller.obtain_labels(unlabelled_Entries, DRL_Rules);
 			System.out.println("Obtaining CSV...");
 			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false);
+			System.out.println("CSV at "+CSV_File_name[1]);
 			
 			System.out.println("Creating ARFF...");
 			String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
+			System.out.println("ARFF at "+ARFF_File_name[1]);
 			
 			time_end = System.currentTimeMillis();
 			System.out.println("the task has taken "+ ( time_end - time_start ) +" milliseconds");
 			
 			/**
 			 * Pruebas CSV
-			 */
+			 
 			
 			System.out.println("Undersampling...");
 			String[] file_undersampled = CSVHandler.undersampling(CSV_File_name);
@@ -87,10 +83,6 @@ public class MainClass {
 			ts_files2[1] = files2[3];
 			String[] ARFF_File_name_tr2 = ArffHandler.obtain_arff(tr_files2);
 			String[] ARFF_File_name_ts2 = ArffHandler.obtain_arff(ts_files2);
-			
-			System.out.println("Creating ARFF...");
-			//String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
-			System.out.println("ARFF at "+ARFF_File_name[1]);
 			
 			/*
 			String[] experiments = new String[11];
