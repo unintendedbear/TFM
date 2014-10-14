@@ -82,9 +82,9 @@ public class MainClass {
 			ts_files2[0] = files2[2];
 			ts_files2[1] = files2[3];
 			String[] ARFF_File_name_tr2 = ArffHandler.obtain_arff(tr_files2);
-			String[] ARFF_File_name_ts2 = ArffHandler.obtain_arff(ts_files2);
+			String[] ARFF_File_name_ts2 = ArffHandler.obtain_arff(ts_files2);*/
 			
-			/*
+			
 			String[] experiments = new String[11];
 			experiments[0] = "NaiveBayes";
 			experiments[1] = "DecisionTable -X 1 -S \"weka.attributeSelection.BestFirst -D 1 -N 5\"";
@@ -101,14 +101,14 @@ public class MainClass {
 			Double[] percentages = new Double[experiments.length];
 			
 			int i;
-			for ( i = 0; i < experiments.length; i++) {
+			for ( i = 4; i < 5; i++) {
 				System.out.println("Launching "+experiments[i]+"...");
 				Double temp_percentage = ExperimentRunner.experimenter(ARFF_File_name, experiments[i]);
 				if (!temp_percentage.isNaN()) {	
 					percentages[i] = temp_percentage;
 					System.out.println(percentages[i]);
 				}
-			}*/
+			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

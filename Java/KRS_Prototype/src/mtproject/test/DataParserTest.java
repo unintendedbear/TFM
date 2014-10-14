@@ -28,7 +28,7 @@ public class DataParserTest extends TestCase {
 		
 		try {
 			testEntries = DataParser.parsing_Log();
-			int test_http_reply_code;
+			String test_http_reply_code;
 			String test_http_method;
 			int test_duration_milliseconds;
 			String test_content_type_MCT;

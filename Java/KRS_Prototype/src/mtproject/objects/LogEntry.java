@@ -1,7 +1,7 @@
 package mtproject.objects;
 
 public class LogEntry {
-	private int http_reply_code;
+	private String http_reply_code;
 	private String http_method;
 	private int duration_milliseconds;
 	private String content_type_MCT;
@@ -34,7 +34,7 @@ public class LogEntry {
 	private String client_address;
 	private String label;
 	
-	public LogEntry (int http_reply_code,
+	public LogEntry (String http_reply_code,
 			String http_method,
 			int duration_milliseconds,
 			String content_type_MCT,
@@ -90,7 +90,7 @@ public class LogEntry {
 		this.client_address = client_address;
 	}
 	
-	public LogEntry (int http_reply_code,
+	public LogEntry (String http_reply_code,
 			String http_method,
 			int duration_milliseconds,
 			String content_type_MCT,
@@ -148,7 +148,7 @@ public class LogEntry {
 		this.label = label;
 	}
 	
-	public int getHTTP_reply_code () {
+	public String getHTTP_reply_code () {
 		
 		return this.http_reply_code;
 	}

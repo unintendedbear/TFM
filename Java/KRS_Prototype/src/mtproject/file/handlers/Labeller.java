@@ -103,7 +103,7 @@ public class Labeller {
 		String DataType;
 		String Relationship;
 		String Value;
-		int http_reply_code;
+		String http_reply_code;
 		String http_method;
 		int duration_milliseconds;
 		String content_type_MCT;

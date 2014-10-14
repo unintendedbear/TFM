@@ -29,7 +29,7 @@ public class DataParser {
 		String contentTypePattern = "^(\\w+\\-*\\w+)[\\/?]\\w+";
 		String timePattern = "^\\d{1,2}\\:\\d{2}\\:\\d{2}";
 		String IPPattern = "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
-		String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?([\\?\\%\\&\\:\\w\\/\\_\\-\\.\\:]*\\.([^.]+)+)?";
+		String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?(\\w*)\\/?(\\w*)\\/?([\\?\\%\\&\\:\\w\\/\\_\\-\\.\\:]*\\.([^.]+)+)?";
 		
 				
 		try {
@@ -165,16 +165,12 @@ public class DataParser {
 						if (matcherUrl.group(4) != null) {
 							
 							listOfValues.addElement(true); // Has path
-							String[] pathValues = matcherUrl.group(4).split("\\/");
+							//String[] pathValues = matcherUrl.group(4).split("\\/");
+							listOfValues.addElement(matcherUrl.group(4));
 							
-							if (pathValues.length > 1) {
-								listOfValues.addElement(pathValues[0]);
-								listOfValues.addElement(pathValues[1]);
-							} else if (pathValues.length == 1){
-								listOfValues.addElement(pathValues[0]);
-								listOfValues.addElement("?");
+							if (matcherUrl.group(5) != null) {
+								listOfValues.addElement(matcherUrl.group(5));
 							} else {
-								listOfValues.addElement("?");
 								listOfValues.addElement("?");
 							}						
 							
@@ -188,10 +184,10 @@ public class DataParser {
 						/****************************
 						 * FILE EXTENSION
 						 ****************************/
-						if (matcherUrl.group(5) != null && matcherUrl.group(5).length() <= 4) {
+						if (matcherUrl.group(7) != null && matcherUrl.group(7).length() <= 4) {
 
 							listOfValues.addElement(true); // Has file extension
-							listOfValues.addElement(matcherUrl.group(5));														
+							listOfValues.addElement(matcherUrl.group(7));														
 							
 						} else {
 							
@@ -281,7 +277,7 @@ public class DataParser {
 		
 		if (listOfValues.size() == 27) {			
 			
-			int http_reply_code = (int)listOfValues.elementAt(0);
+			String http_reply_code = ""+listOfValues.elementAt(0);
 			String http_method = (String)listOfValues.elementAt(1);
 			int duration_milliseconds = (int)listOfValues.elementAt(2);
 			String content_type_MCT = (String)listOfValues.elementAt(3);
