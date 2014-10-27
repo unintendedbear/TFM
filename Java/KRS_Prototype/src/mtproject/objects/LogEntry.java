@@ -61,6 +61,7 @@ public class LogEntry {
 			String file_extension,
 			String url_protocol,
 			String client_address) {
+		
 		this.http_reply_code = http_reply_code;
 		this.http_method = http_method;
 		this.duration_milliseconds = duration_milliseconds;
