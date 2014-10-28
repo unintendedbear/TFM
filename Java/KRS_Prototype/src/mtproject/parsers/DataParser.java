@@ -231,7 +231,7 @@ public class DataParser {
         
     }
 	
-    private static boolean is_integer(String value) {
+    public static boolean is_integer(String value) {
     	
     	if (value == null || value.isEmpty()) {
     		return false;

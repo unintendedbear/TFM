@@ -8,7 +8,8 @@ import mtproject.weka.files.ArffHandler;
 import mtproject.weka.files.CSVHandler;
 import mtproject.weka.files.ExperimentRunner;
 import mtproject.file.handlers.Labeller;
-import mtproject.objects.*;
+import mtproject.objects.Rule;
+import mtproject.objects.LogEntry;
 
 public class MainClass {
 	
