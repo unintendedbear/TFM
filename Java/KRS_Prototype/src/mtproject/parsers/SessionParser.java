@@ -50,25 +50,13 @@ public class SessionParser {
 		int[] session_time; // 1 minute definition for a session time
 		boolean in_session = false;
 		
-		//Initialise
-		client_session_IP = labelled_Entries.get(0).getIP_client();
-		time_session_starts = labelled_Entries.get(0).getTime();
-		if (labelled_Entries.get(0).getLabel().contains("allow")) {
-			num_allows++;
-		} else {
-			num_denies++;
-		}
-		session_bytes += labelled_Entries.get(0).getBytes();
-		session_ms += labelled_Entries.get(0).getNum_miliseconds();
-		session_latency = labelled_Entries.get(0).getBytes()/labelled_Entries.get(0).getNum_miliseconds();
-		
 		int i; // Recorrer las entradas etiquetadas
 		for ( i = 0; i < labelled_Entries.size(); i++) {
 			
-			if (!in_session) {
-				
-				client_session_IP = labelled_Entries.get(i).getIP_client();
-				time_session_starts = labelled_Entries.get(i).getTime();
+			client_session_IP = labelled_Entries.get(i).getIP_client();
+			if (!listOfValues.contains(client_session_IP)) {
+				listOfValues.add(client_session_IP);
+				System.out.println("Client: "+client_session_IP);
 			}
 		}
 		

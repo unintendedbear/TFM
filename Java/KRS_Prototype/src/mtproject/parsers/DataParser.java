@@ -29,7 +29,9 @@ public class DataParser {
 		String contentTypePattern = "^(\\w+\\-*\\w+)[\\/?]\\w+";
 		String timePattern = "^\\d{1,2}\\:\\d{2}\\:\\d{2}";
 		String IPPattern = "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
-		String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?(\\w*)\\/?(\\w*)\\/?([\\?\\%\\&\\:\\w\\/\\_\\-\\.\\:]*\\.([^.]+)+)?";
+		//String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?(\\w*)\\/?(\\w*)\\/?([\\?\\%\\&\\:\\w\\/\\_\\-\\.\\:]*\\.([^.]+)+)?";
+		String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?(.*)";
+		String fileExtension = "(.*)\\.([^.]+)?";
 		
 				
 		try {
@@ -160,19 +162,56 @@ public class DataParser {
 						}
 						
 						/****************************
-						 * PATH
+						 * PATH & FILE EXTENSION
 						 ****************************/
 						if (matcherUrl.group(4) != null) {
 							
 							listOfValues.addElement(true); // Has path
-							//String[] pathValues = matcherUrl.group(4).split("\\/");
-							listOfValues.addElement(matcherUrl.group(4));
-							
-							if (matcherUrl.group(5) != null) {
-								listOfValues.addElement(matcherUrl.group(5));
-							} else {
+							String[] pathValues = matcherUrl.group(4).split("\\/");
+							if (pathValues.length >= 2) {
+								if (pathValues[0].matches("[a-zA-Z]*")) {
+									listOfValues.addElement(pathValues[0]);
+								} else {
+									listOfValues.addElement("?");
+								}
+								if (pathValues[1].matches("[a-zA-Z]*")) {
+									listOfValues.addElement(pathValues[1]);
+								} else {
+									listOfValues.addElement("?");
+								}
+							} else if (pathValues.length >= 1) {
+								if (pathValues[0].matches("[a-zA-Z]*")) {
+									listOfValues.addElement(pathValues[0]);
+								} else {
+									listOfValues.addElement("?");
+								}
 								listOfValues.addElement("?");
-							}						
+							}
+							
+							Pattern patternForFileExtension = Pattern.compile(fileExtension);							
+							
+							int index;
+							boolean nofileext = false;
+							for (index = 0; index < pathValues.length; index++) {
+								Matcher matcherFileExtension = patternForUrl.matcher(pathValues[index]);
+								
+								if (matcherFileExtension.find() && matcherFileExtension.group(2).length() <= 4) {
+									
+									listOfValues.addElement(true); // Has file extension
+									listOfValues.addElement(matcherUrl.group(7));
+									nofileext = false;
+									break;
+									
+								} else {
+									
+									nofileext = true;
+								}
+							}
+							
+							if (nofileext) {
+								listOfValues.addElement(false); // No file extension
+								listOfValues.addElement("?"); // No file extension
+							}
 							
 						} else {
 							
@@ -184,7 +223,7 @@ public class DataParser {
 						/****************************
 						 * FILE EXTENSION
 						 ****************************/
-						if (matcherUrl.group(7) != null && matcherUrl.group(7).length() <= 4) {
+						/*if (matcherUrl.group(7) != null && matcherUrl.group(7).length() <= 4) {
 
 							listOfValues.addElement(true); // Has file extension
 							listOfValues.addElement(matcherUrl.group(7));														
@@ -193,7 +232,7 @@ public class DataParser {
 							
 							listOfValues.addElement(false); // No file extension
 							listOfValues.addElement("?"); // No file extension
-						}
+						}*/
 						
 						/****************************
 						 * REQUEST PROTOCOL
