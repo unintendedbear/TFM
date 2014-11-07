@@ -31,7 +31,7 @@ public class DataParser {
 		String IPPattern = "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
 		//String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?(\\w*)\\/?(\\w*)\\/?([\\?\\%\\&\\:\\w\\/\\_\\-\\.\\:]*\\.([^.]+)+)?";
 		String urlPattern = "(https?)?:\\/\\/(www\\.)?([\\-\\w\\.]+)*\\/?(.*)";
-		String fileExtension = "(.*)\\.([^.]+)?";
+		String fileExtension = "(.*)\\.([a-zA-Z]{3,4})$";
 		
 				
 		try {
@@ -43,26 +43,26 @@ public class DataParser {
 			List<LogEntry> listOfEntries = new ArrayList<LogEntry>();
 			
 			
-			int i;
+			int indexLogLines;
 			// i empieza en 1 porque la primera línea son los nombres de los campos
-			for ( i = 1; i < arrayLines.length; i++ ) {
+			for ( indexLogLines = 1; indexLogLines < arrayLines.length; indexLogLines++ ) {
 
 				// Obtener valores de los campos por separado
-				String[] fieldValues = arrayLines[i].split(";");
+				String[] fieldValues = arrayLines[indexLogLines].split(";");
 				
 				// Limpiamos el vector de valores
 				listOfValues.clear();
 				
 				// Valores uno a uno
-				int j;
-				for ( j = 0; j < fieldValues.length; j++){
+				int indexLogFields;
+				for ( indexLogFields = 0; indexLogFields < fieldValues.length; indexLogFields++){
 					// Dejamos limpios los que estén entre comillas ""
 					Pattern patternForCleaning = Pattern.compile(cleaningPattern);
-					Matcher matcherLine = patternForCleaning.matcher(fieldValues[j]);
+					Matcher matcherLine = patternForCleaning.matcher(fieldValues[indexLogFields]);
 					
 					if (matcherLine.find()) {
 						// Valores en matcherLine.group(1)
-						fieldValues[j] = matcherLine.group(1);
+						fieldValues[indexLogFields] = matcherLine.group(1);
 					}
 					
 					// Patrones para detectar qué es qué
@@ -70,23 +70,23 @@ public class DataParser {
 					Pattern patternForTime = Pattern.compile(timePattern);
 					Pattern patternForUrl = Pattern.compile(urlPattern);
 					
-					Matcher matcherContentType = patternForContentType.matcher(fieldValues[j]);
-					Matcher matcherTime = patternForTime.matcher(fieldValues[j]);
-					Matcher matcherUrl = patternForUrl.matcher(fieldValues[j]);
+					Matcher matcherContentType = patternForContentType.matcher(fieldValues[indexLogFields]);
+					Matcher matcherTime = patternForTime.matcher(fieldValues[indexLogFields]);
+					Matcher matcherUrl = patternForUrl.matcher(fieldValues[indexLogFields]);
 					
 					if (matcherContentType.find()) {
 						//System.out.println("Found MCT: " + matcherContentType.group(1) );
 						if (matcherContentType.group(1) != null) {
 							listOfValues.addElement(matcherContentType.group(1));
-							listOfValues.addElement(fieldValues[j]);
+							listOfValues.addElement(fieldValues[indexLogFields]);
 						} else {
-							listOfValues.addElement(fieldValues[j]);
-							listOfValues.addElement(fieldValues[j]);
+							listOfValues.addElement(fieldValues[indexLogFields]);
+							listOfValues.addElement(fieldValues[indexLogFields]);
 						}
 						
 					} else if(matcherTime.find()) {
 						//System.out.println("Found time: " + fieldValues[j] );
-						listOfValues.addElement(fieldValues[j]);						
+						listOfValues.addElement(fieldValues[indexLogFields]);						
 					} else if(matcherUrl.find()) {
 						/*
 						 * Complete URL at matcherUrl.group(0);
@@ -97,7 +97,7 @@ public class DataParser {
 						 * File extension (if exists) at matcherUrl.group(5);
 						 */
 						
-						listOfValues.addElement(fieldValues[j]);
+						listOfValues.addElement(fieldValues[indexLogFields]);
 						
 						/****************************
 						 * URL DOMAIN, SUBDOMAINS, AND TLD
@@ -114,8 +114,8 @@ public class DataParser {
 								listOfValues.addElement(false); // No subdomains
 								listOfValues.addElement(0); // No subdomains (num_subdomains = 0)
 								
-								int k;
-								for ( k = 0; k < 7; k++){
+								int indexUrlValues;
+								for ( indexUrlValues = 0; indexUrlValues < 7; indexUrlValues++){
 									listOfValues.addElement("?");
 								}
 								
@@ -132,22 +132,22 @@ public class DataParser {
 								 */
 								
 								String noSubdomain = "?";
-								int m = urlValues.length-2;
-								if (m >= 1) {
+								int numSubdomains = urlValues.length-2;
+								if (numSubdomains >= 1) {
 									listOfValues.addElement(true); // Has subdomains
-									listOfValues.addElement(m); // Number of subdomains
+									listOfValues.addElement(numSubdomains); // Number of subdomains
 								} else {
 									listOfValues.addElement(false); // No subdomains
 									listOfValues.addElement(0); // No subdomains (num_subdomains = 0)
 								}
-								while (m < 5) {
+								while (numSubdomains < 5) {
 									listOfValues.addElement(noSubdomain);
-									m++;
+									numSubdomains++;
 								}
 								
-								int n;
-								for ( n = 0; n < urlValues.length; n++){
-									listOfValues.addElement(urlValues[n]);
+								int indexSubdomains;
+								for ( indexSubdomains = 0; indexSubdomains < urlValues.length; indexSubdomains++){
+									listOfValues.addElement(urlValues[indexSubdomains]);
 								}
 							}
 						} else {
@@ -155,62 +155,39 @@ public class DataParser {
 							listOfValues.addElement(false); // No subdomains
 							listOfValues.addElement(0); // No subdomains (num_subdomains = 0)
 							
-							int l;
-							for ( l = 0; l < 7; l++){
+							int indexNoSubdomains;
+							for ( indexNoSubdomains = 0; indexNoSubdomains < 7; indexNoSubdomains++){
 								listOfValues.addElement("?");
 							}
 						}
 						
 						/****************************
-						 * PATH & FILE EXTENSION
+						 * PATH
 						 ****************************/
+						String[] pathValues = null;
+						
 						if (matcherUrl.group(4) != null) {
 							
 							listOfValues.addElement(true); // Has path
-							String[] pathValues = matcherUrl.group(4).split("\\/");
+							pathValues = matcherUrl.group(4).split("\\/");
 							if (pathValues.length >= 2) {
-								if (pathValues[0].matches("[a-zA-Z]*")) {
+								if (pathValues[0].matches("[a-zA-Z0-9]*")) { // Folder 1 is not a filename
 									listOfValues.addElement(pathValues[0]);
 								} else {
-									listOfValues.addElement("?");
+									listOfValues.addElement("?"); //Folder 1 is a filename
 								}
-								if (pathValues[1].matches("[a-zA-Z]*")) {
+								if (pathValues[1].matches("[a-zA-Z-0-9]*")) { // Folder 2 is not a filename
 									listOfValues.addElement(pathValues[1]);
 								} else {
-									listOfValues.addElement("?");
+									listOfValues.addElement("?"); // Folder 2 is a filename
 								}
 							} else if (pathValues.length >= 1) {
-								if (pathValues[0].matches("[a-zA-Z]*")) {
+								if (pathValues[0].matches("[a-zA-Z-0-9]*")) { // Folder 1 is not a filename
 									listOfValues.addElement(pathValues[0]);
 								} else {
-									listOfValues.addElement("?");
+									listOfValues.addElement("?"); // Folder 1 is a filename
 								}
 								listOfValues.addElement("?");
-							}
-							
-							Pattern patternForFileExtension = Pattern.compile(fileExtension);							
-							
-							int index;
-							boolean nofileext = false;
-							for (index = 0; index < pathValues.length; index++) {
-								Matcher matcherFileExtension = patternForUrl.matcher(pathValues[index]);
-								
-								if (matcherFileExtension.find() && matcherFileExtension.group(2).length() <= 4) {
-									
-									listOfValues.addElement(true); // Has file extension
-									listOfValues.addElement(matcherUrl.group(7));
-									nofileext = false;
-									break;
-									
-								} else {
-									
-									nofileext = true;
-								}
-							}
-							
-							if (nofileext) {
-								listOfValues.addElement(false); // No file extension
-								listOfValues.addElement("?"); // No file extension
 							}
 							
 						} else {
@@ -221,18 +198,46 @@ public class DataParser {
 						}
 						
 						/****************************
+						 * PARAMETERS
+						 ****************************/
+						
+						int indexParameters;
+						for (indexParameters = 0; indexParameters < pathValues.length; indexParameters++) {
+							if (pathValues[indexParameters].contains("?")) {
+								String[] parameterValues = pathValues[indexParameters].split("\\?");
+								int i;
+								for (i=0;i<parameterValues.length;i++){
+									System.out.println("Parameter found and is "+parameterValues[i]);
+									if (parameterValues[i].contains("&")) {
+										String[] valuePairs = parameterValues[i].split("\\&");
+										int j;
+										for (j=0;j<valuePairs.length;j++){
+											System.out.println("Values found: "+valuePairs[j]);
+										}										
+									}
+									
+								}
+							}
+						}
+						
+						/****************************
 						 * FILE EXTENSION
 						 ****************************/
-						/*if (matcherUrl.group(7) != null && matcherUrl.group(7).length() <= 4) {
-
+						
+						Pattern patternForFileExtension = Pattern.compile(fileExtension);
+						
+						// File extension should be at the last place of pathValues
+						Matcher matcherFileExtension = patternForFileExtension.matcher(pathValues[pathValues.length-1]);
+						
+						if (matcherFileExtension.find()) {
+								
 							listOfValues.addElement(true); // Has file extension
-							listOfValues.addElement(matcherUrl.group(7));														
-							
+							listOfValues.addElement(matcherFileExtension.group(2));
+								
 						} else {
-							
 							listOfValues.addElement(false); // No file extension
 							listOfValues.addElement("?"); // No file extension
-						}*/
+						}
 						
 						/****************************
 						 * REQUEST PROTOCOL
@@ -244,17 +249,17 @@ public class DataParser {
 						}
 						
 												
-					} else if (is_integer(fieldValues[j])) {						
-						listOfValues.addElement(Integer.parseInt(fieldValues[j]));						
-					} else if (j == 3){
-						listOfValues.addElement(fieldValues[j]);
-						listOfValues.addElement(fieldValues[j]);
-					} else if (j == 8){
-						listOfValues.addElement(fieldValues[j]);
-						listOfValues.addElement(fieldValues[j]);
-						listOfValues.addElement(fieldValues[j]);
+					} else if (is_integer(fieldValues[indexLogFields])) {						
+						listOfValues.addElement(Integer.parseInt(fieldValues[indexLogFields]));						
+					} else if (indexLogFields == 3){
+						listOfValues.addElement(fieldValues[indexLogFields]);
+						listOfValues.addElement(fieldValues[indexLogFields]);
+					} else if (indexLogFields == 8){
+						listOfValues.addElement(fieldValues[indexLogFields]);
+						listOfValues.addElement(fieldValues[indexLogFields]);
+						listOfValues.addElement(fieldValues[indexLogFields]);
 					} else {						
-						listOfValues.addElement(fieldValues[j]);
+						listOfValues.addElement(fieldValues[indexLogFields]);
 					}
 				}
 				
