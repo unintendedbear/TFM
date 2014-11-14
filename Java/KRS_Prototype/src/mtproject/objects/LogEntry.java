@@ -27,6 +27,8 @@ public class LogEntry {
 	private Boolean url_has_path;
 	private String folder1;
 	private String folder2;
+	private Boolean path_has_parameters;
+	private int num_parameters;
 	private Boolean url_has_file_extension;
 	private String file_extension;
 	private String url_protocol;
@@ -57,6 +59,8 @@ public class LogEntry {
 			Boolean url_has_path,
 			String folder1,
 			String folder2,
+			Boolean path_has_parameters,
+			int num_parameters,
 			Boolean url_has_file_extension,
 			String file_extension,
 			String url_protocol,
@@ -85,6 +89,8 @@ public class LogEntry {
 		this.url_has_path = url_has_path;
 		this.folder1 = folder1;
 		this.folder2 = folder2;
+		this.path_has_parameters = path_has_parameters;
+		this.num_parameters = num_parameters;
 		this.url_has_file_extension = url_has_file_extension;
 		this.file_extension = file_extension;
 		this.url_protocol = url_protocol;
@@ -114,6 +120,8 @@ public class LogEntry {
 			Boolean url_has_path,
 			String folder1,
 			String folder2,
+			Boolean path_has_parameters,
+			int num_parameters,
 			Boolean url_has_file_extension,
 			String file_extension,
 			String url_protocol,
@@ -142,6 +150,8 @@ public class LogEntry {
 		this.url_has_path = url_has_path;
 		this.folder1 = folder1;
 		this.folder2 = folder2;
+		this.path_has_parameters = path_has_parameters;
+		this.num_parameters = num_parameters;
 		this.url_has_file_extension = url_has_file_extension;
 		this.file_extension = file_extension;
 		this.url_protocol = url_protocol;
@@ -262,6 +272,16 @@ public class LogEntry {
 	public String getURL_folder2 () {
 		
 		return this.folder2;
+	}
+	
+	public Boolean getPath_has_parameters() {
+		
+		return this.path_has_parameters;
+	}
+	
+	public int getNum_parameters () {
+		
+		return this.num_parameters;
 	}
 	
 	public Boolean getURL_has_file () {

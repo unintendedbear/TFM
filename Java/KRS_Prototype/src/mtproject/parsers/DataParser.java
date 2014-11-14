@@ -202,23 +202,28 @@ public class DataParser {
 						 ****************************/
 						
 						int indexParameters;
+						int countParameters = 0;
+						boolean areThereParameters = false;
 						for (indexParameters = 0; indexParameters < pathValues.length; indexParameters++) {
 							if (pathValues[indexParameters].contains("?")) {
+								areThereParameters = true;
 								String[] parameterValues = pathValues[indexParameters].split("\\?");
 								int i;
-								for (i=0;i<parameterValues.length;i++){
-									System.out.println("Parameter found and is "+parameterValues[i]);
+								for (i=0;i<parameterValues.length;i++){									
 									if (parameterValues[i].contains("&")) {
 										String[] valuePairs = parameterValues[i].split("\\&");
 										int j;
 										for (j=0;j<valuePairs.length;j++){
-											System.out.println("Values found: "+valuePairs[j]);
+											countParameters++;
 										}										
 									}
 									
 								}
+								
 							}
 						}
+						listOfValues.addElement(areThereParameters); // If there are parameters or not
+						listOfValues.addElement(countParameters); // Number of parameters
 						
 						/****************************
 						 * FILE EXTENSION
@@ -319,7 +324,7 @@ public class DataParser {
 	
 	public static LogEntry obtain_log(Vector listOfValues) {
 		
-		if (listOfValues.size() == 27) {			
+		if (listOfValues.size() == 29) {			
 			
 			String http_reply_code = ""+listOfValues.elementAt(0);
 			String http_method = (String)listOfValues.elementAt(1);
@@ -344,10 +349,12 @@ public class DataParser {
 			Boolean url_has_path = (Boolean)listOfValues.elementAt(20);
 			String folder1 = (String)listOfValues.elementAt(21);
 			String folder2 = (String)listOfValues.elementAt(22);
-			Boolean url_has_file_extension = (Boolean)listOfValues.elementAt(23);
-			String file_extension = (String)listOfValues.elementAt(24);
-			String url_protocol = (String)listOfValues.elementAt(25);
-			String client_address = (String)listOfValues.elementAt(26);
+			Boolean path_has_parameters = (Boolean)listOfValues.elementAt(23);
+			int num_parameters = (int)listOfValues.elementAt(24);
+			Boolean url_has_file_extension = (Boolean)listOfValues.elementAt(25);
+			String file_extension = (String)listOfValues.elementAt(26);
+			String url_protocol = (String)listOfValues.elementAt(27);
+			String client_address = (String)listOfValues.elementAt(28);
 			// elementos en listOfValues.elementAt(número)
 		
 			LogEntry myEntry = new LogEntry(http_reply_code,
@@ -373,6 +380,8 @@ public class DataParser {
 					url_has_path,
 					folder1,
 					folder2,
+					path_has_parameters,
+					num_parameters,
 					url_has_file_extension,
 					file_extension,
 					url_protocol,

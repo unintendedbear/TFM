@@ -103,6 +103,14 @@ public class CSVHandler {
 				CSV_Data.append(',');
 				CSV_Data.append(labelled_Entries.get(i).getURL_folder2());
 				CSV_Data.append(',');
+				if (labelled_Entries.get(i).getPath_has_parameters()) {
+					CSV_Data.append("1");
+				} else {
+					CSV_Data.append("0");
+				}
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getNum_parameters());
+				CSV_Data.append(',');
 				if (labelled_Entries.get(i).getURL_has_file()) {
 					CSV_Data.append("1");
 				} else {
@@ -459,6 +467,10 @@ public class CSVHandler {
 			file.append("folder1");
 			file.append(',');
 			file.append("folder2");
+			file.append(',');
+			file.append("path_has_parameters");
+			file.append(',');
+			file.append("num_parameters");
 			file.append(',');
 			file.append("url_has_file_extension");
 			file.append(',');
