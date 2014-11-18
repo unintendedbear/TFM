@@ -99,9 +99,37 @@ public class DataParser {
 						
 						listOfValues.addElement(fieldValues[indexLogFields]);
 						
-						/****************************
+						/********************************************************
+						 * LETTERS, DIGITS, AND OTHER NON-ALPHANUMERIC CHARACTERS
+						 ********************************************************/
+						
+						int charInURL = 0;
+						int numInURL = 0;
+						int otherCharInURL = 0;
+						char temp;
+						
+						int charsInURL;
+						for (charsInURL = 0; charsInURL < matcherUrl.group(0).length(); charsInURL++) {
+							
+							temp = matcherUrl.group(0).charAt(charsInURL);
+							
+							if(Character.isLetter(temp)) {
+								charInURL++;
+							} else if (Character.isDigit(temp)){
+								numInURL++;
+							} else {
+								otherCharInURL++;
+							}
+						}
+						
+						listOfValues.addElement(matcherUrl.group(0).length());
+						listOfValues.addElement(charInURL);
+						listOfValues.addElement(numInURL);
+						listOfValues.addElement(otherCharInURL);
+						
+						/*********************************
 						 * URL DOMAIN, SUBDOMAINS, AND TLD
-						 ****************************/
+						 *********************************/
 						if (matcherUrl.group(3) != null) {
 							
 							Pattern patternForIP = Pattern.compile(IPPattern);
@@ -237,10 +265,36 @@ public class DataParser {
 						if (matcherFileExtension.find()) {
 								
 							listOfValues.addElement(true); // Has file extension
+							listOfValues.addElement(matcherFileExtension.group(1).length()); // Length of the file
+							// LETTERS, DIGITS, AND OTHER NON-ALPHANUMERIC CHARACTERS
+							int charInFileExt = 0;
+							int numInFileExt = 0;
+							int otherCharInFileExt = 0;
+							
+							int charsInFileExt;
+							for (charsInFileExt = 0; charsInFileExt < matcherFileExtension.group(1).length(); charsInFileExt++) {
+								
+								temp = matcherFileExtension.group(1).charAt(charsInFileExt);
+								
+								if(Character.isLetter(temp)) {
+									charInFileExt++;
+								} else if (Character.isDigit(temp)){
+									numInFileExt++;
+								} else {
+									otherCharInFileExt++;
+								}
+							}
+							listOfValues.addElement(charInFileExt);
+							listOfValues.addElement(numInFileExt);
+							listOfValues.addElement(otherCharInFileExt);
 							listOfValues.addElement(matcherFileExtension.group(2));
 								
 						} else {
 							listOfValues.addElement(false); // No file extension
+							listOfValues.addElement(0); // File length = 0
+							listOfValues.addElement(0); // Num letters = 0
+							listOfValues.addElement(0); // Num digits = 0
+							listOfValues.addElement(0); // Num other characters = 0
 							listOfValues.addElement("?"); // No file extension
 						}
 						
@@ -324,7 +378,7 @@ public class DataParser {
 	
 	public static LogEntry obtain_log(Vector listOfValues) {
 		
-		if (listOfValues.size() == 29) {			
+		if (listOfValues.size() == 37) {			
 			
 			String http_reply_code = ""+listOfValues.elementAt(0);
 			String http_method = (String)listOfValues.elementAt(1);
@@ -336,25 +390,33 @@ public class DataParser {
 			String squid_hierarchy = (String)listOfValues.elementAt(7);
 			int bytes = (int)listOfValues.elementAt(8);
 			String url = (String)listOfValues.elementAt(9);
-			Boolean url_is_IP = (Boolean)listOfValues.elementAt(10);
-			Boolean url_has_subdomains = (Boolean)listOfValues.elementAt(11);
-			int num_subdomains = (int)listOfValues.elementAt(12);
-			String subdomain5 = (String)listOfValues.elementAt(13);
-			String subdomain4 = (String)listOfValues.elementAt(14);
-			String subdomain3 = (String)listOfValues.elementAt(15);
-			String subdomain2 = (String)listOfValues.elementAt(16);
-			String subdomain1 = (String)listOfValues.elementAt(17);
-			String url_core = (String)listOfValues.elementAt(18);
-			String url_TLD = (String)listOfValues.elementAt(19);
-			Boolean url_has_path = (Boolean)listOfValues.elementAt(20);
-			String folder1 = (String)listOfValues.elementAt(21);
-			String folder2 = (String)listOfValues.elementAt(22);
-			Boolean path_has_parameters = (Boolean)listOfValues.elementAt(23);
-			int num_parameters = (int)listOfValues.elementAt(24);
-			Boolean url_has_file_extension = (Boolean)listOfValues.elementAt(25);
-			String file_extension = (String)listOfValues.elementAt(26);
-			String url_protocol = (String)listOfValues.elementAt(27);
-			String client_address = (String)listOfValues.elementAt(28);
+			int url_length = (int)listOfValues.elementAt(10);
+			int num_letters = (int)listOfValues.elementAt(11);
+			int num_digits = (int)listOfValues.elementAt(12);
+			int num_characters = (int)listOfValues.elementAt(13);
+			Boolean url_is_IP = (Boolean)listOfValues.elementAt(14);
+			Boolean url_has_subdomains = (Boolean)listOfValues.elementAt(15);
+			int num_subdomains = (int)listOfValues.elementAt(16);
+			String subdomain5 = (String)listOfValues.elementAt(17);
+			String subdomain4 = (String)listOfValues.elementAt(18);
+			String subdomain3 = (String)listOfValues.elementAt(19);
+			String subdomain2 = (String)listOfValues.elementAt(20);
+			String subdomain1 = (String)listOfValues.elementAt(21);
+			String url_core = (String)listOfValues.elementAt(22);
+			String url_TLD = (String)listOfValues.elementAt(23);
+			Boolean url_has_path = (Boolean)listOfValues.elementAt(24);
+			String folder1 = (String)listOfValues.elementAt(25);
+			String folder2 = (String)listOfValues.elementAt(26);
+			Boolean path_has_parameters = (Boolean)listOfValues.elementAt(27);
+			int num_parameters = (int)listOfValues.elementAt(28);
+			Boolean url_has_file_extension = (Boolean)listOfValues.elementAt(29);
+			int file_char_length = (int)listOfValues.elementAt(30);
+			int file_num_letters = (int)listOfValues.elementAt(31);
+			int file_num_digits = (int)listOfValues.elementAt(32);
+			int file_num_other_char = (int)listOfValues.elementAt(33);
+			String file_extension = (String)listOfValues.elementAt(34);
+			String url_protocol = (String)listOfValues.elementAt(35);
+			String client_address = (String)listOfValues.elementAt(36);
 			// elementos en listOfValues.elementAt(número)
 		
 			LogEntry myEntry = new LogEntry(http_reply_code,
@@ -367,6 +429,10 @@ public class DataParser {
 					squid_hierarchy,
 					bytes,
 					url,
+					url_length,
+					num_letters,
+					num_digits,
+					num_characters,
 					url_is_IP,
 					url_has_subdomains,
 					num_subdomains,
@@ -383,6 +449,10 @@ public class DataParser {
 					path_has_parameters,
 					num_parameters,
 					url_has_file_extension,
+					file_char_length,
+					file_num_letters,
+					file_num_digits,
+					file_num_other_char,
 					file_extension,
 					url_protocol,
 					client_address);

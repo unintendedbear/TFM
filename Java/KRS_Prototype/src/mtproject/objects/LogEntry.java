@@ -14,6 +14,10 @@ public class LogEntry {
 	 * URL features
 	 */
 	private String url;
+	private int url_length;
+	private int num_letters;
+	private int num_digits;
+	private int num_characters;
 	private Boolean url_is_IP;
 	private Boolean url_has_subdomains;
 	private int num_subdomains;
@@ -30,6 +34,10 @@ public class LogEntry {
 	private Boolean path_has_parameters;
 	private int num_parameters;
 	private Boolean url_has_file_extension;
+	private int file_char_length;
+	private int file_num_letters;
+	private int file_num_digits;
+	private int file_num_other_char;
 	private String file_extension;
 	private String url_protocol;
 	/**/
@@ -46,6 +54,10 @@ public class LogEntry {
 			String squid_hierarchy,
 			int bytes,
 			String url,
+			int url_length,
+			int num_letters,
+			int num_digits,
+			int num_characters,
 			Boolean url_is_IP,
 			Boolean url_has_subdomains,
 			int num_subdomains,
@@ -62,6 +74,10 @@ public class LogEntry {
 			Boolean path_has_parameters,
 			int num_parameters,
 			Boolean url_has_file_extension,
+			int file_char_length,
+			int file_num_letters,
+			int file_num_digits,
+			int file_num_other_char,
 			String file_extension,
 			String url_protocol,
 			String client_address) {
@@ -76,6 +92,10 @@ public class LogEntry {
 		this.squid_hierarchy = squid_hierarchy;
 		this.bytes = bytes;
 		this.url = url;
+		this.url_length = url_length;
+		this.num_letters = num_letters;
+		this.num_digits = num_digits;
+		this.num_characters = num_characters;
 		this.url_is_IP = url_is_IP;
 		this.url_has_subdomains = url_has_subdomains;
 		this.num_subdomains = num_subdomains;
@@ -92,6 +112,10 @@ public class LogEntry {
 		this.path_has_parameters = path_has_parameters;
 		this.num_parameters = num_parameters;
 		this.url_has_file_extension = url_has_file_extension;
+		this.file_char_length = file_char_length;
+		this.file_num_letters = file_num_letters;
+		this.file_num_digits = file_num_digits;
+		this.file_num_other_char = file_num_other_char;
 		this.file_extension = file_extension;
 		this.url_protocol = url_protocol;
 		this.client_address = client_address;
@@ -107,6 +131,10 @@ public class LogEntry {
 			String squid_hierarchy,
 			int bytes,
 			String url,
+			int url_length,
+			int num_letters,
+			int num_digits,
+			int num_characters,
 			Boolean url_is_IP,
 			Boolean url_has_subdomains,
 			int num_subdomains,
@@ -123,6 +151,10 @@ public class LogEntry {
 			Boolean path_has_parameters,
 			int num_parameters,
 			Boolean url_has_file_extension,
+			int file_char_length,
+			int file_num_letters,
+			int file_num_digits,
+			int file_num_other_char,
 			String file_extension,
 			String url_protocol,
 			String client_address,
@@ -137,6 +169,10 @@ public class LogEntry {
 		this.squid_hierarchy = squid_hierarchy;
 		this.bytes = bytes;
 		this.url = url;
+		this.url_length = url_length;
+		this.num_letters = num_letters;
+		this.num_digits = num_digits;
+		this.num_characters = num_characters;
 		this.url_is_IP = url_is_IP;
 		this.url_has_subdomains = url_has_subdomains;
 		this.num_subdomains = num_subdomains;
@@ -153,6 +189,10 @@ public class LogEntry {
 		this.path_has_parameters = path_has_parameters;
 		this.num_parameters = num_parameters;
 		this.url_has_file_extension = url_has_file_extension;
+		this.file_char_length = file_char_length;
+		this.file_num_letters = file_num_letters;
+		this.file_num_digits = file_num_digits;
+		this.file_num_other_char = file_num_other_char;
 		this.file_extension = file_extension;
 		this.url_protocol = url_protocol;
 		this.client_address = client_address;
@@ -207,6 +247,26 @@ public class LogEntry {
 	public String getURL () {
 		
 		return this.url;
+	}
+	
+	public int getURL_Length () {
+		
+		return this.url_length;
+	}
+	
+	public int getNum_Letters () {
+		
+		return this.num_letters;
+	}
+	
+	public int getNum_Digits () {
+		
+		return this.num_digits;
+	}
+	
+	public int getNum_Characters () {
+		
+		return this.num_characters;
 	}
 	
 	public Boolean getURL_is_IP () {
@@ -287,6 +347,26 @@ public class LogEntry {
 	public Boolean getURL_has_file () {
 		
 		return this.url_has_file_extension;
+	}
+	
+	public int getFile_length () {
+		
+		return this.file_char_length;
+	}
+	
+	public int getFile_num_letters () {
+		
+		return this.file_num_letters;
+	}
+	
+	public int getFile_num_digits () {
+		
+		return this.file_num_digits;
+	}
+	
+	public int getFile_num_other_char () {
+		
+		return this.file_num_other_char;
 	}
 	
 	public String getURL_file () {

@@ -102,7 +102,7 @@ public class MainClass {
 			Double[] percentages = new Double[experiments.length];
 			
 			int i;
-			for ( i = 4; i < 5; i++) {
+			for ( i = 0; i < 1; i++) {
 				System.out.println("Launching "+experiments[i]+"...");
 				Double temp_percentage = ExperimentRunner.experimenter(ARFF_File_name, experiments[i]);
 				if (!temp_percentage.isNaN()) {	

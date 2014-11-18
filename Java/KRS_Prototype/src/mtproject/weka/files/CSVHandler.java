@@ -65,6 +65,14 @@ public class CSVHandler {
 				CSV_Data.append(',');
 				CSV_Data.append(""+labelled_Entries.get(i).getBytes());
 				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getURL_Length());
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getNum_Letters());
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getNum_Digits());
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getNum_Characters());
+				CSV_Data.append(',');
 				if (labelled_Entries.get(i).getURL_is_IP()) {
 					CSV_Data.append("1");
 				} else {
@@ -116,6 +124,14 @@ public class CSVHandler {
 				} else {
 					CSV_Data.append("0");
 				}
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getFile_length());
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getFile_num_letters());
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getFile_num_digits());
+				CSV_Data.append(',');
+				CSV_Data.append(""+labelled_Entries.get(i).getFile_num_other_char());
 				CSV_Data.append(',');
 				CSV_Data.append(labelled_Entries.get(i).getURL_file());
 				CSV_Data.append(',');
@@ -442,6 +458,14 @@ public class CSVHandler {
 			file.append(',');
 			file.append("bytes");
 			file.append(',');
+			file.append("URL_length");
+			file.append(',');
+			file.append("letters_in_URL");
+			file.append(',');
+			file.append("digits_in_URL");
+			file.append(',');
+			file.append("nonalphanumeric_chars_in_URL");
+			file.append(',');
 			file.append("url_is_IP");
 			file.append(',');
 			file.append("url_has_subdomains");
@@ -473,6 +497,14 @@ public class CSVHandler {
 			file.append("num_parameters");
 			file.append(',');
 			file.append("url_has_file_extension");
+			file.append(',');
+			file.append("filename_length");
+			file.append(',');
+			file.append("letters_in_filename");
+			file.append(',');
+			file.append("digits_in_filename");
+			file.append(',');
+			file.append("other_char_in_filename");
 			file.append(',');
 			file.append("file_extension");
 			file.append(',');
