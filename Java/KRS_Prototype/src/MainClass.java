@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import mtproject.parsers.RuleParser;
@@ -23,8 +24,8 @@ public class MainClass {
 		 */
 		//System.out.println("Hola u_u");
 		
-		long time_start, time_end;
-		time_start = System.currentTimeMillis();
+		//long time_start, time_end;
+		//time_start = System.currentTimeMillis();
 		
 		List<LogEntry> unlabelled_Entries = new ArrayList<LogEntry>();
 		List<Rule> DRL_Rules = new ArrayList<Rule>();
@@ -34,10 +35,10 @@ public class MainClass {
 				"nonalphanumeric_chars_in_URL", "url_is_IP", "url_has_subdomains", "num_subdomains", "subdomain5", "subdomain4",
 				"subdomain3", "subdomain2", "subdomain1", "url_core", "url_TLD", "url_has_path", "folder1", "folder2",
 				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
-				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "client_address", "label"};
+				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "client_address"};
 		
 		try {
-			
+		
 			System.out.println("Parsing log...");
 			unlabelled_Entries = DataParser.parsing_Log();			
 			
@@ -46,16 +47,56 @@ public class MainClass {
 			
 			System.out.println("Labelling...");
 			List<LogEntry> labelled_Entries = Labeller.obtain_labels(unlabelled_Entries, DRL_Rules);
-			System.out.println("Obtaining CSV...");
-			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false, attributes);
-			System.out.println("CSV at "+CSV_File_name[1]);
 			
-			System.out.println("Creating ARFF...");
-			String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
-			System.out.println("ARFF at "+ARFF_File_name[1]);
+			//time_end = System.currentTimeMillis();
+			//System.out.println("the task has taken "+ ( time_end - time_start ) +" milliseconds");
 			
-			time_end = System.currentTimeMillis();
-			System.out.println("the task has taken "+ ( time_end - time_start ) +" milliseconds");
+			String[] experiments = new String[11];
+			experiments[0] = "NaiveBayes";
+			experiments[1] = "DecisionTable -X 1 -S \"weka.attributeSelection.BestFirst -D 1 -N 5\"";
+			experiments[2] = "JRip -F 3 -N 2.0 -O 2 -S 1";
+			experiments[3] = "OneR -B 6";
+			experiments[4] = "PART -M 2 -C 0.25 -Q 1";
+			experiments[5] = "ZeroR";
+			experiments[6] = "DecisionStump";
+			experiments[7] = "J48 -C 0.25 -M 2";
+			experiments[8] = "RandomForest -I 10 -K 0 -S 1 -num-slots 1";
+			experiments[9] = "RandomTree -K 0 -M 1.0 -V 0.001 -S 1";
+			experiments[10] = "REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
+			
+			Double[] percentages = new Double[experiments.length];
+			
+			int i;
+			for ( i = 1; i < attributes.length; i++) {
+				
+				String[] subattributes = new String[i+1];
+				subattributes = Arrays.copyOfRange(attributes, 0, i);
+				
+				for (int k=0; k<percentages.length; k++) {
+					System.out.println(subattributes[k]);
+				}
+				
+				subattributes[subattributes.length] = "label";
+				
+				System.out.println("Obtaining CSV...");
+				String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false, subattributes);
+				System.out.println("CSV at "+CSV_File_name[1]);
+				
+				System.out.println("Creating ARFF...");
+				String[] ARFF_File_name = ArffHandler.obtain_arff(CSV_File_name);
+				System.out.println("ARFF at "+ARFF_File_name[1]);
+				
+				System.out.println("Launching "+experiments[0]+"...");
+				Double temp_percentage = ExperimentRunner.experimenter(ARFF_File_name, experiments[0]);
+				if (!temp_percentage.isNaN()) {	
+					percentages[i] = temp_percentage;
+					//System.out.println(i+","+percentages[i]);
+				}
+			}
+			
+			for (int j=0; j<percentages.length; j++) {
+				System.out.println(j+","+percentages[j]);
+			}
 			
 			/**
 			 * Pruebas CSV
@@ -89,32 +130,6 @@ public class MainClass {
 			ts_files2[1] = files2[3];
 			String[] ARFF_File_name_tr2 = ArffHandler.obtain_arff(tr_files2);
 			String[] ARFF_File_name_ts2 = ArffHandler.obtain_arff(ts_files2);*/
-			
-			
-			String[] experiments = new String[11];
-			experiments[0] = "NaiveBayes";
-			experiments[1] = "DecisionTable -X 1 -S \"weka.attributeSelection.BestFirst -D 1 -N 5\"";
-			experiments[2] = "JRip -F 3 -N 2.0 -O 2 -S 1";
-			experiments[3] = "OneR -B 6";
-			experiments[4] = "PART -M 2 -C 0.25 -Q 1";
-			experiments[5] = "ZeroR";
-			experiments[6] = "DecisionStump";
-			experiments[7] = "J48 -C 0.25 -M 2";
-			experiments[8] = "RandomForest -I 10 -K 0 -S 1 -num-slots 1";
-			experiments[9] = "RandomTree -K 0 -M 1.0 -V 0.001 -S 1";
-			experiments[10] = "REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
-			
-			Double[] percentages = new Double[experiments.length];
-			
-			int i;
-			for ( i = 0; i < 1; i++) {
-				System.out.println("Launching "+experiments[i]+"...");
-				Double temp_percentage = ExperimentRunner.experimenter(ARFF_File_name, experiments[i]);
-				if (!temp_percentage.isNaN()) {	
-					percentages[i] = temp_percentage;
-					System.out.println(percentages[i]);
-				}
-			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -48,106 +48,185 @@ public class CSVHandler {
 					continue;
 				}
 				
-				CSV_Data.append(""+labelled_Entries.get(i).getHTTP_reply_code());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getHTTP_method());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getNum_miliseconds());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getMCT());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getContent_type());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getIP_server());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getTime());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getSquid_hierarchy());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getBytes());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getURL_Length());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getNum_Letters());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getNum_Digits());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getNum_Characters());
-				CSV_Data.append(',');
-				if (labelled_Entries.get(i).getURL_is_IP()) {
-					CSV_Data.append("1");
-				} else {
-					CSV_Data.append("0");
+				int j;
+				for (j = 0; j < attributes.length; j++) {
+					
+					switch (attributes[j]) {
+					case "http_reply_code":
+						CSV_Data.append(""+labelled_Entries.get(i).getHTTP_reply_code());
+						CSV_Data.append(',');
+						break;
+					case "http_method":
+						CSV_Data.append(labelled_Entries.get(i).getHTTP_method());
+						CSV_Data.append(',');
+						break;
+					case "duration_milliseconds":
+						CSV_Data.append(""+labelled_Entries.get(i).getNum_miliseconds());
+						CSV_Data.append(',');
+						break;
+					case "content_type_MCT":						
+						CSV_Data.append(labelled_Entries.get(i).getMCT());
+						CSV_Data.append(',');
+						break;
+					case "content_type":
+						CSV_Data.append(labelled_Entries.get(i).getContent_type());
+						CSV_Data.append(',');
+						break;
+					case "server_or_cache_address":
+						CSV_Data.append(labelled_Entries.get(i).getIP_server());
+						CSV_Data.append(',');
+						break;
+					case "time":
+						CSV_Data.append(labelled_Entries.get(i).getTime());
+						CSV_Data.append(',');
+						break;
+					case "squid_hierarchy":
+						CSV_Data.append(labelled_Entries.get(i).getSquid_hierarchy());
+						CSV_Data.append(',');
+						break;
+					case "bytes":
+						CSV_Data.append(""+labelled_Entries.get(i).getBytes());
+						CSV_Data.append(',');
+						break;
+					case "URL_length":
+						CSV_Data.append(""+labelled_Entries.get(i).getURL_Length());
+						CSV_Data.append(',');
+						break;
+					case "letters_in_URL":
+						CSV_Data.append(""+labelled_Entries.get(i).getNum_Letters());
+						CSV_Data.append(',');
+						break;
+					case "digits_in_URL":
+						CSV_Data.append(""+labelled_Entries.get(i).getNum_Digits());
+						CSV_Data.append(',');
+						break;
+					case "nonalphanumeric_chars_in_URL":
+						CSV_Data.append(""+labelled_Entries.get(i).getNum_Characters());
+						CSV_Data.append(',');
+						break;
+					case "url_is_IP":
+						if (labelled_Entries.get(i).getURL_is_IP()) {
+							CSV_Data.append("1");
+						} else {
+							CSV_Data.append("0");
+						}
+						CSV_Data.append(',');
+						break;
+					case "url_has_subdomains":
+						if (labelled_Entries.get(i).getURL_has_subdomains()) {
+							CSV_Data.append("1");
+						} else {
+							CSV_Data.append("0");
+						}
+						CSV_Data.append(',');
+						break;
+					case "num_subdomains":
+						CSV_Data.append(""+labelled_Entries.get(i).getNum_subdomains());
+						CSV_Data.append(',');
+						break;
+					case "subdomain5":
+						CSV_Data.append(labelled_Entries.get(i).getSubdomain5());
+						CSV_Data.append(',');
+						break;
+					case "subdomain4":
+						CSV_Data.append(labelled_Entries.get(i).getSubdomain4());
+						CSV_Data.append(',');
+						break;
+					case "subdomain3":
+						CSV_Data.append(labelled_Entries.get(i).getSubdomain3());
+						CSV_Data.append(',');
+						break;
+					case "subdomain2":
+						CSV_Data.append(labelled_Entries.get(i).getSubdomain2());
+						CSV_Data.append(',');
+						break;
+					case "subdomain1":
+						CSV_Data.append(labelled_Entries.get(i).getSubdomain1());
+						CSV_Data.append(',');
+						break;
+					case "url_core":
+						CSV_Data.append(labelled_Entries.get(i).getURL_core());
+						CSV_Data.append(',');
+						break;
+					case "url_TLD":
+						CSV_Data.append(labelled_Entries.get(i).getTLD());
+						CSV_Data.append(',');
+						break;
+					case "url_has_path":
+						if (labelled_Entries.get(i).getURL_has_Path()) {
+							CSV_Data.append("1");
+						} else {
+							CSV_Data.append("0");
+						}
+						CSV_Data.append(',');
+						break;
+					case "folder1":
+						CSV_Data.append(labelled_Entries.get(i).getURL_folder1());
+						CSV_Data.append(',');
+						break;
+					case "folder2":
+						CSV_Data.append(labelled_Entries.get(i).getURL_folder2());
+						CSV_Data.append(',');
+						break;
+					case "path_has_parameters":
+						if (labelled_Entries.get(i).getPath_has_parameters()) {
+							CSV_Data.append("1");
+						} else {
+							CSV_Data.append("0");
+						}
+						CSV_Data.append(',');
+						break;
+					case "num_parameters":
+						CSV_Data.append(""+labelled_Entries.get(i).getNum_parameters());
+						CSV_Data.append(',');
+						break;
+					case "url_has_file_extension":
+						if (labelled_Entries.get(i).getURL_has_file()) {
+							CSV_Data.append("1");
+						} else {
+							CSV_Data.append("0");
+						}
+						CSV_Data.append(',');
+						break;
+					case "filename_length":
+						CSV_Data.append(""+labelled_Entries.get(i).getFile_length());
+						CSV_Data.append(',');
+						break;
+					case "letters_in_filename":
+						CSV_Data.append(""+labelled_Entries.get(i).getFile_num_letters());
+						CSV_Data.append(',');
+						break;
+					case "digits_in_filename":
+						CSV_Data.append(""+labelled_Entries.get(i).getFile_num_digits());
+						CSV_Data.append(',');
+						break;
+					case "other_char_in_filename":
+						CSV_Data.append(""+labelled_Entries.get(i).getFile_num_other_char());
+						CSV_Data.append(',');
+						break;
+					case "file_extension":
+						CSV_Data.append(labelled_Entries.get(i).getURL_file());
+						CSV_Data.append(',');
+						break;
+					case "url_protocol":
+						CSV_Data.append(labelled_Entries.get(i).getURL_protocol());
+						CSV_Data.append(',');
+						break;
+					case "client_address":
+						CSV_Data.append(labelled_Entries.get(i).getIP_client());
+						CSV_Data.append(',');
+						break;
+					}
+					
+					if (labelled_Entries.get(i).getLabel() != null) {
+						CSV_Data.append(labelled_Entries.get(i).getLabel());
+						CSV_Data.append('\n');
+					} else {
+						CSV_Data.append("no_label");
+						CSV_Data.append('\n');
+					}
 				}
-				CSV_Data.append(',');
-				if (labelled_Entries.get(i).getURL_has_subdomains()) {
-					CSV_Data.append("1");
-				} else {
-					CSV_Data.append("0");
-				}
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getNum_subdomains());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getSubdomain5());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getSubdomain4());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getSubdomain3());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getSubdomain2());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getSubdomain1());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getURL_core());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getTLD());
-				CSV_Data.append(',');
-				if (labelled_Entries.get(i).getURL_has_Path()) {
-					CSV_Data.append("1");
-				} else {
-					CSV_Data.append("0");
-				}
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getURL_folder1());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getURL_folder2());
-				CSV_Data.append(',');
-				if (labelled_Entries.get(i).getPath_has_parameters()) {
-					CSV_Data.append("1");
-				} else {
-					CSV_Data.append("0");
-				}
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getNum_parameters());
-				CSV_Data.append(',');
-				if (labelled_Entries.get(i).getURL_has_file()) {
-					CSV_Data.append("1");
-				} else {
-					CSV_Data.append("0");
-				}
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getFile_length());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getFile_num_letters());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getFile_num_digits());
-				CSV_Data.append(',');
-				CSV_Data.append(""+labelled_Entries.get(i).getFile_num_other_char());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getURL_file());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getURL_protocol());
-				CSV_Data.append(',');
-				CSV_Data.append(labelled_Entries.get(i).getIP_client());
-				CSV_Data.append(',');
 				
-				if (labelled_Entries.get(i).getLabel() != null) {
-					CSV_Data.append(labelled_Entries.get(i).getLabel());
-					CSV_Data.append('\n');
-				} else {
-					CSV_Data.append("no_label");
-					CSV_Data.append('\n');
-				}
 			}
 			
 			 CSV_Data.flush();
