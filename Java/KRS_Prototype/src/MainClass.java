@@ -26,10 +26,15 @@ public class MainClass {
 		long time_start, time_end;
 		time_start = System.currentTimeMillis();
 		
-		
-		
 		List<LogEntry> unlabelled_Entries = new ArrayList<LogEntry>();
 		List<Rule> DRL_Rules = new ArrayList<Rule>();
+		
+		String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
+				"server_or_cache_address", "time", "squid_hierarchy", "bytes", "URL_length", "letters_in_URL", "digits_in_URL",
+				"nonalphanumeric_chars_in_URL", "url_is_IP", "url_has_subdomains", "num_subdomains", "subdomain5", "subdomain4",
+				"subdomain3", "subdomain2", "subdomain1", "url_core", "url_TLD", "url_has_path", "folder1", "folder2",
+				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
+				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "client_address", "label"};
 		
 		try {
 			
@@ -42,7 +47,7 @@ public class MainClass {
 			System.out.println("Labelling...");
 			List<LogEntry> labelled_Entries = Labeller.obtain_labels(unlabelled_Entries, DRL_Rules);
 			System.out.println("Obtaining CSV...");
-			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false);
+			String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false, attributes);
 			System.out.println("CSV at "+CSV_File_name[1]);
 			
 			System.out.println("Creating ARFF...");

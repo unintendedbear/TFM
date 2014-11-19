@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 import mtproject.file.handlers.*;
 import mtproject.objects.LogEntry;
@@ -29,7 +30,7 @@ public class CSVHandler {
 	/**
 	 * @param args
 	 */
-	public static String[] obtain_csv(List<LogEntry> labelled_Entries, String file_name, boolean no_labels) throws Exception {
+	public static String[] obtain_csv(List<LogEntry> labelled_Entries, String file_name, boolean no_labels, String[] attributes) throws Exception {
 		
 		File CSV_File = new File("/home/paloma/workspace/KRS_Prototype/CSV/"+file_name+".csv");
 		
@@ -38,7 +39,7 @@ public class CSVHandler {
 			FileWriter CSV_Data = new FileWriter(CSV_File);
 			
 			// Primero metemos los atributos
-			CSV_Data = set_attributes(CSV_Data);
+			CSV_Data = set_attributes(CSV_Data, attributes);
 			
 			int i;
 			for (i = 0; i < labelled_Entries.size(); i++) {
@@ -168,7 +169,7 @@ public class CSVHandler {
 	/**
 	 * @param args
 	 */
-	public static String[] undersampling (String[] CSV_File_input) throws Exception {
+	public static String[] undersampling (String[] CSV_File_input, String[] attributes) throws Exception {
 		
 		String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
 		File CSV_File = new File("/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_undersampled.csv");
@@ -217,7 +218,7 @@ public class CSVHandler {
 	/**
 	 * @param args
 	 */
-	public static String[] oversampling (String[] CSV_File_input) throws Exception {
+	public static String[] oversampling (String[] CSV_File_input, String[] attributes) throws Exception {
 		
 		String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
 		File CSV_File = new File("/home/paloma/workspace/KRS_Prototype/CSV/"+File_name+"_oversampled.csv");
@@ -261,7 +262,7 @@ public class CSVHandler {
 	/**
 	 * @param args
 	 */
-	public static String[] training_test_random (String[] CSV_File_input, String type, int training_percentage) throws IOException {
+	public static String[] training_test_random (String[] CSV_File_input, String type, int training_percentage, String[] attributes) throws IOException {
 		
 		String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
 			
@@ -282,8 +283,8 @@ public class CSVHandler {
 			training_file = new FileWriter(CSV_training_File);
 			test_file = new FileWriter(CSV_test_File);
 			
-			training_file = set_attributes(training_file);
-			test_file = set_attributes(test_file);
+			training_file = set_attributes(training_file, attributes);
+			test_file = set_attributes(test_file, attributes);
 			
 			int j;
 			int count = 0;
@@ -345,7 +346,7 @@ public class CSVHandler {
 	/**
 	 * @param args
 	 */
-	public static String[] training_test_consecutive (String[] CSV_File_input, String type, int training_percentage) throws Exception {
+	public static String[] training_test_consecutive (String[] CSV_File_input, String type, int training_percentage, String[] attributes) throws Exception {
 		
 		String File_name = CSV_File_input[0].substring(0, CSV_File_input[0].length()-4);
 			
@@ -366,8 +367,8 @@ public class CSVHandler {
 			training_file = new FileWriter(CSV_training_File);
 			test_file = new FileWriter(CSV_test_File);
 			
-			training_file = set_attributes(training_file);
-			test_file = set_attributes(test_file);
+			training_file = set_attributes(training_file, attributes);
+			test_file = set_attributes(test_file, attributes);
 			
 			int training_length = arrayLines.length*training_percentage/100;
 			int allow_training, deny_training;
@@ -437,82 +438,10 @@ public class CSVHandler {
 	 * @param args
 	 * @return 
 	 */
-	public static FileWriter set_attributes (FileWriter file) throws Exception {
+	public static FileWriter set_attributes (FileWriter file, String[] attrib) throws Exception {
 		
 		try{
-			file.append("http_reply_code");
-			file.append(',');
-			file.append("http_method");
-			file.append(',');
-			file.append("duration_milliseconds");
-			file.append(',');
-			file.append("content_type_MCT");
-			file.append(',');
-			file.append("content_type");
-			file.append(',');
-			file.append("server_or_cache_address");
-			file.append(',');
-			file.append("time");
-			file.append(',');
-			file.append("squid_hierarchy");
-			file.append(',');
-			file.append("bytes");
-			file.append(',');
-			file.append("URL_length");
-			file.append(',');
-			file.append("letters_in_URL");
-			file.append(',');
-			file.append("digits_in_URL");
-			file.append(',');
-			file.append("nonalphanumeric_chars_in_URL");
-			file.append(',');
-			file.append("url_is_IP");
-			file.append(',');
-			file.append("url_has_subdomains");
-			file.append(',');
-			file.append("num_subdomains");
-			file.append(',');
-			file.append("subdomain5");
-			file.append(',');
-			file.append("subdomain4");
-			file.append(',');
-			file.append("subdomain3");
-			file.append(',');
-			file.append("subdomain2");
-			file.append(',');
-			file.append("subdomain1");
-			file.append(',');
-			file.append("url_core");
-			file.append(',');
-			file.append("url_TLD");
-			file.append(',');
-			file.append("url_has_path");
-			file.append(',');
-			file.append("folder1");
-			file.append(',');
-			file.append("folder2");
-			file.append(',');
-			file.append("path_has_parameters");
-			file.append(',');
-			file.append("num_parameters");
-			file.append(',');
-			file.append("url_has_file_extension");
-			file.append(',');
-			file.append("filename_length");
-			file.append(',');
-			file.append("letters_in_filename");
-			file.append(',');
-			file.append("digits_in_filename");
-			file.append(',');
-			file.append("other_char_in_filename");
-			file.append(',');
-			file.append("file_extension");
-			file.append(',');
-			file.append("url_protocol");
-			file.append(',');
-			file.append("client_address");
-			file.append(',');
-			file.append("label");
+			file.append(StringUtils.join(attrib, ","));
 			file.append('\n');
 			
 			return file;
