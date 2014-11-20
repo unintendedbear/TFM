@@ -64,19 +64,17 @@ public class MainClass {
 			experiments[9] = "RandomTree -K 0 -M 1.0 -V 0.001 -S 1";
 			experiments[10] = "REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
 			
-			Double[] percentages = new Double[experiments.length];
+			Double[] percentages = new Double[attributes.length];
 			
 			int i;
-			for ( i = 1; i < attributes.length; i++) {
+			for ( i = 0; i < attributes.length; i++) {
 				
-				String[] subattributes = new String[i+1];
-				subattributes = Arrays.copyOfRange(attributes, 0, i);
+				String[] subattributes = obtain_subarray(attributes, i+2);				
+				subattributes[i+1] = "label";
 				
-				for (int k=0; k<percentages.length; k++) {
-					System.out.println(subattributes[k]);
-				}
-				
-				subattributes[subattributes.length] = "label";
+				/*for (int k=0; k<subattributes.length; k++) {
+					System.out.println(k+"-"+subattributes[k]);
+				}*/				
 				
 				System.out.println("Obtaining CSV...");
 				String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false, subattributes);
@@ -135,6 +133,21 @@ public class MainClass {
 			System.out.println(e.getMessage());
 		}
 
+	}
+	
+	public static String[] obtain_subarray(String[] initial_array, int length) {
+		
+		String[] final_array = new String[length];
+		
+		int array_index;
+		for (array_index = 0; array_index < length-1; array_index++) {
+			
+			final_array[array_index] = initial_array[array_index];
+			
+		}
+		
+		return final_array;
+		
 	}
 	
 

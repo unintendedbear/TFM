@@ -218,13 +218,13 @@ public class CSVHandler {
 						break;
 					}
 					
-					if (labelled_Entries.get(i).getLabel() != null) {
-						CSV_Data.append(labelled_Entries.get(i).getLabel());
-						CSV_Data.append('\n');
-					} else {
-						CSV_Data.append("no_label");
-						CSV_Data.append('\n');
-					}
+				}
+				if (labelled_Entries.get(i).getLabel() != null) {
+					CSV_Data.append(labelled_Entries.get(i).getLabel());
+					CSV_Data.append('\n');
+				} else {
+					CSV_Data.append("no_label");
+					CSV_Data.append('\n');
 				}
 				
 			}
