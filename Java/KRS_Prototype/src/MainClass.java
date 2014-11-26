@@ -30,12 +30,19 @@ public class MainClass {
 		List<LogEntry> unlabelled_Entries = new ArrayList<LogEntry>();
 		List<Rule> DRL_Rules = new ArrayList<Rule>();
 		
-		String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
+		/*String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
 				"server_or_cache_address", "time", "squid_hierarchy", "bytes", "URL_length", "letters_in_URL", "digits_in_URL",
 				"nonalphanumeric_chars_in_URL", "url_is_IP", "url_has_subdomains", "num_subdomains", "subdomain5", "subdomain4",
 				"subdomain3", "subdomain2", "subdomain1", "url_core", "url_TLD", "url_has_path", "folder1", "folder2",
 				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
-				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "client_address"};
+				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "client_address"};*/
+		
+		String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
+				"server_or_cache_address", "squid_hierarchy", "bytes", "URL_length", "letters_in_URL", "digits_in_URL",
+				"nonalphanumeric_chars_in_URL", "url_is_IP", "url_has_subdomains", "num_subdomains", "subdomain4",
+				"subdomain3", "subdomain2", "subdomain1", "url_core", "url_TLD", "url_has_path", "folder1", "folder2",
+				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
+				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol"};
 		
 		try {
 		

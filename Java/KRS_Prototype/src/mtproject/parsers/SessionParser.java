@@ -6,8 +6,11 @@ package mtproject.parsers;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+
 import mtproject.file.handlers.*;
 import mtproject.objects.*;
 
@@ -50,32 +53,82 @@ public class SessionParser {
 		int[] session_time; // 1 minute definition for a session time
 		boolean in_session = false;
 		
-		int i; // Recorrer las entradas etiquetadas
-		for ( i = 0; i < labelled_Entries.size(); i++) {
+		String[] Clients = obtain_clients(labelled_Entries);
+		
+		int indexClients; // Recorrer las entradas etiquetadas tantas veces como clientes diferentes hay
+		for ( indexClients = 0; indexClients < Clients.length; indexClients++) {
 			
-			client_session_IP = labelled_Entries.get(i).getIP_client();
-			if (!listOfValues.contains(client_session_IP)) {
-				listOfValues.add(client_session_IP);
-				System.out.println("Client: "+client_session_IP);
+			List<LogEntry> cleaned_labelled_entries = clean_clients(labelled_Entries, Clients[indexClients]);
+			
+			int time[] = time_splitter(cleaned_labelled_entries.get(0).getTime());
+			int seconds = time[1]*60 + time[2];
+			
+			int indexValues;
+			for ( indexValues = 0; indexValues < cleaned_labelled_entries.size(); indexValues++) {
+				
+				client_session_IP = cleaned_labelled_entries.get(indexValues).getIP_client();
+				
+				if ( seconds <= 60 ) {
+					
+					
+					
+				} else {
+					
+					time = time_splitter(cleaned_labelled_entries.get(indexValues).getTime());
+					seconds = time[1]*60 + time[2];
+					
+				}
 			}
+			
 		}
 		
 		return listOfSessions;
 
 	}
 	
-	public static int[] hour_calculator(String timeA, String timeB) {
+	public static int[] time_splitter (String time) {
 		
-		String[] timeA_components = timeA.split(":");
-		String[] timeB_components = timeB.split(":");
-		int[] differences = new int[3];
+		String[] time_components = time.split(":");
+		int[] components = new int[3];
 		
-		differences[0] = Integer.parseInt(timeB_components[0])-Integer.parseInt(timeA_components[0]);
-		differences[1] = Integer.parseInt(timeB_components[1])-Integer.parseInt(timeA_components[1]);
-		differences[2] = Integer.parseInt(timeB_components[2])-Integer.parseInt(timeA_components[2]);
+		components[0] = Integer.parseInt(time_components[0]);
+		components[1] = Integer.parseInt(time_components[1]);
+		components[2] = Integer.parseInt(time_components[2]);
 		
-		return differences;
+		return components;
 				
+	}
+	
+	public static String[] obtain_clients (List<LogEntry> log) {
+		
+		String[] clients;
+		Map clientMap = new HashMap();
+		clientMap.clear();
+		
+		int i;
+		for ( i = 0; i < log.size(); i++) {
+			if ( !clientMap.containsKey(log.get(i).getIP_client()) ) {
+				clientMap.put(log.get(i).getIP_client(), 0);
+			}
+		}
+		
+		clients = (String[]) clientMap.keySet().toArray();
+		
+		return clients;
+	}
+	
+	public static List<LogEntry> clean_clients (List<LogEntry> logManyClients, String client) {
+		
+		List<LogEntry> logOneClients = logManyClients;
+				
+		int i;
+		for ( i = 0; i < logManyClients.size(); i++) {
+			if ( !logManyClients.get(i).getIP_client().contentEquals(client) ) {
+				logManyClients.remove(i);
+			}
+		}
+		
+		return logOneClients;
 	}
 
 }
