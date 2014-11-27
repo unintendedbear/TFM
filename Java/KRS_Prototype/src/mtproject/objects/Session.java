@@ -39,9 +39,9 @@ public class Session {
 	/**
 	 * @param args
 	 */
-	public int getClient_IP() {
+	public String getClient_IP() {
 		
-		return this.getClient_IP();
+		return this.client_session_IP;
 
 	}
 	

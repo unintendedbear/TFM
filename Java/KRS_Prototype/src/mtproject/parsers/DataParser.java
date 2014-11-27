@@ -326,9 +326,9 @@ public class DataParser {
 				listOfEntries.add(obtain_log(listOfValues));
 			} // for
 			
-			System.out.println("Cleaning...");
-			cleanedListOfEntries = erase_repeated_entries(listOfEntries);
-			return cleanedListOfEntries;
+			//System.out.println("Cleaning...");
+			//cleanedListOfEntries = erase_repeated_entries(listOfEntries);
+			return listOfEntries;
 				
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -482,12 +482,7 @@ public class DataParser {
 				if ( indexComp == indexEntry) {
 					continue;
 				} else if ( initial_list.get(indexEntry).getURL().contentEquals(cleaned_list.get(indexComp).getURL()) ) {
-					//System.out.println("Match found between:");
-					//System.out.println(indexEntry+"-"+initial_list.get(indexEntry).getURL());
-					//System.out.println(indexComp+"-"+cleaned_list.get(indexComp).getURL());
 					if ( cleaned_list.get(indexComp).getIP_client().contentEquals(initial_list.get(indexEntry).getIP_server()) ) {
-						//System.out.println("Removing: "+cleaned_list.get(indexComp).getIP_client());
-						//System.out.println("Because is the same as: "+initial_list.get(indexEntry).getIP_server());
 						cleaned_list.remove(indexComp);
 					}
 				}
