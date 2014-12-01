@@ -30,7 +30,7 @@ public class SessionParserTest extends TestCase {
 			
 			List<LogEntry> testUnlabelledEntries = DataParser.parsing_Log();
 			List<Rule> testRules = RuleParser.parsing_DRL();
-			List<LogEntry> testLabelledEntries = Labeller.obtain_labels(testUnlabelledEntries, testRules);
+			List<LogEntry> testLabelledEntries = Labeller.obtain_labels(testUnlabelledEntries, testRules);			
 			testSessions = SessionParser.log_by_sessions(testLabelledEntries);
 			
 			String client_session_IP;

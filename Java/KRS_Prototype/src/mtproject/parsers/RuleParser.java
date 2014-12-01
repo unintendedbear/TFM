@@ -20,7 +20,7 @@ public class RuleParser {
 	 */
 	public static List<Rule> parsing_DRL() throws IOException {
 		
-		String drlFile = "/home/paloma/workspace/KRS_Prototype/Rules/Initial-rules-squid.drl";
+		String drlFile = "/home/osica/workspace/KRS_Prototype/Rules/Initial-rules-squid.drl";
 		String conditionsPattern = "^\\D+:\\D+\\((.+)\\)";
 		String argumentsPattern1 = "\\s*(.*)(==)\"(.+)\"";
 		String argumentsPattern2 = "\\s*(.+)([>|<|=])(\\d+)";

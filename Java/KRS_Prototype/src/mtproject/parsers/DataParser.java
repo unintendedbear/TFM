@@ -24,7 +24,7 @@ public class DataParser {
 	 */
 	public static List<LogEntry> parsing_Log() throws IOException {
 		
-		String logFile = "/home/paloma/workspace/KRS_Prototype/CSV/data_100k_instances_url_log.csv";
+		String logFile = "/home/osica/workspace/KRS_Prototype/CSV/data_100k_instances_url_log.csv";
 		String cleaningPattern = "\"(.+)\"\n?";
 		String contentTypePattern = "^(\\w+\\-*\\w+)[\\/?]\\w+";
 		String timePattern = "^\\d{1,2}\\:\\d{2}\\:\\d{2}";

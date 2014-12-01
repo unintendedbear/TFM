@@ -37,6 +37,11 @@ public class SessionParser {
 	 */
 	public static List<Session> log_by_sessions(List<LogEntry> labelled_Entries) {
 		
+		System.out.println("Size is :"+labelled_Entries.size());
+		/*for (int j=0; j<labelled_Entries.size(); j++) {
+			System.out.println("Label ? - "+labelled_Entries.get(j).getLabel());
+		}*/
+		
 		Vector listOfValues = new Vector();
 		List<Session> listOfSessions = new ArrayList<Session>();
 		
@@ -50,8 +55,6 @@ public class SessionParser {
 		int num_core_domains = 0;
 		boolean if_error = false;
 		
-		String time_session_starts, time_session_ends;
-		
 		String[] Clients = obtain_clients(labelled_Entries);
 		Map serversMap = new HashMap();
 		Map domainsMap = new HashMap();
@@ -61,15 +64,21 @@ public class SessionParser {
 		int indexClients; // Recorrer las entradas etiquetadas tantas veces como clientes diferentes hay
 		for ( indexClients = 0; indexClients < Clients.length; indexClients++) {
 			
+			System.out.println("Analysing sessions for client "+indexClients+" of "+Clients.length);
+			
 			List<LogEntry> cleaned_labelled_entries = clean_clients(labelled_Entries, Clients[indexClients]);
 			
-			int time[] = time_splitter(cleaned_labelled_entries.get(0).getTime());
-			int seconds = time[1]*60 + time[2];
+			String time = cleaned_labelled_entries.get(0).getTime();
+			int seconds = 0;
 			
 			client_session_IP = cleaned_labelled_entries.get(0).getIP_client(); // Same client in all sessions
+			System.out.println("Client with IP: "+client_session_IP);
 			
 			int indexValues;
 			for ( indexValues = 0; indexValues < cleaned_labelled_entries.size(); indexValues++) {
+				
+				seconds += seconds_calculator(time, cleaned_labelled_entries.get(indexValues).getTime());
+				System.out.println("Time passed: "+seconds);
 							
 				while ( seconds <= 60 ) {
 					
@@ -104,8 +113,7 @@ public class SessionParser {
 				Session mySession = new Session(client_session_IP, num_allows, num_denies, session_bytes, session_ms, session_latency, num_servers, num_core_domains, if_error);
 				listOfSessions.add(mySession);
 				
-				time = time_splitter(cleaned_labelled_entries.get(indexValues).getTime()); // Actualizar time
-				seconds = time[1]*60 + time[2];
+				seconds = 0;
 				num_allows = 0;
 				num_denies = 0;
 				session_bytes = 0;
@@ -126,16 +134,18 @@ public class SessionParser {
 
 	}
 	
-	public static int[] time_splitter (String time) {
+	public static int seconds_calculator (String timeA, String timeB) {
 		
-		String[] time_components = time.split(":");
-		int[] components = new int[3];
+		String[] timeA_components = timeA.split(":");
+		String[] timeB_components = timeB.split(":");
 		
-		components[0] = Integer.parseInt(time_components[0]);
-		components[1] = Integer.parseInt(time_components[1]);
-		components[2] = Integer.parseInt(time_components[2]);
+		int hourDiff = Integer.parseInt(timeB_components[0])-Integer.parseInt(timeA_components[0]);
+		int minuteDiff = Integer.parseInt(timeB_components[1])-Integer.parseInt(timeA_components[1]);
+		int secondsDiff = Integer.parseInt(timeB_components[2])-Integer.parseInt(timeB_components[2]);
 		
-		return components;
+		int seconds = hourDiff*360+minuteDiff*60+secondsDiff;
+		
+		return seconds;
 				
 	}
 	
@@ -160,12 +170,13 @@ public class SessionParser {
 	
 	public static List<LogEntry> clean_clients (List<LogEntry> logManyClients, String client) {
 		
-		List<LogEntry> logOneClient = logManyClients;
+		List<LogEntry> logOneClient = new ArrayList<LogEntry>();;
 				
 		int i;
 		for ( i = 0; i < logManyClients.size(); i++) {
-			if ( !logManyClients.get(i).getIP_client().contentEquals(client) ) {
-				logOneClient.remove(i);
+			//System.out.println("Label (shouldN'T be null) - "+logManyClients.get(i).getLabel());
+			if ( logManyClients.get(i).getIP_client().contentEquals(client) ) {
+				logOneClient.add(logManyClients.get(i));
 			}
 		}
 		
