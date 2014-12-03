@@ -13,6 +13,7 @@ my %features;
 my $instances;
 my $classifier;
 my @partfeatures = ();
+my @j48rule = ();
 
 for my $rule ( @rules ) {
 
@@ -66,6 +67,28 @@ for my $rule ( @rules ) {
 				print "\n";
 				@partfeatures = ();
 			}
+		}
+		case "J48" {
+			######## J48 ########
+			if ( $rule =~ /^(\w+)[\s\>\=\<]+\w+\:\s\w+\s\((\d+)\.\d+\/?\d*\.*\d*\)$/ ) {
+				print "Regla tal cual:\n$rule\n";
+			}
+
+			if ( $rule =~ /^(\w+)[\s\>\=\<]+\w+$/ ) {
+				print "Primer atributo ($1) de una regla:\n"."$rule";
+			}
+
+			if ( $rule =~ /^\|\s+(\w+)[\s\>\=\<]+\w+$/ ) {				
+				print " AND $rule";
+			}
+
+			if ( $rule =~ /^\|\s+\|\s+(\w+)[\s\>\=\<]+\w+\:\s\w+\s\((\d+)\.\d+\/?\d*\.*\d*\)$/ ) {				
+				print " AND $rule\n";
+			}
+
+		}
+		case "REPTree" {
+
 		}
 
 	}
