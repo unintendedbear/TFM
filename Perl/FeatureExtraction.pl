@@ -68,23 +68,168 @@ for my $rule ( @rules ) {
 				@partfeatures = ();
 			}
 		}
-		case "J48" {
+		case "J48" {			
 			######## J48 ########
-			if ( $rule =~ /^(\w+)[\s\>\=\<]+\w+\:\s\w+\s\((\d+)\.\d+\/?\d*\.*\d*\)$/ ) {
-				print "Regla tal cual:\n$rule\n";
+			if ($rule =~ /\w+\s[\>\=\<]+\s\w+/ || $rule =~ /\|[\|\s]+(.*)/ ) {
+			my @rulediscovery = split (/\s+/, $rule);
+			my $order = 0;
+
+			for my $j ( @rulediscovery) {
+				if ( $j =~ /\|/ ) {
+					$order++;
+				}
 			}
 
-			if ( $rule =~ /^(\w+)[\s\>\=\<]+\w+$/ ) {
-				print "Primer atributo ($1) de una regla:\n"."$rule";
-			}
-
-			if ( $rule =~ /^\|\s+(\w+)[\s\>\=\<]+\w+$/ ) {				
-				print " AND $rule";
-			}
-
-			if ( $rule =~ /^\|\s+\|\s+(\w+)[\s\>\=\<]+\w+\:\s\w+\s\((\d+)\.\d+\/?\d*\.*\d*\)$/ ) {				
-				print " AND $rule\n";
-			}
+			switch ($order) {
+				case 0 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = windowsupdate: allow (865.5)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						my $weight = $1/$instances;
+						$features{$rulediscovery[$order]} += $weight;
+					} else {
+						# Caso
+						# url_core = doubleclick
+						push (@j48rule, $rulediscovery[$order]);
+					}
+				}
+				case 1 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = doubleclick
+						# |   content_type_MCT = application: allow (1.07)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						push (@j48rule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @j48rule ) {
+							$features{$k} += $weight;
+						}
+						@j48rule = ();
+					} else {
+						# Caso
+						# url_core = doubleclick
+						# |   num_subdomains <= 1
+						push (@j48rule, $rulediscovery[$order]);
+					}
+				}
+				case 2 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = doubleclick
+						# |   num_subdomains <= 1
+						# |   |   content_type_MCT = application: allow (1.07)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						push (@j48rule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @j48rule ) {
+							$features{$k} += $weight;
+						}
+						@j48rule = ();
+					} else {
+						# Caso
+						# url_core = doubleclick
+						# |   num_subdomains > 1
+						# |   |   digits_in_URL <= 16
+						push (@j48rule, $rulediscovery[$order]);
+					}
+				}
+				case 3 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = doubleclick
+						# |   num_subdomains > 1
+						# |   |   digits_in_URL <= 16
+						# |   |   |   subdomain2 = au: allow (0.0)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						push (@j48rule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @j48rule ) {
+							$features{$k} += $weight;
+						}
+						@j48rule = ();
+					} else {
+						# Caso
+						# url_core = doubleclick
+						# |   num_subdomains > 1
+						# |   |   digits_in_URL <= 16
+						# |   |   |   subdomain2 = ad
+						push (@j48rule, $rulediscovery[$order]);
+					}
+				}
+				case 4 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = doubleclick
+						# |   num_subdomains > 1
+						# |   |   digits_in_URL <= 16
+						# |   |   |   subdomain2 = ad
+						# |   |   |   |   content_type_MCT = application: deny (6.0)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						push (@j48rule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @j48rule ) {
+							$features{$k} += $weight;
+						}
+						@j48rule = ();
+					} else {
+						# Caso
+						# url_core = google
+						# |   num_subdomains <= 1
+						# |   |   letters_in_URL > 178
+						# |   |   |   bytes > 601
+						# |   |   |   |   http_reply_code = 200
+						push (@j48rule, $rulediscovery[$order]);
+					}
+				}
+				case 5 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = google
+						# |   num_subdomains <= 1
+						# |   |   letters_in_URL > 178
+						# |   |   |   bytes > 601
+						# |   |   |   |   http_reply_code = 200
+						# |   |   |   |   |   digits_in_URL <= 81: allow (182.0/3.0)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						push (@j48rule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @j48rule ) {
+							$features{$k} += $weight;
+						}
+						@j48rule = ();
+					} else {
+						# Caso
+						# url_core = google
+						# |   num_subdomains <= 1
+						# |   |   letters_in_URL > 178
+						# |   |   |   bytes > 601
+						# |   |   |   |   http_reply_code = 200
+						# |   |   |   |   |   digits_in_URL > 81
+						push (@j48rule, $rulediscovery[$order]);
+					}
+				}
+				case 6 {
+					if ( $rulediscovery[$order+2] =~ /\w+\:/ && $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = google
+						# |   num_subdomains <= 1
+						# |   |   letters_in_URL > 178
+						# |   |   |   bytes > 601
+						# |   |   |   |   http_reply_code = 200
+						# |   |   |   |   |   digits_in_URL > 81
+						# |   |   |   |   |   |   bytes <= 973: allow (4.08)
+						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
+						push (@j48rule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @j48rule ) {
+							$features{$k} += $weight;
+						}
+						@j48rule = ();
+					}
+				}
+			}}
+			
 
 		}
 		case "REPTree" {
