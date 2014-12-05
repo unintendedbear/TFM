@@ -92,6 +92,7 @@ for my $rule ( @rules ) {
 					} else {
 						# Caso
 						# url_core = doubleclick
+						@j48rule = ();
 						push (@j48rule, $rulediscovery[$order]);
 					}
 				}
@@ -101,17 +102,39 @@ for my $rule ( @rules ) {
 						# url_core = doubleclick
 						# |   content_type_MCT = application: allow (1.07)
 						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @j48rule ) {
 							$features{$k} += $weight;
 						}
-						@j48rule = ();
+						pop @j48rule;
 					} else {
 						# Caso
 						# url_core = doubleclick
 						# |   num_subdomains <= 1
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 					}
 				}
 				case 2 {
@@ -121,18 +144,40 @@ for my $rule ( @rules ) {
 						# |   num_subdomains <= 1
 						# |   |   content_type_MCT = application: allow (1.07)
 						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @j48rule ) {
 							$features{$k} += $weight;
 						}
-						@j48rule = ();
+						pop @j48rule;
 					} else {
 						# Caso
 						# url_core = doubleclick
 						# |   num_subdomains > 1
 						# |   |   digits_in_URL <= 16
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 					}
 				}
 				case 3 {
@@ -143,19 +188,41 @@ for my $rule ( @rules ) {
 						# |   |   digits_in_URL <= 16
 						# |   |   |   subdomain2 = au: allow (0.0)
 						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @j48rule ) {
 							$features{$k} += $weight;
 						}
-						@j48rule = ();
+						pop @j48rule;
 					} else {
 						# Caso
 						# url_core = doubleclick
 						# |   num_subdomains > 1
 						# |   |   digits_in_URL <= 16
 						# |   |   |   subdomain2 = ad
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 					}
 				}
 				case 4 {
@@ -167,12 +234,23 @@ for my $rule ( @rules ) {
 						# |   |   |   subdomain2 = ad
 						# |   |   |   |   content_type_MCT = application: deny (6.0)
 						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @j48rule ) {
 							$features{$k} += $weight;
 						}
-						@j48rule = ();
+						pop @j48rule;
 					} else {
 						# Caso
 						# url_core = google
@@ -180,7 +258,18 @@ for my $rule ( @rules ) {
 						# |   |   letters_in_URL > 178
 						# |   |   |   bytes > 601
 						# |   |   |   |   http_reply_code = 200
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 					}
 				}
 				case 5 {
@@ -193,12 +282,23 @@ for my $rule ( @rules ) {
 						# |   |   |   |   http_reply_code = 200
 						# |   |   |   |   |   digits_in_URL <= 81: allow (182.0/3.0)
 						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @j48rule ) {
 							$features{$k} += $weight;
 						}
-						@j48rule = ();
+						pop @j48rule;
 					} else {
 						# Caso
 						# url_core = google
@@ -207,7 +307,18 @@ for my $rule ( @rules ) {
 						# |   |   |   bytes > 601
 						# |   |   |   |   http_reply_code = 200
 						# |   |   |   |   |   digits_in_URL > 81
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 					}
 				}
 				case 6 {
@@ -221,12 +332,23 @@ for my $rule ( @rules ) {
 						# |   |   |   |   |   digits_in_URL > 81
 						# |   |   |   |   |   |   bytes <= 973: allow (4.08)
 						$rulediscovery[$order+4] =~ /\((\d+)\.\d+\/?\d*\.*\d*\)/;
-						push (@j48rule, $rulediscovery[$order]);
+						if ( $#j48rule == $order ) {
+							pop @j48rule;
+							push (@j48rule, $rulediscovery[$order]);
+						} elsif ( $#j48rule > $order ) {
+							my $difference = $#j48rule - $order;
+							for my $step (0 .. $difference) {
+								pop @j48rule;
+							}
+							push (@j48rule, $rulediscovery[$order]);
+						} else {
+							push (@j48rule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @j48rule ) {
 							$features{$k} += $weight;
 						}
-						@j48rule = ();
+						pop @j48rule;
 					}
 				}
 			}}		
