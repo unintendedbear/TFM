@@ -377,6 +377,7 @@ for my $rule ( @rules ) {
 					} else {
 						# Caso
 						# url_core = doubleclick
+						@reprule = ();
 						push (@reprule, $rulediscovery[$order]);
 					}
 				}
@@ -386,17 +387,39 @@ for my $rule ( @rules ) {
 						# url_core = doubleclick
 						# |   time = 08:30:08 : deny (0/0) [0/0]
 						$rulediscovery[$order+5] =~ /\((\d+)\.?\d*\/?\d*\.*\d*\)/;
-						push (@reprule, $rulediscovery[$order]);
+						if ( $#reprule == $order ) {
+							pop @reprule;
+							push (@reprule, $rulediscovery[$order]);
+						} elsif ( $#reprule > $order ) {
+							my $difference = $#reprule - $order;
+							for my $step (0 .. $difference) {
+								pop @reprule;
+							}
+							push (@reprule, $rulediscovery[$order]);
+						} else {
+							push (@reprule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @reprule ) {
 							$features{$k} += $weight;
 						}
-						@reprule = ();
+						pop @reprule;
 					} else {
 						# Caso
 						# url_core = doubleclick
 						# |   time = 09:58:23
-						push (@reprule, $rulediscovery[$order]);
+						if ( $#reprule == $order ) {
+							pop @reprule;
+							push (@reprule, $rulediscovery[$order]);
+						} elsif ( $#reprule > $order ) {
+							my $difference = $#reprule - $order;
+							for my $step (0 .. $difference) {
+								pop @reprule;
+							}
+							push (@reprule, $rulediscovery[$order]);
+						} else {
+							push (@reprule, $rulediscovery[$order]);
+						}
 					}
 				}
 				case 2 {
@@ -406,12 +429,23 @@ for my $rule ( @rules ) {
 						# |   time = 09:58:23
 						# |   |   http_reply_code = 204 : allow (0/0) [0/0]
 						$rulediscovery[$order+5] =~ /\((\d+)\.?\d*\/?\d*\.*\d*\)/;
-						push (@reprule, $rulediscovery[$order]);
+						if ( $#reprule == $order ) {
+							pop @reprule;
+							push (@reprule, $rulediscovery[$order]);
+						} elsif ( $#reprule > $order ) {
+							my $difference = $#reprule - $order;
+							for my $step (0 .. $difference) {
+								pop @reprule;
+							}
+							push (@reprule, $rulediscovery[$order]);
+						} else {
+							push (@reprule, $rulediscovery[$order]);
+						}
 						my $weight = $1/$instances;
 						for my $k ( @reprule ) {
 							$features{$k} += $weight;
 						}
-						@reprule = ();
+						pop @reprule;
 					}
 				}
 			}}
