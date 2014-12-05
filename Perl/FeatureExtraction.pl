@@ -14,6 +14,7 @@ my $instances;
 my $classifier;
 my @partfeatures = ();
 my @j48rule = ();
+my @reprule = ();
 
 for my $rule ( @rules ) {
 
@@ -228,12 +229,70 @@ for my $rule ( @rules ) {
 						@j48rule = ();
 					}
 				}
-			}}
-			
+			}}		
 
 		}
-		case "REPTree" {
+		case "REPTree" {			
+			######## REPTree ########
+			if ($rule =~ /\w+\s[\>\=\<]+\s\w+/ || $rule =~ /\|[\|\s]+(.*)/ ) {
+			my @rulediscovery = split (/\s+/, $rule);
+			my $order = 0;
 
+			for my $j ( @rulediscovery) {
+				if ( $j =~ /\|/ ) {
+					$order++;
+				}
+			}
+
+			switch ($order) {
+				case 0 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = windowsupdate : allow (581.33/0) [284.18/0]
+						$rulediscovery[$order+5] =~ /\((\d+)\.?\d*\/?\d*\.*\d*\)/;
+						my $weight = $1/$instances;
+						$features{$rulediscovery[$order]} += $weight;
+					} else {
+						# Caso
+						# url_core = doubleclick
+						push (@reprule, $rulediscovery[$order]);
+					}
+				}
+				case 1 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = doubleclick
+						# |   time = 08:30:08 : deny (0/0) [0/0]
+						$rulediscovery[$order+5] =~ /\((\d+)\.?\d*\/?\d*\.*\d*\)/;
+						push (@reprule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @reprule ) {
+							$features{$k} += $weight;
+						}
+						@reprule = ();
+					} else {
+						# Caso
+						# url_core = doubleclick
+						# |   time = 09:58:23
+						push (@reprule, $rulediscovery[$order]);
+					}
+				}
+				case 2 {
+					if ( $#rulediscovery > $order+2) {
+						# Caso
+						# url_core = doubleclick
+						# |   time = 09:58:23
+						# |   |   http_reply_code = 204 : allow (0/0) [0/0]
+						$rulediscovery[$order+5] =~ /\((\d+)\.?\d*\/?\d*\.*\d*\)/;
+						push (@reprule, $rulediscovery[$order]);
+						my $weight = $1/$instances;
+						for my $k ( @reprule ) {
+							$features{$k} += $weight;
+						}
+						@reprule = ();
+					}
+				}
+			}}
 		}
 
 	}
