@@ -24,7 +24,7 @@ public class DataParser {
 	 */
 	public static List<LogEntry> parsing_Log() throws IOException {
 		
-		String logFile = "/home/osica/workspace/KRS_Prototype/CSV/data_100k_instances_url_log.csv";
+		String logFile = "/home/paloma/workspace/KRS_Prototype/CSV/data_100k_instances_url_log.csv";
 		String cleaningPattern = "\"(.+)\"\n?";
 		String contentTypePattern = "^(\\w+\\-*\\w+)[\\/?]\\w+";
 		String timePattern = "^\\d{1,2}\\:\\d{2}\\:\\d{2}";
@@ -326,9 +326,9 @@ public class DataParser {
 				listOfEntries.add(obtain_log(listOfValues));
 			} // for
 			
-			//System.out.println("Cleaning...");
-			//cleanedListOfEntries = erase_repeated_entries(listOfEntries);
-			return listOfEntries;
+			System.out.println("Cleaning...");
+			cleanedListOfEntries = erase_repeated_entries(listOfEntries);
+			return cleanedListOfEntries;
 				
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

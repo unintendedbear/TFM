@@ -42,7 +42,7 @@ public class MainClass {
 				"nonalphanumeric_chars_in_URL", "url_is_IP", "url_has_subdomains", "num_subdomains", "subdomain4",
 				"subdomain3", "subdomain2", "subdomain1", "url_core", "url_TLD", "url_has_path", "folder1", "folder2",
 				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
-				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol"};
+				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "label"};
 		
 		try {
 		
@@ -71,20 +71,20 @@ public class MainClass {
 			experiments[9] = "RandomTree -K 0 -M 1.0 -V 0.001 -S 1";
 			experiments[10] = "REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0";
 			
-			Double[] percentages = new Double[attributes.length];
+			//Double[] percentages = new Double[attributes.length];
 			
-			int i;
-			for ( i = 0; i < attributes.length; i++) {
+			//int i;
+			//for ( i = 0; i < attributes.length; i++) {
 				
-				String[] subattributes = obtain_subarray(attributes, i+2);				
-				subattributes[i+1] = "label";
+				//String[] subattributes = obtain_subarray(attributes, i+2);				
+				//subattributes[i+1] = "label";
 				
 				/*for (int k=0; k<subattributes.length; k++) {
 					System.out.println(k+"-"+subattributes[k]);
 				}*/				
 				
 				System.out.println("Obtaining CSV...");
-				String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false, subattributes);
+				String[] CSV_File_name = CSVHandler.obtain_csv(labelled_Entries, "data_100k_instances_url_log_w_labels", false, attributes);
 				System.out.println("CSV at "+CSV_File_name[1]);
 				
 				System.out.println("Creating ARFF...");
@@ -94,14 +94,15 @@ public class MainClass {
 				System.out.println("Launching "+experiments[0]+"...");
 				Double temp_percentage = ExperimentRunner.experimenter(ARFF_File_name, experiments[0]);
 				if (!temp_percentage.isNaN()) {	
-					percentages[i] = temp_percentage;
+					//percentages[i] = temp_percentage;
 					//System.out.println(i+","+percentages[i]);
+					System.out.println(temp_percentage);
 				}
-			}
+			//}
 			
-			for (int j=0; j<percentages.length; j++) {
-				System.out.println(j+","+percentages[j]);
-			}
+			//for (int j=0; j<percentages.length; j++) {
+			//	System.out.println(j+","+percentages[j]);
+			//}
 			
 			/**
 			 * Pruebas CSV

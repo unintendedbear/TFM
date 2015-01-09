@@ -32,7 +32,7 @@ public class CSVHandler {
 	 */
 	public static String[] obtain_csv(List<LogEntry> labelled_Entries, String file_name, boolean no_labels, String[] attributes) throws Exception {
 		
-		File CSV_File = new File("/home/osica/workspace/KRS_Prototype/CSV/"+file_name+".csv");
+		File CSV_File = new File("/home/paloma/workspace/KRS_Prototype/CSV/"+file_name+".csv");
 		
 		try {
 			
