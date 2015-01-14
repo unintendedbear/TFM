@@ -27,6 +27,40 @@ public class MainClass {
 		//long time_start, time_end;
 		//time_start = System.currentTimeMillis();
 		
+		/*String[] csv_paths = {"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated.csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(1).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(2).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(3).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(4).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(5).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(6).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(7).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(8).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(9).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Training_80_random(10).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(1).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(2).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(3).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(4).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(5).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(6).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(7).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(8).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(9).csv",
+				"/home/paloma/workspace/KRS_Prototype/CSV/Paper/data_100k_33features_without_duplicated_Test_20_random(10).csv"};
+		
+		for (int ind = 0; ind < csv_paths.length; ind++) {
+			String name = csv_paths[ind].substring(47, csv_paths[ind].length());
+			String[] input = {name, csv_paths[ind]};
+			System.out.println("Creating ARFF...");
+			try {
+				String[] ARFF_File_name = ArffHandler.obtain_arff(input);
+				System.out.println("ARFF at "+ARFF_File_name[1]);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}*/
+		
 		List<LogEntry> unlabelled_Entries = new ArrayList<LogEntry>();
 		List<Rule> DRL_Rules = new ArrayList<Rule>();
 		
