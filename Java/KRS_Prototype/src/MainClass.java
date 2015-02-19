@@ -71,12 +71,32 @@ public class MainClass {
 				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
 				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "client_address"};*/
 		
-		String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
+		/*String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
 				"server_or_cache_address", "squid_hierarchy", "bytes", "URL_length", "letters_in_URL", "digits_in_URL",
 				"nonalphanumeric_chars_in_URL", "url_is_IP", "url_has_subdomains", "num_subdomains", "subdomain4",
 				"subdomain3", "subdomain2", "subdomain1", "url_core", "url_TLD", "url_has_path", "folder1", "folder2",
 				"path_has_parameters", "num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
-				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "label"};
+				"digits_in_filename", "other_char_in_filename", "file_extension", "url_protocol", "label"};*/
+		
+		/*String[] attributes = {"http_method", "duration_milliseconds", "content_type_MCT", "content_type",
+				"server_or_cache_address", "bytes", "URL_length", "letters_in_URL", "digits_in_URL",
+				"nonalphanumeric_chars_in_URL", "subdomain2", "subdomain1", "url_TLD", "folder2",
+				"num_parameters", "url_has_file_extension", "filename_length", "letters_in_filename",
+				"other_char_in_filename", "label"};*/
+		
+		/*String[] attributes = {"http_reply_code", "http_method", "content_type",
+				"server_or_cache_address", "URL_length", "letters_in_URL", "digits_in_URL",
+				"nonalphanumeric_chars_in_URL", "num_subdomains", "subdomain2", "subdomain1", "url_TLD", "folder1", "folder2",
+				"path_has_parameters", "num_parameters", "digits_in_filename", "other_char_in_filename", "file_extension", "label"};*/
+		
+		/*String[] attributes = {"http_reply_code", "http_method", "duration_milliseconds", "content_type_MCT", "content_type",
+				"server_or_cache_address", "time", "squid_hierarchy", "bytes", "url_core", "client_address", "label"};*/
+		
+		/*String[] attributes = {"http_reply_code", "duration_milliseconds", "content_type",
+				"server_or_cache_address", "time", "bytes", "url_core", "client_address", "label"};*/
+		
+		String[] attributes = {"http_reply_code", "http_method", "content_type_MCT", "content_type",
+				"server_or_cache_address", "time", "squid_hierarchy", "url_core", "client_address", "label"};
 		
 		try {
 		
