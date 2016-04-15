@@ -1,0 +1,172 @@
+=== Run information ===
+
+Scheme:weka.classifiers.rules.JRip -F 3 -N 2.0 -O 2 -S 1
+Relation:     data_100k_instances_url_log_w_labels
+Instances:    34540
+Attributes:   37
+              http_reply_code
+              http_method
+              duration_milliseconds
+              content_type_MCT
+              content_type
+              server_or_cache_address
+              time
+              squid_hierarchy
+              bytes
+              URL_length
+              letters_in_URL
+              digits_in_URL
+              nonalphanumeric_chars_in_URL
+              url_is_IP
+              url_has_subdomains
+              num_subdomains
+              subdomain5
+              subdomain4
+              subdomain3
+              subdomain2
+              subdomain1
+              url_core
+              url_TLD
+              url_has_path
+              folder1
+              folder2
+              path_has_parameters
+              num_parameters
+              url_has_file_extension
+              filename_length
+              letters_in_filename
+              digits_in_filename
+              other_char_in_filename
+              file_extension
+              url_protocol
+              client_address
+              label
+Test mode:10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+JRIP rules:
+===========
+
+(digits_in_URL >= 18) and (content_type_MCT = text) and (duration_milliseconds >= 7308) => label=deny (1995.0/1.0)
+(digits_in_URL >= 6) and (content_type_MCT = text) and (URL_length >= 325) and (num_parameters >= 12) and (subdomain1 = g) => label=deny (582.0/0.0)
+(digits_in_URL >= 6) and (content_type_MCT = text) and (digits_in_URL >= 124) and (url_core = youtube) => label=deny (472.0/0.0)
+(digits_in_URL >= 6) and (bytes >= 584) and (url_has_subdomains <= 0) and (url_core = facebook) => label=deny (505.0/0.0)
+(digits_in_URL >= 6) and (bytes >= 584) and (url_TLD = com) and (letters_in_URL <= 70) and (file_extension = jpg) and (URL_length >= 75) and (filename_length >= 24) => label=deny (231.0/6.0)
+(digits_in_URL >= 7) and (duration_milliseconds >= 82) and (folder1 = pagead) and (num_parameters >= 2) => label=deny (403.0/5.0)
+(client_address = 10.159.154.21) and (url_core = superdeporte) => label=deny (628.0/0.0)
+(digits_in_URL >= 6) and (letters_in_URL <= 52) and (digits_in_URL >= 18) and (nonalphanumeric_chars_in_URL <= 20) and (url_TLD = com) and (nonalphanumeric_chars_in_URL >= 10) and (letters_in_URL <= 43) and (bytes >= 348) => label=deny (456.0/13.0)
+(digits_in_URL >= 6) and (bytes >= 584) and (path_has_parameters >= 1) and (subdomain1 = bs) => label=deny (334.0/0.0)
+(digits_in_URL >= 6) and (URL_length <= 98) and (squid_hierarchy = DIRECT) and (folder2 = uploads) => label=deny (224.0/0.0)
+(digits_in_URL >= 8) and (duration_milliseconds >= 113) and (bytes <= 16568) and (squid_hierarchy = DIRECT) and (filename_length >= 17) and (subdomain1 = dl) => label=deny (127.0/0.0)
+(path_has_parameters >= 1) and (bytes >= 1110) and (subdomain1 = solution) and (num_parameters <= 8) => label=deny (151.0/0.0)
+(path_has_parameters >= 1) and (bytes >= 584) and (subdomain1 = ads) => label=deny (184.0/0.0)
+(path_has_parameters >= 1) and (bytes >= 961) and (letters_in_URL >= 152) and (URL_length <= 223) and (num_parameters <= 4) and (bytes <= 6199) => label=deny (109.0/0.0)
+(bytes >= 1324) and (path_has_parameters >= 1) and (url_core = youtube) => label=deny (233.0/0.0)
+(client_address = 10.159.194.18) and (url_core = marca) => label=deny (307.0/0.0)
+(digits_in_URL >= 11) and (letters_in_URL <= 52) and (digits_in_filename >= 15) and (other_char_in_filename <= 3) and (squid_hierarchy = DIRECT) => label=deny (135.0/1.0)
+(path_has_parameters >= 1) and (bytes >= 1237) and (digits_in_URL >= 70) and (client_address = 10.159.85.3) => label=deny (76.0/1.0)
+(path_has_parameters >= 1) and (client_address = 10.159.154.21) and (num_subdomains <= 1) and (bytes >= 754) and (bytes <= 9005) => label=deny (123.0/4.0)
+(url_has_subdomains <= 0) and (url_core = netliga) => label=deny (278.0/0.0)
+(url_core = facebook) => label=deny (320.0/0.0)
+(path_has_parameters >= 1) and (bytes >= 934) and (url_core = wp) => label=deny (90.0/1.0)
+(nonalphanumeric_chars_in_URL >= 31) and (bytes <= 392) and (digits_in_URL >= 98) and (bytes >= 336) => label=deny (72.0/2.0)
+(path_has_parameters >= 1) and (URL_length >= 277) and (nonalphanumeric_chars_in_URL <= 94) and (URL_length >= 719) and (num_parameters >= 7) => label=deny (73.0/3.0)
+(digits_in_URL >= 8) and (folder1 = ads) => label=deny (154.0/0.0)
+(path_has_parameters >= 1) and (url_core = youtube) => label=deny (72.0/0.0)
+(bytes >= 931) and (bytes <= 7638) and (subdomain1 = rad) => label=deny (139.0/0.0)
+(digits_in_URL >= 7) and (content_type = text/javascript) and (url_core = atemda) => label=deny (201.0/0.0)
+(digits_in_URL >= 7) and (URL_length >= 278) and (url_has_subdomains >= 1) and (bytes >= 2251) and (nonalphanumeric_chars_in_URL <= 54) and (bytes <= 50666) and (num_subdomains >= 2) => label=deny (45.0/1.0)
+(digits_in_URL >= 7) and (num_subdomains <= 1) and (duration_milliseconds >= 125) and (URL_length >= 538) and (num_parameters <= 5) and (nonalphanumeric_chars_in_URL <= 86) and (num_parameters <= 2) => label=deny (46.0/0.0)
+(client_address = 10.159.154.21) and (num_subdomains <= 1) and (duration_milliseconds >= 80) and (subdomain1 = ads) => label=deny (43.0/0.0)
+(path_has_parameters >= 1) and (letters_in_URL >= 243) and (client_address = 10.159.232.20) and (url_core = google-analytics) and (digits_in_URL >= 203) => label=deny (82.0/0.0)
+(digits_in_URL >= 7) and (URL_length <= 77) and (URL_length >= 70) and (subdomain1 = www2) => label=deny (19.0/0.0)
+(bytes >= 723) and (url_has_subdomains <= 0) and (URL_length >= 70) and (url_core = frikisreconocidos) => label=deny (74.0/0.0)
+(digits_in_URL >= 7) and (URL_length <= 77) and (subdomain1 = ads) => label=deny (46.0/0.0)
+(client_address = 10.159.154.21) and (num_subdomains <= 1) and (url_core = elbalonrosa) => label=deny (63.0/0.0)
+(path_has_parameters >= 1) and (client_address = 10.159.154.21) and (letters_in_URL >= 121) and (digits_in_URL <= 82) and (duration_milliseconds >= 104) and (bytes <= 61642) => label=deny (33.0/1.0)
+(path_has_parameters >= 1) and (duration_milliseconds >= 113) and (digits_in_URL >= 7) and (letters_in_URL <= 93) and (content_type_MCT = image) and (url_core = buysellads) => label=deny (38.0/0.0)
+(digits_in_URL >= 11) and (num_subdomains <= 1) and (duration_milliseconds >= 132) and (bytes <= 7679) and (bytes >= 3536) and (folder1 = csp) => label=deny (20.0/0.0)
+(digits_in_URL >= 11) and (url_core = serving-sys) and (nonalphanumeric_chars_in_URL <= 52) => label=deny (57.0/0.0)
+(url_core = mundodeportivo) => label=deny (168.0/0.0)
+(path_has_parameters >= 1) and (digits_in_URL >= 23) and (num_parameters <= 3) and (letters_in_URL <= 96) and (url_core = iseco) => label=deny (31.0/0.0)
+(bytes >= 733) and (URL_length <= 76) and (folder1 = public) and (duration_milliseconds <= 117) => label=deny (64.0/0.0)
+(digits_in_URL >= 8) and (nonalphanumeric_chars_in_URL >= 31) and (bytes <= 477) and (bytes <= 327) and (duration_milliseconds <= 190) and (bytes >= 307) => label=deny (43.0/0.0)
+(bytes >= 928) and (bytes <= 7472) and (bytes >= 3450) and (duration_milliseconds >= 119) and (url_core = youtube) => label=deny (19.0/0.0)
+(letters_in_URL >= 130) and (client_address = 10.159.154.21) and (bytes <= 723) and (digits_in_URL >= 96) => label=deny (47.0/7.0)
+(bytes >= 733) and (bytes <= 7638) and (bytes >= 3450) and (duration_milliseconds >= 119) and (nonalphanumeric_chars_in_URL >= 36) and (content_type = text/javascript) and (duration_milliseconds >= 179) => label=deny (19.0/2.0)
+(bytes >= 734) and (bytes <= 21629) and (digits_in_URL >= 10) and (num_parameters <= 2) and (path_has_parameters >= 1) and (URL_length <= 136) and (URL_length >= 91) and (bytes <= 5431) and (content_type_MCT = text) and (duration_milliseconds <= 171) and (digits_in_URL <= 28) => label=deny (22.0/0.0)
+(bytes >= 733) and (url_has_subdomains <= 0) and (content_type_MCT = image) and (duration_milliseconds >= 140) and (folder1 = uploads) => label=deny (34.0/0.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (file_extension = jpg) and (other_char_in_filename >= 3) and (folder2 = uploads) => label=deny (26.0/0.0)
+(bytes >= 733) and (url_has_subdomains <= 0) and (content_type_MCT = image) and (duration_milliseconds >= 119) and (server_or_cache_address = 66.29.193.83) => label=deny (16.0/0.0)
+(squid_hierarchy = DIRECT) and (URL_length <= 76) and (url_TLD = com) and (digits_in_URL >= 3) and (letters_in_filename >= 12) and (digits_in_filename <= 6) and (digits_in_URL >= 8) => label=deny (32.0/3.0)
+(bytes >= 734) and (bytes <= 21629) and (url_core = googleadservices) => label=deny (32.0/0.0)
+(path_has_parameters >= 1) and (client_address = 10.159.201.10) and (URL_length >= 128) and (bytes <= 660) and (url_has_subdomains >= 1) => label=deny (68.0/13.0)
+(path_has_parameters >= 1) and (bytes >= 934) and (digits_in_URL >= 56) and (bytes >= 5260) and (URL_length >= 522) and (bytes <= 7679) and (URL_length <= 800) => label=deny (23.0/0.0)
+(bytes >= 733) and (URL_length <= 57) and (url_TLD = net) and (letters_in_URL <= 35) and (URL_length >= 32) and (duration_milliseconds <= 278) => label=deny (47.0/2.0)
+(path_has_parameters >= 1) and (digits_in_URL >= 38) and (url_has_subdomains >= 1) and (url_core = msn) => label=deny (13.0/0.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (URL_length <= 77) and (url_core = vandalimg) => label=deny (43.0/0.0)
+(path_has_parameters >= 1) and (num_parameters <= 3) and (http_method = GET) and (digits_in_URL >= 23) and (letters_in_URL <= 60) and (nonalphanumeric_chars_in_URL >= 16) => label=deny (27.0/3.0)
+(path_has_parameters >= 1) and (letters_in_URL >= 106) and (client_address = 10.159.194.18) and (duration_milliseconds <= 113) and (num_parameters <= 18) and (URL_length >= 284) => label=deny (13.0/0.0)
+(path_has_parameters >= 1) and (bytes >= 580) and (digits_in_URL >= 5) and (num_parameters <= 2) and (digits_in_URL <= 12) and (URL_length >= 88) and (letters_in_URL <= 66) and (bytes >= 1991) => label=deny (21.0/0.0)
+(letters_in_URL >= 118) and (digits_in_URL >= 374) and (letters_in_URL <= 691) and (http_reply_code = 200) and (url_has_subdomains >= 1) => label=deny (19.0/1.0)
+(path_has_parameters >= 1) and (nonalphanumeric_chars_in_URL >= 31) and (bytes <= 477) and (letters_in_URL >= 160) and (content_type_MCT = image) and (bytes >= 469) and (URL_length <= 844) => label=deny (57.0/16.0)
+(path_has_parameters >= 1) and (num_parameters <= 2) and (http_method = GET) and (digits_in_URL >= 31) and (nonalphanumeric_chars_in_URL <= 26) and (digits_in_URL <= 70) and (content_type_MCT = application) => label=deny (20.0/0.0)
+(bytes >= 730) and (bytes <= 7512) and (url_core = youtube) => label=deny (42.0/0.0)
+(path_has_parameters >= 1) and (bytes >= 595) and (folder1 = adserver) => label=deny (27.0/0.0)
+(squid_hierarchy = DIRECT) and (num_subdomains <= 1) and (other_char_in_filename >= 5) and (URL_length >= 94) and (letters_in_URL <= 80) and (duration_milliseconds <= 128) => label=deny (22.0/1.0)
+(squid_hierarchy = DIRECT) and (nonalphanumeric_chars_in_URL <= 13) and (server_or_cache_address = 217.116.22.55) => label=deny (20.0/0.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (file_extension = jpg) and (other_char_in_filename >= 4) and (letters_in_URL >= 196) => label=deny (13.0/0.0)
+(path_has_parameters >= 1) and (num_parameters <= 3) and (http_method = GET) and (url_core = smartadserver) => label=deny (24.0/0.0)
+(path_has_parameters >= 1) and (nonalphanumeric_chars_in_URL >= 31) and (num_parameters <= 2) and (digits_in_URL <= 12) and (folder2 = plugins) => label=deny (12.0/0.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (letters_in_filename >= 8) and (filename_length <= 8) and (nonalphanumeric_chars_in_URL >= 11) and (letters_in_URL <= 71) => label=deny (33.0/5.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (letters_in_filename >= 12) and (content_type = image/jpeg) and (server_or_cache_address = 86.61.64.16) => label=deny (9.0/0.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (URL_length <= 76) and (duration_milliseconds >= 70) and (url_core = motorpasion) => label=deny (16.0/0.0)
+(path_has_parameters >= 1) and (num_parameters <= 3) and (http_method = GET) and (folder1 = RealMedia) => label=deny (19.0/0.0)
+(bytes >= 843) and (subdomain1 = swcdn) => label=deny (34.0/0.0)
+(url_core = dropbox) => label=deny (54.0/0.0)
+(path_has_parameters >= 1) and (url_TLD = net) and (subdomain2 = googleads) => label=deny (17.0/0.0)
+(path_has_parameters >= 1) and (client_address = 10.159.154.21) and (num_subdomains <= 1) and (letters_in_URL <= 221) and (URL_length >= 113) and (nonalphanumeric_chars_in_URL <= 64) and (num_parameters <= 7) => label=deny (21.0/0.0)
+(squid_hierarchy = DIRECT) and (url_TLD = com) and (letters_in_filename >= 12) and (client_address = 10.159.39.199) and (filename_length >= 17) => label=deny (19.0/2.0)
+(squid_hierarchy = DIRECT) and (digits_in_URL <= 0) and (server_or_cache_address = 108.162.19.103) => label=deny (9.0/0.0)
+(path_has_parameters >= 1) and (letters_in_URL >= 165) and (num_parameters <= 5) and (letters_in_URL >= 586) and (duration_milliseconds <= 109) and (nonalphanumeric_chars_in_URL <= 249) => label=deny (22.0/3.0)
+(path_has_parameters >= 1) and (letters_in_URL >= 165) and (url_has_subdomains >= 1) and (client_address = 10.159.14.71) and (num_parameters >= 12) => label=deny (14.0/2.0)
+(letters_in_URL <= 52) and (http_method = GET) and (subdomain1 = ads) => label=deny (33.0/0.0)
+(bytes >= 928) and (url_has_subdomains <= 0) and (squid_hierarchy = DIRECT) and (letters_in_URL >= 44) and (url_core = elbalonrosa) => label=deny (10.0/0.0)
+(path_has_parameters >= 1) and (duration_milliseconds >= 104) and (url_core = pubmatic) => label=deny (22.0/0.0)
+(path_has_parameters >= 1) and (url_TLD = net) and (URL_length >= 198) and (num_parameters <= 13) and (URL_length <= 199) => label=deny (14.0/1.0)
+(letters_in_URL <= 53) and (http_method = GET) and (subdomain1 = adserver) => label=deny (35.0/0.0)
+(url_has_subdomains <= 0) and (letters_in_filename >= 11) and (nonalphanumeric_chars_in_URL <= 7) and (bytes <= 6325) => label=deny (32.0/0.0)
+(path_has_parameters >= 1) and (letters_in_URL >= 165) and (duration_milliseconds >= 109) and (letters_in_URL <= 270) and (letters_in_URL >= 243) and (url_core = brightcove) and (letters_in_URL >= 260) => label=deny (13.0/0.0)
+(path_has_parameters >= 1) and (url_core = amazon-adsystem) => label=deny (21.0/0.0)
+ => label=allow (23789.0/1213.0)
+
+Number of Rules : 92
+
+
+Time taken to build model: 367.66 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       32862               95.1419 %
+Incorrectly Classified Instances      1678                4.8581 %
+Kappa statistic                          0.8895
+Mean absolute error                      0.0824
+Root mean squared error                  0.2131
+Relative absolute error                 18.2751 %
+Root relative squared error             44.8658 %
+Total Number of Instances            34540     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.991     0.124      0.939     0.991     0.964      0.939    allow
+                 0.876     0.009      0.98      0.876     0.925      0.939    deny
+Weighted Avg.    0.951     0.084      0.953     0.951     0.951      0.939
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 22468   208 |     a = allow
+  1470 10394 |     b = deny

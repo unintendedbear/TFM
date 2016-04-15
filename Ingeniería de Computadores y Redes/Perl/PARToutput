@@ -1,0 +1,3040 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.rules.PART -M 2 -C 0.25 -Q 1
+Relation:     data_100k_instances_url_log_w_labels
+Instances:    34540
+Attributes:   37
+              http_reply_code
+              http_method
+              duration_milliseconds
+              content_type_MCT
+              content_type
+              server_or_cache_address
+              time
+              squid_hierarchy
+              bytes
+              URL_length
+              letters_in_URL
+              digits_in_URL
+              nonalphanumeric_chars_in_URL
+              url_is_IP
+              url_has_subdomains
+              num_subdomains
+              subdomain5
+              subdomain4
+              subdomain3
+              subdomain2
+              subdomain1
+              url_core
+              url_TLD
+              url_has_path
+              folder1
+              folder2
+              path_has_parameters
+              num_parameters
+              url_has_file_extension
+              filename_length
+              letters_in_filename
+              digits_in_filename
+              other_char_in_filename
+              file_extension
+              url_protocol
+              client_address
+              label
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+PART decision list
+------------------
+
+url_core = dropbox: deny (1855.07/1.07)
+
+url_core = ubuntu: allow (1319.76)
+
+url_core = facebook: deny (1101.64/0.64)
+
+url_core = valli: allow (943.55)
+
+url_core = windowsupdate: allow (865.5)
+
+url_core = youtube: deny (853.49/0.49)
+
+url_core = launchpad: allow (744.43)
+
+url_core = superdeporte: deny (644.37/0.37)
+
+subdomain2 = su AND
+url_core = avast: allow (387.83)
+
+subdomain2 = download: allow (364.7/81.54)
+
+subdomain2 = ui AND
+url_core = avast: allow (163.35)
+
+subdomain2 = o: allow (468.69/105.47)
+
+subdomain2 = images: allow (358.03/80.57)
+
+subdomain2 = es-mg42: allow (312.46/70.31)
+
+subdomain2 = row: allow (247.36/55.66)
+
+subdomain2 = vl: allow (214.82/48.34)
+
+subdomain2 = widgets: allow (182.27/41.02)
+
+subdomain2 = store AND
+url_core = cdn-apple: allow (154.09/1.0)
+
+subdomain2 = ftp: allow (141.85/32.13)
+
+subdomain2 = estaticos04 AND
+url_core = el-mundo: allow (133.02/1.07)
+
+subdomain2 = mozorg: allow (132.71/30.23)
+
+subdomain2 = km: allow (118.74/27.05)
+
+subdomain2 = estaticos03 AND
+url_core = el-mundo: allow (108.84/1.06)
+
+subdomain2 = estaticos01 AND
+url_core = el-mundo AND
+digits_in_URL > 4: allow (116.95/0.07)
+
+subdomain2 = estaticos02 AND
+url_core = el-mundo: allow (113.87/2.06)
+
+subdomain2 = beap: allow (398.91/93.25)
+
+subdomain2 = us: allow (329.87/77.28)
+
+subdomain2 = c: allow (153.43/36.48)
+
+subdomain2 = init: allow (115.07/26.61)
+
+subdomain2 = cookex: allow (115.07/26.61)
+
+subdomain2 = android: allow (99.73/23.06)
+
+subdomain2 = cm AND
+url_core = doubleclick AND
+nonalphanumeric_chars_in_URL <= 29: allow (80.62/2.08)
+
+url_core = elpais AND
+nonalphanumeric_chars_in_URL <= 39: allow (603.78)
+
+url_core = linuxmint: allow (493.79)
+
+url_core = googleapis: allow (437.5/2.56)
+
+url_core = marca: deny (376.1/0.22)
+
+subdomain2 = urls: allow (71.55/16.85)
+
+subdomain2 = res1: allow (71.55/16.85)
+
+subdomain2 = igoogle: allow (64.39/15.16)
+
+subdomain2 = stats: allow (64.39/15.16)
+
+subdomain2 = s: allow (57.24/13.48)
+
+subdomain2 = brightcove: allow (57.24/13.48)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (53.37/0.55)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (50.66/0.52)
+
+subdomain2 = alteuvoltant: allow (49.81/11.79)
+
+subdomain2 = 1: allow (49.81/11.79)
+
+subdomain2 = db2: allow (49.81/11.79)
+
+subdomain2 = doc-0-0-sj: allow (49.81/11.79)
+
+subdomain2 = res2: allow (49.81/11.79)
+
+subdomain2 = scandichotelsab: allow (49.81/11.79)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (48.09/0.5)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (45.62/0.47)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (43.26/0.45)
+
+subdomain2 = ie9cvlist: allow (42.38/10.1)
+
+subdomain2 = fe1: allow (42.38/10.1)
+
+subdomain2 = xml: allow (42.38/10.1)
+
+subdomain2 = media: allow (42.38/10.1)
+
+subdomain2 = justskins: allow (42.38/10.1)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (41.03/0.42)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (38.9/0.4)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (36.87/0.38)
+
+subdomain2 = services: allow (35.09/8.42)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (34.94/0.36)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (33.12/0.34)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (31.39/0.32)
+
+subdomain2 = external AND
+url_core = elmundo: allow (30.48/1.1)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (29.75/0.31)
+
+subdomain2 = external AND
+url_core = elmundo: allow (28.89/1.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (28.2/0.29)
+
+subdomain2 = z: allow (27.73/6.73)
+
+subdomain2 = links: allow (27.73/6.73)
+
+subdomain2 = androidcracking: allow (27.73/6.73)
+
+subdomain2 = profile: allow (27.73/6.73)
+
+subdomain2 = r1: allow (27.73/6.73)
+
+subdomain2 = external AND
+url_core = elmundo: allow (27.38/0.99)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (26.72/0.28)
+
+subdomain2 = external AND
+url_core = elmundo: allow (25.93/0.94)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (25.32/0.26)
+
+subdomain2 = external AND
+url_core = elmundo: allow (24.57/0.89)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (23.98/0.25)
+
+subdomain2 = external AND
+url_core = elmundo: allow (23.28/0.84)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (22.72/0.23)
+
+subdomain2 = external AND
+url_core = elmundo: allow (22.05/0.8)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (21.52/0.22)
+
+subdomain2 = external AND
+url_core = elmundo: allow (20.89/0.75)
+
+subdomain2 = ai: allow (20.49/5.04)
+
+subdomain2 = tags: allow (20.49/5.04)
+
+subdomain2 = yom: allow (20.49/5.04)
+
+subdomain2 = ucs: allow (20.49/5.04)
+
+subdomain2 = ad2: allow (20.49/5.04)
+
+subdomain2 = sun: allow (20.49/5.04)
+
+subdomain2 = dl: allow (20.49/5.04)
+
+subdomain2 = onoametal: allow (20.49/5.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (20.39/0.21)
+
+subdomain2 = external AND
+url_core = elmundo: allow (19.79/0.72)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (19.31/0.2)
+
+subdomain2 = external AND
+url_core = elmundo: allow (18.74/0.68)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (18.28/0.19)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (18.27/0.55)
+
+subdomain2 = external AND
+url_core = elmundo: allow (17.74/0.64)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (17.68/0.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (17.31/0.18)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (17.3/0.52)
+
+subdomain2 = external AND
+url_core = elmundo: allow (16.8/0.61)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (16.74/0.04)
+
+subdomain2 = external AND
+url_core = abc: allow (16.62/0.3)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (16.39/0.17)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (16.38/0.49)
+
+subdomain2 = external AND
+url_core = elmundo: allow (15.91/0.57)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (15.85/0.04)
+
+subdomain2 = external AND
+url_core = abc: allow (15.73/0.28)
+
+subdomain2 = external AND
+url_core = epimg: allow (15.73/0.34)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (15.52/0.16)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (15.51/0.47)
+
+subdomain2 = external AND
+url_core = elmundo: allow (15.06/0.54)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (15.0/0.04)
+
+subdomain2 = external AND
+url_core = abc: allow (14.9/0.27)
+
+subdomain2 = external AND
+url_core = epimg: allow (14.89/0.32)
+
+subdomain2 = external AND
+url_core = microsoft: allow (14.71)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (14.69/0.15)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (14.68/0.44)
+
+subdomain2 = external AND
+url_core = elmundo: allow (14.26/0.52)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (14.21/0.03)
+
+subdomain2 = external AND
+url_core = abc: allow (14.1/0.25)
+
+subdomain2 = external AND
+url_core = epimg: allow (14.1/0.3)
+
+subdomain2 = external AND
+url_core = microsoft: allow (13.93)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (13.91/0.14)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (13.9/0.42)
+
+subdomain2 = external AND
+url_core = elmundo: allow (13.5/0.49)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (13.45/0.03)
+
+subdomain2 = external AND
+url_core = abc: allow (13.36/0.24)
+
+subdomain2 = external AND
+url_core = epimg: allow (13.35/0.29)
+
+subdomain2 = external AND
+url_core = microsoft: allow (13.19)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (13.17/0.14)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (13.16/0.4)
+
+subdomain2 = platform: allow (13.14/3.35)
+
+subdomain2 = submit-mmi: allow (13.14/3.35)
+
+subdomain2 = dps: allow (13.14/3.35)
+
+subdomain2 = init-p01st: allow (13.14/3.35)
+
+subdomain2 = i1: allow (13.14/3.35)
+
+subdomain2 = itreg: allow (13.14/3.35)
+
+subdomain2 = statsfe1: allow (13.14/3.35)
+
+subdomain2 = n44: allow (13.14/3.35)
+
+subdomain2 = tustorialestop: allow (13.14/3.35)
+
+subdomain2 = apple-mobile: allow (13.14/3.35)
+
+subdomain2 = redir: allow (13.14/3.35)
+
+subdomain2 = weather: allow (13.14/3.35)
+
+subdomain2 = lacaixa: allow (13.14/3.35)
+
+subdomain2 = adxhm: allow (13.14/3.35)
+
+subdomain2 = d1: allow (13.14/3.35)
+
+subdomain2 = repo: allow (13.14/3.35)
+
+subdomain2 = be: allow (13.14/3.35)
+
+subdomain2 = dc: allow (13.14/3.35)
+
+subdomain2 = emdl: allow (13.14/3.35)
+
+subdomain2 = opensuse: allow (13.14/3.35)
+
+subdomain2 = softpedia: allow (13.14/3.35)
+
+subdomain2 = external AND
+url_core = elmundo: allow (12.78/0.46)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (12.74/0.03)
+
+subdomain2 = external AND
+url_core = abc: allow (12.65/0.23)
+
+subdomain2 = external AND
+url_core = epimg: allow (12.64/0.27)
+
+subdomain2 = external AND
+url_core = microsoft: allow (12.49)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (12.47/0.13)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (12.46/0.38)
+
+subdomain2 = external AND
+url_core = uv: allow (12.29/0.17)
+
+subdomain2 = external AND
+url_core = elmundo: allow (12.09/0.44)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (12.05/0.03)
+
+subdomain2 = external AND
+url_core = abc: allow (11.96/0.21)
+
+subdomain2 = external AND
+url_core = epimg: allow (11.96/0.26)
+
+subdomain2 = external AND
+url_core = microsoft: allow (11.81)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (11.8/0.12)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (11.79/0.36)
+
+subdomain2 = external AND
+url_core = netliga: deny (11.78/0.01)
+
+subdomain2 = external AND
+url_core = uv: allow (11.63/0.16)
+
+subdomain2 = external AND
+url_core = elmundo: allow (11.44/0.41)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (11.4/0.03)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (11.32/0.01)
+
+subdomain2 = external AND
+url_core = abc: allow (11.32/0.2)
+
+subdomain2 = external AND
+url_core = epimg: allow (11.31/0.24)
+
+subdomain2 = external AND
+url_core = microsoft: allow (11.17)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (11.16/0.12)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (11.15/0.34)
+
+subdomain2 = external AND
+url_core = netliga: deny (11.15/0.01)
+
+subdomain2 = external AND
+url_core = uv: allow (11.0/0.15)
+
+subdomain2 = external AND
+url_core = elmundo: allow (10.82/0.39)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (10.78/0.03)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (10.71/0.01)
+
+subdomain2 = external AND
+url_core = abc: allow (10.7/0.19)
+
+subdomain2 = external AND
+url_core = epimg: allow (10.7/0.23)
+
+subdomain2 = external AND
+url_core = microsoft: allow (10.57)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (10.56/0.11)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (10.55/0.32)
+
+subdomain2 = external AND
+url_core = netliga: deny (10.54/0.01)
+
+subdomain2 = external AND
+url_core = uv: allow (10.41/0.14)
+
+subdomain2 = external AND
+url_core = elmundo: allow (10.24/0.37)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (10.2/0.02)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (10.13/0.01)
+
+subdomain2 = external AND
+url_core = abc: allow (10.13/0.18)
+
+subdomain2 = external AND
+url_core = epimg: allow (10.12/0.22)
+
+subdomain2 = external AND
+url_core = microsoft: allow (10.0)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (9.99/0.1)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (9.98/0.3)
+
+subdomain2 = external AND
+url_core = netliga: deny (9.97/0.01)
+
+subdomain2 = external AND
+url_core = uv: allow (9.84/0.14)
+
+subdomain2 = external AND
+url_core = elmundo: allow (9.68/0.35)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (9.65/0.02)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (9.58/0.01)
+
+subdomain2 = external AND
+url_core = abc: allow (9.58/0.17)
+
+subdomain2 = external AND
+url_core = epimg: allow (9.57/0.21)
+
+subdomain2 = external AND
+url_core = microsoft: allow (9.46)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (9.45/0.1)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (9.44/0.28)
+
+subdomain2 = external AND
+url_core = netliga: deny (9.44/0.01)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (9.4/0.14)
+
+subdomain2 = external AND
+url_core = uv: allow (9.31/0.13)
+
+subdomain2 = external AND
+url_core = elmundo: allow (9.16/0.33)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (9.13/0.02)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (9.06/0.01)
+
+subdomain2 = external AND
+url_core = abc: allow (9.06/0.16)
+
+subdomain2 = external AND
+url_core = epimg: allow (9.06/0.2)
+
+subdomain2 = external AND
+url_core = microsoft: allow (8.95)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (8.94/0.09)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (8.93/0.27)
+
+subdomain2 = external AND
+url_core = netliga: deny (8.93/0.01)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (8.89/0.13)
+
+subdomain2 = external AND
+url_core = uv: allow (8.81/0.12)
+
+subdomain2 = external AND
+url_core = elmundo: allow (8.66/0.31)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (8.63/0.02)
+
+subdomain2 = external AND
+url_core = androidpit: allow (8.6/0.17)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (8.57/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (8.57/0.15)
+
+subdomain2 = external AND
+url_core = epimg: allow (8.57/0.18)
+
+subdomain2 = external AND
+url_core = microsoft: allow (8.46)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (8.45/0.09)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (8.45/0.25)
+
+subdomain2 = external AND
+url_core = netliga: deny (8.44/0.0)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (8.41/0.12)
+
+subdomain2 = external AND
+url_core = uv: allow (8.33/0.11)
+
+subdomain2 = external AND
+url_core = elmundo: allow (8.2/0.3)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (8.17/0.02)
+
+subdomain2 = external AND
+url_core = androidpit: allow (8.14/0.16)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (8.11/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (8.11/0.14)
+
+subdomain2 = external AND
+url_core = epimg: allow (8.1/0.17)
+
+subdomain2 = external AND
+url_core = microsoft: allow (8.0)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (8.0/0.08)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (7.99/0.24)
+
+subdomain2 = external AND
+url_core = netliga: deny (7.99/0.0)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (7.96/0.12)
+
+subdomain2 = external AND
+url_core = uv: allow (7.88/0.11)
+
+subdomain2 = external AND
+url_core = elmundo: allow (7.75/0.28)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (7.72/0.02)
+
+subdomain2 = external AND
+url_core = debian: allow (7.71)
+
+subdomain2 = external AND
+url_core = androidpit: allow (7.7/0.15)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (7.67/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (7.67/0.14)
+
+subdomain2 = external AND
+url_core = epimg: allow (7.67/0.17)
+
+subdomain2 = external AND
+url_core = microsoft: allow (7.57)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (7.56/0.08)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (7.56/0.23)
+
+subdomain2 = external AND
+url_core = netliga: deny (7.55/0.0)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (7.53/0.11)
+
+subdomain2 = external AND
+url_core = uv: allow (7.45/0.1)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (7.41/0.08)
+
+subdomain2 = external AND
+url_core = elmundo: allow (7.33/0.27)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (7.31/0.02)
+
+subdomain2 = external AND
+url_core = debian: allow (7.3)
+
+subdomain2 = external AND
+url_core = androidpit: allow (7.28/0.14)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (7.26/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (7.25/0.13)
+
+subdomain2 = external AND
+url_core = epimg: allow (7.25/0.16)
+
+subdomain2 = external AND
+url_core = microsoft: allow (7.16)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (7.16/0.07)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (7.15/0.22)
+
+subdomain2 = external AND
+url_core = netliga: deny (7.15/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (7.12/0.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (7.12/0.11)
+
+subdomain2 = external AND
+url_core = uv: allow (7.05/0.1)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (7.01/0.07)
+
+subdomain2 = external AND
+url_core = elmundo: allow (6.94/0.25)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (6.91/0.02)
+
+subdomain2 = external AND
+url_core = debian: allow (6.9)
+
+subdomain2 = external AND
+url_core = androidpit: allow (6.89/0.14)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (6.86/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (6.86/0.12)
+
+subdomain2 = external AND
+url_core = epimg: allow (6.86/0.15)
+
+subdomain2 = external AND
+url_core = microsoft: allow (6.78)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (6.77/0.07)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (6.76/0.2)
+
+subdomain2 = external AND
+url_core = netliga: deny (6.76/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (6.74/0.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (6.74/0.1)
+
+subdomain2 = external AND
+url_core = uv: allow (6.67/0.09)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (6.63/0.07)
+
+subdomain2 = external AND
+url_core = elmundo: allow (6.56/0.24)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (6.54/0.02)
+
+subdomain2 = external AND
+url_core = debian: allow (6.53)
+
+subdomain2 = external AND
+url_core = androidpit: allow (6.52/0.13)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (6.49/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (6.49/0.12)
+
+subdomain2 = external AND
+url_core = epimg: allow (6.49/0.14)
+
+subdomain2 = external AND
+url_core = yahoo: allow (6.49)
+
+subdomain2 = external AND
+url_core = microsoft: allow (6.41)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (6.4/0.07)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (6.4/0.19)
+
+subdomain2 = external AND
+url_core = netliga: deny (6.39/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (6.37/0.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (6.37/0.09)
+
+subdomain2 = external AND
+url_core = uv: allow (6.31/0.09)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (6.27/0.06)
+
+subdomain2 = external AND
+url_core = elmundo: allow (6.21/0.22)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (6.18/0.01)
+
+subdomain2 = external AND
+url_core = debian: allow (6.18)
+
+subdomain2 = external AND
+url_core = androidpit: allow (6.17/0.12)
+
+subdomain2 = external AND
+url_core = smartadserver: deny (6.15/0.0)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (6.14/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (6.14/0.11)
+
+subdomain2 = external AND
+url_core = epimg: allow (6.14/0.13)
+
+subdomain2 = external AND
+url_core = yahoo: allow (6.13)
+
+subdomain2 = external AND
+url_core = microsoft: allow (6.06)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (6.06/0.06)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (6.05/0.18)
+
+subdomain2 = external AND
+url_core = netliga: deny (6.05/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (6.03/0.04)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (6.03/0.09)
+
+subdomain2 = au: allow (5.99/1.58)
+
+subdomain2 = d0: allow (5.99/1.58)
+
+subdomain2 = appexdb3: allow (5.99/1.58)
+
+subdomain2 = apir: allow (5.99/1.58)
+
+subdomain2 = microsoftsto: allow (5.99/1.58)
+
+subdomain2 = a748: allow (5.99/1.58)
+
+subdomain2 = a883: allow (5.99/1.58)
+
+subdomain2 = a1235: allow (5.99/1.58)
+
+subdomain2 = a1681: allow (5.99/1.58)
+
+subdomain2 = a1510: allow (5.99/1.58)
+
+subdomain2 = invertia: allow (5.99/1.58)
+
+subdomain2 = 24: allow (5.99/1.58)
+
+subdomain2 = apple: allow (5.99/1.58)
+
+subdomain2 = a1567: allow (5.99/1.58)
+
+subdomain2 = a1112: allow (5.99/1.58)
+
+subdomain2 = a1060: allow (5.99/1.58)
+
+subdomain2 = a1014: allow (5.99/1.58)
+
+subdomain2 = a1266: allow (5.99/1.58)
+
+subdomain2 = n58: allow (5.99/1.58)
+
+subdomain2 = matcher: allow (5.99/1.58)
+
+subdomain2 = n73: allow (5.99/1.58)
+
+subdomain2 = n52: allow (5.99/1.58)
+
+subdomain2 = linkhelp: allow (5.99/1.58)
+
+subdomain2 = emma: allow (5.99/1.58)
+
+subdomain2 = al: allow (5.99/1.58)
+
+subdomain2 = adobe-test: allow (5.99/1.58)
+
+subdomain2 = msnportal: allow (5.99/1.58)
+
+subdomain2 = chart: allow (5.99/1.58)
+
+subdomain2 = dnetshelter2: allow (5.99/1.58)
+
+subdomain2 = suse: allow (5.99/1.58)
+
+subdomain2 = vesta: allow (5.99/1.58)
+
+subdomain2 = cloud: allow (5.99/1.58)
+
+subdomain2 = d3: allow (5.99/1.58)
+
+subdomain2 = aimfar: allow (5.99/1.58)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = chrome: allow (5.98/0.06)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = profile: allow (5.98/0.06)
+
+subdomain2 = external AND
+url_core = uv: allow (5.97/0.08)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (5.93/0.06)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (18.18/1.07)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (17.19/1.01)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (16.25/0.96)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (15.36/0.9)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (14.51/0.85)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (13.72/0.81)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (12.97/0.76)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (12.26/0.72)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (11.58/0.68)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (10.95/0.64)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (10.35/0.61)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (9.78/0.58)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (9.25/0.54)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (8.74/0.51)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (8.26/0.49)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (7.81/0.46)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (7.38/0.43)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (6.98/0.41)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (6.59/0.39)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (6.23/0.37)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (5.89/0.35)
+
+subdomain2 = external AND
+url_core = elmundo: allow (5.87/0.21)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (5.85/0.01)
+
+subdomain2 = external AND
+url_core = debian: allow (5.84)
+
+subdomain2 = external AND
+url_core = androidpit: allow (5.83/0.11)
+
+subdomain2 = external AND
+url_core = smartadserver: deny (5.81/0.0)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (5.81/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (5.81/0.1)
+
+subdomain2 = external AND
+url_core = epimg: allow (5.81/0.13)
+
+subdomain2 = external AND
+url_core = yahoo: allow (5.8)
+
+subdomain2 = external AND
+url_core = microsoft: allow (5.74)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (5.73/0.06)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (5.73/0.17)
+
+subdomain2 = external AND
+url_core = netliga: deny (5.72/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (5.7/0.03)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (5.7/0.08)
+
+subdomain2 = external AND
+url_core = virtualbox: allow (5.68)
+
+subdomain2 = external AND
+url_core = ahorro: allow (5.68)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = chrome: allow (5.66/0.06)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = profile: allow (5.66/0.06)
+
+subdomain2 = external AND
+url_core = uv: allow (5.64/0.08)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (5.61/0.06)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (5.57/0.33)
+
+subdomain2 = external AND
+url_core = elmundo: allow (5.55/0.2)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (5.53/0.01)
+
+subdomain2 = external AND
+url_core = debian: allow (5.52)
+
+subdomain2 = external AND
+url_core = androidpit: allow (5.51/0.11)
+
+subdomain2 = external AND
+url_core = canonical: allow (5.51)
+
+subdomain2 = external AND
+url_core = smartadserver: deny (5.5/0.0)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (5.49/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (5.49/0.1)
+
+subdomain2 = external AND
+url_core = epimg: allow (5.49/0.12)
+
+subdomain2 = external AND
+url_core = yahoo: allow (5.49)
+
+subdomain2 = external AND
+url_core = microsoft: allow (5.42)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (5.42/0.06)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (5.41/0.16)
+
+subdomain2 = external AND
+url_core = netliga: deny (5.41/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (5.39/0.03)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (5.39/0.08)
+
+subdomain2 = external AND
+url_core = virtualbox: allow (5.37)
+
+subdomain2 = external AND
+url_core = ahorro: allow (5.37)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = chrome: allow (5.35/0.06)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = profile: allow (5.35/0.06)
+
+subdomain2 = external AND
+url_core = uv: allow (5.33/0.07)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (5.3/0.05)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (5.26/0.31)
+
+subdomain2 = external AND
+url_core = elbalonrosa: deny (5.26/0.0)
+
+subdomain2 = external AND
+url_core = elmundo: allow (5.25/0.19)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (5.23/0.01)
+
+subdomain2 = external AND
+url_core = debian: allow (5.22)
+
+subdomain2 = external AND
+url_core = androidpit: allow (5.21/0.1)
+
+subdomain2 = external AND
+url_core = canonical: allow (5.21)
+
+subdomain2 = external AND
+url_core = smartadserver: deny (5.19/0.0)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (5.19/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (5.19/0.09)
+
+subdomain2 = external AND
+url_core = epimg: allow (5.19/0.11)
+
+subdomain2 = external AND
+url_core = yahoo: allow (5.18)
+
+subdomain2 = external AND
+url_core = microsoft: allow (5.12)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (5.12/0.05)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (5.12/0.15)
+
+subdomain2 = external AND
+url_core = netliga: deny (5.11/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (5.09/0.03)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (5.09/0.08)
+
+subdomain2 = external AND
+url_core = naver: allow (5.09)
+
+subdomain2 = external AND
+url_core = virtualbox: allow (5.07)
+
+subdomain2 = external AND
+url_core = ahorro: allow (5.07)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = chrome: allow (5.05/0.05)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = profile: allow (5.05/0.05)
+
+subdomain2 = external AND
+url_core = pubmatic: deny (5.04/0.21)
+
+subdomain2 = external AND
+url_core = uv: allow (5.04/0.07)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (5.01/0.05)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (4.97/0.29)
+
+subdomain2 = external AND
+url_core = elbalonrosa: deny (4.97/0.0)
+
+subdomain2 = external AND
+url_core = googleadservices: deny (4.96/0.0)
+
+subdomain2 = external AND
+url_core = elmundo: allow (4.96/0.18)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (4.94/0.01)
+
+subdomain2 = external AND
+url_core = debian: allow (4.93)
+
+subdomain2 = external AND
+url_core = androidpit: allow (4.92/0.1)
+
+subdomain2 = external AND
+url_core = canonical: allow (4.92)
+
+subdomain2 = external AND
+url_core = smartadserver: deny (4.91/0.0)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (4.91/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (4.9/0.09)
+
+subdomain2 = external AND
+url_core = epimg: allow (4.9/0.11)
+
+subdomain2 = external AND
+url_core = yahoo: allow (4.9)
+
+subdomain2 = external AND
+url_core = microsoft: allow (4.84)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (4.84/0.05)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (4.83/0.15)
+
+subdomain2 = external AND
+url_core = netliga: deny (4.83/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (4.81/0.03)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (4.81/0.07)
+
+subdomain2 = external AND
+url_core = naver: allow (4.81)
+
+subdomain2 = external AND
+url_core = virtualbox: allow (4.8)
+
+subdomain2 = external AND
+url_core = ahorro: allow (4.8)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = chrome: allow (4.78/0.05)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = profile: allow (4.78/0.05)
+
+subdomain2 = external AND
+url_core = pubmatic: deny (4.77/0.2)
+
+subdomain2 = external AND
+url_core = uv: allow (4.76/0.07)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = css: allow (4.73/0.05)
+
+subdomain2 = external AND
+url_core = serving-sys: deny (4.7/0.28)
+
+subdomain2 = external AND
+url_core = elbalonrosa: deny (4.7/0.0)
+
+subdomain2 = external AND
+url_core = googleadservices: deny (4.69/0.0)
+
+subdomain2 = external AND
+url_core = elmundo: allow (4.69/0.17)
+
+subdomain2 = external AND
+url_core = grooveshark: allow (4.67/0.01)
+
+subdomain2 = external AND
+url_core = debian: allow (4.66)
+
+subdomain2 = external AND
+url_core = androidpit: allow (4.65/0.09)
+
+subdomain2 = external AND
+url_core = canonical: allow (4.65)
+
+subdomain2 = external AND
+url_core = smartadserver: deny (4.64/0.0)
+
+subdomain2 = external AND
+url_core = mundodeportivo: deny (4.64/0.0)
+
+subdomain2 = external AND
+url_core = abc: allow (4.64/0.08)
+
+subdomain2 = external AND
+url_core = epimg: allow (4.63/0.1)
+
+subdomain2 = external AND
+url_core = yahoo: allow (4.63)
+
+subdomain2 = external AND
+url_core = adrcdn: deny (4.58/0.0)
+
+subdomain2 = external AND
+url_core = microsoft: allow (4.58)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = rd: allow (4.57/0.05)
+
+subdomain2 = external AND
+url_core = lasprovincias: allow (4.57/0.14)
+
+subdomain2 = external AND
+url_core = netliga: deny (4.57/0.0)
+
+subdomain2 = external AND
+url_core = cadenaser: allow (4.55/0.03)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = api: allow (4.55/0.07)
+
+subdomain2 = external AND
+url_core = naver: allow (4.54)
+
+subdomain2 = external AND
+url_core = virtualbox: allow (4.53)
+
+subdomain2 = external AND
+url_core = ahorro: allow (4.53)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = chrome: allow (4.51/0.05)
+
+subdomain2 = external AND
+url_core = google AND
+folder2 = profile: allow (4.51/0.05)
+
+subdomain2 = external AND
+url_core = fbcdn: allow (134.08/11.0)
+
+subdomain2 = es AND
+url_core = pubmatic: deny (6.4/0.27)
+
+subdomain2 = es AND
+url_core = uv: allow (6.4/0.09)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = css: allow (6.36/0.07)
+
+subdomain2 = es AND
+url_core = frikisreconocidos: deny (6.33/0.0)
+
+subdomain2 = es AND
+url_core = serving-sys: deny (6.32/0.37)
+
+subdomain2 = es AND
+url_core = elbalonrosa: deny (6.31/0.0)
+
+subdomain2 = es AND
+url_core = googleadservices: deny (6.3/0.0)
+
+subdomain2 = es AND
+url_core = elmundo: allow (6.3/0.23)
+
+subdomain2 = es AND
+url_core = grooveshark: allow (6.27/0.02)
+
+subdomain2 = es AND
+url_core = debian: allow (6.26)
+
+subdomain2 = es AND
+url_core = androidpit: allow (6.25/0.12)
+
+subdomain2 = es AND
+url_core = canonical: allow (6.25)
+
+subdomain2 = es AND
+url_core = smartadserver: deny (6.23/0.0)
+
+subdomain2 = es AND
+url_core = mundodeportivo: deny (6.23/0.0)
+
+subdomain2 = es AND
+url_core = abc: allow (6.23/0.11)
+
+subdomain2 = es AND
+url_core = epimg: allow (6.22/0.13)
+
+subdomain2 = es AND
+url_core = adrcdn: deny (6.15/0.0)
+
+subdomain2 = es AND
+url_core = microsoft: allow (6.15)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = rd: allow (6.14/0.06)
+
+subdomain2 = es AND
+url_core = lasprovincias: allow (6.14/0.19)
+
+subdomain2 = es AND
+url_core = netliga: deny (6.13/0.0)
+
+subdomain2 = es AND
+url_core = cadenaser: allow (6.11/0.04)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = api: allow (6.11/0.09)
+
+subdomain2 = es AND
+url_core = naver: allow (6.1)
+
+subdomain2 = es AND
+url_core = virtualbox: allow (6.09)
+
+subdomain2 = es AND
+url_core = ahorro: allow (6.09)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = chrome: allow (6.06/0.06)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = profile: allow (6.06/0.06)
+
+subdomain2 = es AND
+url_core = spotify: allow (5.96)
+
+subdomain2 = es AND
+url_core = pubmatic: deny (5.91/0.25)
+
+subdomain2 = es AND
+url_core = doubleclick: allow (5.9/0.18)
+
+subdomain2 = es AND
+url_core = uv: allow (5.9/0.08)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = css: allow (5.86/0.06)
+
+subdomain2 = es AND
+url_core = frikisreconocidos: deny (5.83/0.0)
+
+subdomain2 = es AND
+url_core = serving-sys: deny (5.82/0.34)
+
+subdomain2 = es AND
+url_core = elbalonrosa: deny (5.82/0.0)
+
+subdomain2 = es AND
+url_core = googleadservices: deny (5.81/0.0)
+
+subdomain2 = es AND
+url_core = elmundo: allow (5.81/0.21)
+
+subdomain2 = es AND
+url_core = grooveshark: allow (5.78/0.01)
+
+subdomain2 = es AND
+url_core = motogp: deny (5.78/0.0)
+
+subdomain2 = es AND
+url_core = aireuropa: allow (5.78)
+
+subdomain2 = es AND
+url_core = debian: allow (5.78)
+
+subdomain2 = es AND
+url_core = androidpit: allow (5.77/0.11)
+
+subdomain2 = es AND
+url_core = canonical: allow (5.76)
+
+subdomain2 = es AND
+url_core = smartadserver: deny (5.75/0.0)
+
+subdomain2 = es AND
+url_core = mundodeportivo: deny (5.74/0.0)
+
+subdomain2 = es AND
+url_core = abc: allow (5.74/0.1)
+
+subdomain2 = es AND
+url_core = epimg: allow (5.74/0.12)
+
+subdomain2 = es AND
+url_core = adrcdn: deny (5.67/0.0)
+
+subdomain2 = es AND
+url_core = microsoft: allow (5.67)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = rd: allow (5.66/0.06)
+
+subdomain2 = es AND
+url_core = lasprovincias: allow (5.66/0.17)
+
+subdomain2 = es AND
+url_core = netliga: deny (5.66/0.0)
+
+subdomain2 = es AND
+url_core = cadenaser: allow (5.64/0.03)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = api: allow (5.64/0.08)
+
+subdomain2 = es AND
+url_core = naver: allow (5.63)
+
+subdomain2 = es AND
+url_core = virtualbox: allow (5.62)
+
+subdomain2 = es AND
+url_core = ahorro: allow (5.62)
+
+subdomain2 = es AND
+url_core = wp: deny (5.6/0.18)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = chrome: allow (5.59/0.06)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = profile: allow (5.59/0.06)
+
+subdomain2 = es AND
+url_core = spotify: allow (5.5)
+
+subdomain2 = es AND
+url_core = msn: deny (5.48/0.0)
+
+subdomain2 = es AND
+url_core = codigobarras: allow (5.48)
+
+subdomain2 = es AND
+url_core = pubmatic: deny (5.45/0.23)
+
+subdomain2 = es AND
+url_core = doubleclick: allow (5.44/0.16)
+
+subdomain2 = es AND
+url_core = uv: allow (5.44/0.08)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = css: allow (5.41/0.06)
+
+subdomain2 = es AND
+url_core = frikisreconocidos: deny (5.38/0.0)
+
+subdomain2 = es AND
+url_core = serving-sys: deny (5.37/0.32)
+
+subdomain2 = es AND
+url_core = elbalonrosa: deny (5.36/0.0)
+
+subdomain2 = es AND
+url_core = googleadservices: deny (5.35/0.0)
+
+subdomain2 = es AND
+url_core = elmundo: allow (5.35/0.19)
+
+subdomain2 = es AND
+url_core = grooveshark: allow (5.33/0.01)
+
+subdomain2 = es AND
+url_core = motogp: deny (5.33/0.0)
+
+subdomain2 = es AND
+url_core = aireuropa: allow (5.33)
+
+subdomain2 = es AND
+url_core = debian: allow (5.33)
+
+subdomain2 = es AND
+url_core = androidpit: allow (5.32/0.1)
+
+subdomain2 = es AND
+url_core = canonical: allow (5.31)
+
+subdomain2 = es AND
+url_core = smartadserver: deny (5.3/0.0)
+
+subdomain2 = es AND
+url_core = mundodeportivo: deny (5.3/0.0)
+
+subdomain2 = es AND
+url_core = abc: allow (5.3/0.09)
+
+subdomain2 = es AND
+url_core = epimg: allow (5.29/0.11)
+
+subdomain2 = es AND
+url_core = adrcdn: deny (5.23/0.0)
+
+subdomain2 = es AND
+url_core = microsoft: allow (5.23)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = rd: allow (5.22/0.05)
+
+subdomain2 = es AND
+url_core = lasprovincias: allow (5.22/0.16)
+
+subdomain2 = es AND
+url_core = netliga: deny (5.22/0.0)
+
+subdomain2 = es AND
+url_core = cadenaser: allow (5.2/0.03)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = api: allow (5.2/0.08)
+
+subdomain2 = es AND
+url_core = naver: allow (5.19)
+
+subdomain2 = es AND
+url_core = virtualbox: allow (5.18)
+
+subdomain2 = es AND
+url_core = ahorro: allow (5.18)
+
+subdomain2 = es AND
+url_core = wp: deny (5.17/0.17)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = chrome: allow (5.16/0.05)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = profile: allow (5.16/0.05)
+
+subdomain2 = es AND
+url_core = buysellads: deny (5.12/0.0)
+
+subdomain2 = es AND
+url_core = spotify: allow (5.07)
+
+subdomain2 = es AND
+url_core = msn: deny (5.05/0.0)
+
+subdomain2 = es AND
+url_core = codigobarras: allow (5.05)
+
+subdomain2 = es AND
+url_core = pubmatic: deny (5.02/0.21)
+
+subdomain2 = es AND
+url_core = doubleclick: allow (5.02/0.15)
+
+subdomain2 = es AND
+url_core = uv: allow (5.02/0.07)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = css: allow (4.99/0.05)
+
+subdomain2 = es AND
+url_core = frikisreconocidos: deny (4.96/0.0)
+
+subdomain2 = es AND
+url_core = serving-sys: deny (4.95/0.29)
+
+subdomain2 = es AND
+url_core = elbalonrosa: deny (4.95/0.0)
+
+subdomain2 = es AND
+url_core = googleadservices: deny (4.94/0.0)
+
+subdomain2 = es AND
+url_core = elmundo: allow (4.94/0.18)
+
+subdomain2 = es AND
+url_core = grooveshark: allow (4.92/0.01)
+
+subdomain2 = es AND
+url_core = motogp: deny (4.92/0.0)
+
+subdomain2 = es AND
+url_core = aireuropa: allow (4.92)
+
+subdomain2 = es AND
+url_core = debian: allow (4.91)
+
+subdomain2 = es AND
+url_core = androidpit: allow (4.9/0.1)
+
+subdomain2 = es AND
+url_core = canonical: allow (4.9)
+
+subdomain2 = es AND
+url_core = smartadserver: deny (4.89/0.0)
+
+subdomain2 = es AND
+url_core = mundodeportivo: deny (4.88/0.0)
+
+subdomain2 = es AND
+url_core = abc: allow (4.88/0.09)
+
+subdomain2 = es AND
+url_core = epimg: allow (4.88/0.11)
+
+subdomain2 = es AND
+url_core = vandalimg: deny (4.88/0.0)
+
+subdomain2 = es AND
+url_core = adrcdn: deny (4.82/0.0)
+
+subdomain2 = es AND
+url_core = microsoft: allow (4.82)
+
+subdomain2 = es AND
+url_core = mozilla: allow (4.82)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = rd: allow (4.82/0.05)
+
+subdomain2 = es AND
+url_core = lasprovincias: allow (4.81/0.15)
+
+subdomain2 = es AND
+url_core = netliga: deny (4.81/0.0)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = api: allow (4.79/0.07)
+
+subdomain2 = es AND
+url_core = cadenaser: allow (4.79/0.03)
+
+subdomain2 = es AND
+url_core = naver: allow (4.79)
+
+subdomain2 = es AND
+url_core = virtualbox: allow (4.77)
+
+subdomain2 = es AND
+url_core = ahorro: allow (4.77)
+
+subdomain2 = es AND
+url_core = wp: deny (4.76/0.16)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = chrome: allow (4.75/0.05)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = profile: allow (4.75/0.05)
+
+subdomain2 = es AND
+url_core = buysellads: deny (4.72/0.0)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = user-lists AND
+url_has_subdomains <= 0: deny (4.71/1.57)
+
+subdomain2 = es AND
+url_core = spotify: allow (4.68)
+
+subdomain2 = es AND
+url_core = msn: deny (4.66/0.0)
+
+subdomain2 = es AND
+url_core = codigobarras: allow (4.66)
+
+subdomain2 = es AND
+url_core = pubmatic: deny (4.63/0.2)
+
+subdomain2 = es AND
+url_core = doubleclick: allow (4.63/0.14)
+
+subdomain2 = es AND
+url_core = uv: allow (4.63/0.06)
+
+subdomain2 = es AND
+url_core = google AND
+folder2 = css: allow (4.61/0.05)
+
+subdomain2 = es AND
+url_core = yahoo AND
+digits_in_URL <= 150 AND
+folder1 = pageview: allow (97.51/1.2)
+
+subdomain2 = prisacommultidistribucion AND
+url_core = 2o7 AND
+letters_in_URL <= 750: allow (15.01)
+
+subdomain2 = static AND
+url_core = fbcdn: allow (298.18)
+
+num_subdomains > 1 AND
+subdomain1 = g AND
+subdomain2 = googleads: deny (581.0)
+
+url_core = msn: deny (119.23/0.07)
+
+url_core = fbcdn: deny (59.04/0.04)
+
+url_core = frikisreconocidos: deny (58.72/0.04)
+
+url_core = elbalonrosa: deny (58.55/0.04)
+
+url_core = googleadservices: deny (58.45/0.04)
+
+url_core = grooveshark: allow (58.23/0.14)
+
+url_core = motogp: deny (58.22/0.04)
+
+url_core = aireuropa: allow (58.22)
+
+url_core = debian: allow (58.15)
+
+url_core = androidpit: allow (58.04/1.14)
+
+url_core = canonical: allow (58.02)
+
+url_core = smartadserver: deny (57.86/0.04)
+
+url_core = mundodeportivo: deny (57.82/0.04)
+
+url_core = abc: allow (57.81/1.03)
+
+url_core = epimg: allow (57.78/1.25)
+
+url_core = vandalimg: deny (57.77/0.04)
+
+url_core = renfe: allow (57.24/1.55)
+
+url_core = adrcdn: deny (57.08/0.04)
+
+subdomain1 = platform: allow (209.45/19.62)
+
+subdomain1 = clients1: allow (196.45/17.97)
+
+subdomain1 = download: allow (150.9/13.58)
+
+url_core = microsoft: allow (56.73)
+
+subdomain1 = images AND
+url_has_subdomains > 0 AND
+url_core = apple: allow (146.87/0.77)
+
+url_core = naver: allow (56.67)
+
+url_core = lasprovincias: allow (56.59/1.63)
+
+url_core = ahorro: allow (56.53)
+
+url_core = wp: deny (56.4/1.85)
+
+url_core = buysellads: deny (55.9/0.03)
+
+subdomain1 = pagead2 AND
+url_core = googlesyndication AND
+URL_length > 56 AND
+nonalphanumeric_chars_in_URL <= 12: allow (266.81)
+
+url_core = spotify: allow (55.36)
+
+url_core = dropboxusercontent: deny (54.92/0.03)
+
+subdomain1 = geo: allow (87.64/8.6)
+
+subdomain1 = mirror: allow (86.41/9.23)
+
+subdomain1 = ocsp: allow (73.39/7.2)
+
+subdomain1 = ad-emea: allow (67.5/6.62)
+
+url_core = elmundo: allow (58.19/2.11)
+
+url_core = yieldmanager: allow (52.6)
+
+subdomain1 = blogs: allow (62.97/7.8)
+
+subdomain1 = portal: allow (58.12/5.77)
+
+subdomain1 = dl: allow (56.28/5.59)
+
+subdomain1 = video: allow (53.98/5.36)
+
+subdomain1 = noticias: allow (52.81/5.25)
+
+subdomain1 = themes: allow (50.86/5.05)
+
+subdomain1 = www-ig-opensocial AND
+url_core = googleusercontent AND
+letters_in_URL > 186: allow (47.15/0.77)
+
+subdomain1 = s2: allow (44.94/4.49)
+
+subdomain1 = t: allow (43.73/4.37)
+
+subdomain1 = xda3: allow (40.08/6.32)
+
+subdomain1 = safebrowsing-cache: allow (39.97/3.99)
+
+subdomain1 = bits: allow (37.66/3.76)
+
+subdomain1 = clients2: allow (36.44/3.64)
+
+subdomain1 = appexsports: allow (36.44/3.64)
+
+subdomain1 = translate: allow (34.22/3.42)
+
+subdomain1 = maps: allow (33.19/3.32)
+
+subdomain1 = r1rk9np7bpcsfoeekl0khkd2juj27q3o-a-fc-opensocial: allow (32.8/3.28)
+
+url_core = adtech: deny (52.6/0.81)
+
+folder1 = uds: allow (86.78/13.92)
+
+folder1 = files: allow (85.06/13.77)
+
+subdomain1 = serw: allow (31.41/3.18)
+
+folder1 = v1: allow (70.53/10.16)
+
+folder1 = countserv: allow (68.47/9.87)
+
+subdomain1 = stats: allow (30.43/3.85)
+
+subdomain1 = cntr: allow (28.95/2.96)
+
+subdomain1 = forum4cdn: allow (28.9/3.73)
+
+url_core = pubmatic: deny (54.4/1.92)
+
+url_core = serving-sys AND
+folder1 = BurstingPipe: deny (53.27/0.01)
+
+url_core = weborama AND
+letters_in_filename <= 3 AND
+num_parameters <= 7: deny (150.02/0.02)
+
+folder1 = templates: allow (65.1/10.0)
+
+folder1 = friendconnect: allow (64.54/8.38)
+
+folder1 = headers: allow (60.15/7.81)
+
+folder1 = N4900: allow (37.14/4.82)
+
+url_core = doubleclick AND
+letters_in_URL > 47: deny (395.25/1.91)
+
+folder2 = statuses: allow (131.47/28.99)
+
+folder2 = frontend: allow (78.06/15.84)
+
+folder2 = content: allow (66.46/16.05)
+
+folder2 = javascript: allow (63.42/12.86)
+
+folder2 = es: allow (60.4/13.75)
+
+folder2 = jedis: allow (58.71/11.91)
+
+folder2 = api: allow (57.31/12.52)
+
+folder2 = ugccomments: allow (52.35/10.62)
+
+folder2 = download: allow (45.5/9.23)
+
+folder2 = rdr: allow (41.08/8.33)
+
+folder2 = apps: allow (39.19/7.95)
+
+folder2 = b3: allow (39.03/7.92)
+
+folder2 = htmlemails: allow (34.92/7.08)
+
+folder2 = drt: allow (34.08/6.91)
+
+folder2 = dlvr: allow (32.87/6.67)
+
+folder2 = gcc: allow (28.76/5.83)
+
+folder2 = trunk: allow (28.76/5.83)
+
+folder2 = gadgets: allow (28.76/5.83)
+
+folder2 = common: allow (28.32/5.74)
+
+folder2 = mpr: allow (24.65/5.0)
+
+folder2 = TWiki: allow (24.65/5.0)
+
+folder2 = JSCDL: allow (22.6/4.58)
+
+folder2 = stories: allow (22.5/4.56)
+
+folder2 = test: allow (22.15/4.49)
+
+folder2 = 03: allow (20.85/4.23)
+
+folder2 = swz: allow (20.54/4.17)
+
+folder1 = js: allow (55.67/10.79)
+
+folder1 = styleV2: allow (41.6/7.52)
+
+folder1 = img AND
+url_core = abcimg: allow (39.18)
+
+folder1 = es: allow (43.32/9.87)
+
+folder1 = ig: allow (36.22/6.63)
+
+folder1 = tag: allow (32.32/4.68)
+
+folder1 = nhome: allow (29.05/4.2)
+
+url_core = netliga: deny (43.04/0.03)
+
+folder1 = avatar: allow (28.86/4.21)
+
+folder2 = modulovideo: allow (20.28/5.46)
+
+folder2 = 201304: allow (19.92/4.11)
+
+url_core = amazon-adsystem: deny (37.68/0.03)
+
+folder2 = binary: allow (18.38/3.75)
+
+folder2 = vintage-computer-festival-southeast: allow (18.38/3.75)
+
+folder2 = pep: allow (18.38/3.75)
+
+folder2 = opensuse: allow (18.38/3.75)
+
+folder2 = AAAAAAAAAAI: allow (18.13/3.7)
+
+url_core = doctormanzana: deny (36.58/0.03)
+
+folder2 = rtb: allow (17.89/3.68)
+
+folder2 = en: allow (17.85/3.67)
+
+folder2 = firefox: allow (17.46/3.59)
+
+folder2 = ga: allow (17.14/3.53)
+
+folder2 = plugins AND
+url_core = google-analytics: allow (17.12/2.14)
+
+folder2 = plugins AND
+url_core = google-analytics: allow (16.64/2.08)
+
+folder2 = comunes: allow (16.44/3.39)
+
+folder2 = 1571431: allow (16.42/3.39)
+
+url_core = cadenaser: allow (29.82/0.28)
+
+folder1 = lite: allow (27.22/4.1)
+
+folder1 = Tecnimac: allow (25.28/3.81)
+
+folder1 = service: allow (24.82/3.97)
+
+url_core = creative-serving AND
+subdomain1 = ads: deny (55.77/0.04)
+
+folder1 = javamenu: allow (19.41/2.82)
+
+folder2 = xataka4: allow (16.15/3.23)
+
+folder2 = plugins AND
+url_core = google-analytics: allow (15.87/1.98)
+
+folder2 = build: allow (15.76/3.16)
+
+folder1 = update: allow (19.09/2.78)
+
+folder2 = Androidsis: allow (15.66/3.15)
+
+folder1 = Widgets: allow (17.97/2.62)
+
+folder2 = plugins AND
+url_core = androidsis: allow (15.54)
+
+folder1 = api: allow (16.9/2.47)
+
+folder1 = profile: allow (16.66/2.44)
+
+url_core = aqualogy: deny (29.61/0.02)
+
+folder2 = news-hot: allow (14.16/2.89)
+
+folder2 = intl: allow (13.42/2.74)
+
+folder2 = activity: allow (13.42/2.74)
+
+folder2 = hibernate: allow (13.42/2.74)
+
+url_core = thinkfuture: deny (25.19/1.0)
+
+folder2 = plugins: allow (74.51/17.17)
+
+url_core = twitterfall: allow (24.55)
+
+url_core = adsafeprotected: deny (23.93/0.02)
+
+folder2 = countrylookup: allow (12.19/2.49)
+
+folder2 = commons: allow (12.19/2.49)
+
+folder2 = imgad: allow (12.19/2.49)
+
+folder1 = maven2: allow (15.78/2.25)
+
+url_core = com: deny (23.31/1.46)
+
+folder2 = i: allow (16.7/3.44)
+
+folder2 = 380783: allow (12.3/2.53)
+
+folder2 = comments: allow (11.9/3.09)
+
+folder2 = cache: allow (11.1/2.29)
+
+url_core = gs-cdn: deny (22.56/0.02)
+
+folder2 = elementosWeb: allow (10.45/2.77)
+
+folder2 = 32489: allow (10.19/2.06)
+
+folder2 = 8277: allow (10.19/2.06)
+
+folder2 = igooglechrome: allow (10.19/2.06)
+
+folder1 = resources: allow (14.94/2.05)
+
+folder2 = webtv: allow (10.16/2.05)
+
+url_core = iseco AND
+content_type_MCT = image: deny (22.44/0.0)
+
+url_core = motorpasion: deny (21.44/0.02)
+
+folder2 = aa: allow (10.31/2.09)
+
+folder2 = system: allow (10.26/2.08)
+
+folder2 = ical: allow (10.26/2.08)
+
+folder2 = hc: allow (10.26/2.08)
+
+folder1 = theme: allow (14.64/2.67)
+
+folder2 = calendar: allow (9.45/1.92)
+
+folder1 = openx: allow (14.13/1.96)
+
+folder2 = shared: allow (8.55/1.74)
+
+folder2 = elmundo: allow (8.25/1.68)
+
+folder2 = ap: allow (8.25/1.68)
+
+folder2 = ii: allow (8.25/1.68)
+
+folder2 = css: allow (6.87/1.4)
+
+folder2 = xml: allow (6.84/1.39)
+
+folder2 = srpr: allow (6.84/1.39)
+
+folder2 = chrome: allow (6.84/1.39)
+
+folder2 = cse: allow (6.84/1.39)
+
+url_core = adpv: deny (20.13/0.02)
+
+folder2 = 1238042: allow (6.16/1.23)
+
+folder2 = 09: allow (6.16/1.23)
+
+folder2 = D5D5ISPANMSA: allow (6.16/1.23)
+
+folder1 = tr: allow (13.39/1.82)
+
+folder2 = embed: allow (6.14/1.23)
+
+folder2 = b: allow (6.14/1.23)
+
+folder2 = D5D5ISPANCHV: allow (6.14/1.23)
+
+folder1 = rtb: allow (12.31/2.78)
+
+url_core = msads: deny (20.07/0.02)
+
+folder2 = 159711-solved-php-division-rounding-to-2-decimal-places: allow (6.16/1.23)
+
+folder2 = min: allow (6.16/1.23)
+
+folder2 = bidyutmukherjee: allow (6.16/1.23)
+
+folder2 = android: allow (5.46/1.09)
+
+folder2 = t00 AND
+url_core = addthisedge AND
+digits_in_URL > 47: allow (5.41)
+
+url_core = adslzone: deny (19.5/0.02)
+
+folder2 = images AND
+folder1 = pagead: allow (22.72/3.32)
+
+folder2 = urls AND
+time = 09:28:50: deny (15.5/0.03)
+
+folder2 = urls AND
+subdomain2 = cdn AND
+url_core = twitter AND
+client_address = 10.159.20.83: allow (15.8)
+
+folder2 = urls AND
+folder1 = 1 AND
+time = 09:55:17: allow (7.2/0.02)
+
+folder2 = urls AND
+folder1 = 1 AND
+time = 09:04:20: allow (6.22/0.03)
+
+folder2 = urls AND
+folder1 = 1 AND
+time = 09:25:57: allow (6.13/0.03)
+
+folder2 = urls AND
+folder1 = 1 AND
+time = 08:44:02: allow (6.01)
+
+folder2 = Promociones: allow (5.28/1.07)
+
+folder2 = components: allow (5.28/1.07)
+
+folder2 = icon: allow (5.28/1.07)
+
+folder2 = paranoidandroid-rom-3-review-tips-and-complete-walkthrough: allow (5.28/1.07)
+
+url_core = canaldiabetes: deny (19.41/0.02)
+
+folder1 = adi: allow (12.31/1.67)
+
+folder1 = comun: allow (12.25/1.66)
+
+folder1 = analytics: allow (11.98/1.63)
+
+url_core = amgdgt: deny (19.08/0.02)
+
+url_core = newtentionassets: deny (18.57/0.02)
+
+folder2 = 9079158: allow (5.33/1.08)
+
+folder2 = smartmetering: allow (5.33/1.08)
+
+url_core = telecinco: deny (17.82/0.01)
+
+folder2 = appreq: allow (5.35/1.08)
+
+folder2 = thumbnails: allow (5.35/1.08)
+
+folder2 = urls AND
+folder1 = 1 AND
+time = 09:25:58: allow (5.07)
+
+folder2 = login: allow (5.03/1.02)
+
+url_core = tribalfusion: deny (17.09/0.01)
+
+folder1 = complete: allow (11.02/1.48)
+
+folder2 = urls AND
+time = 09:55:18: allow (5.02)
+
+folder1 = home: allow (10.65/2.07)
+
+folder1 = wiki: allow (10.64/1.43)
+
+folder1 = site: allow (10.38/1.39)
+
+folder2 = banners: allow (4.69/0.94)
+
+url_core = studiofaca: deny (16.83/0.38)
+
+folder2 = photos: allow (4.51/0.91)
+
+folder2 = event: allow (4.31/0.87)
+
+folder2 = 12: allow (4.31/0.87)
+
+url_core = communityheaven: deny (16.25/0.01)
+
+folder2 = 0: allow (4.35/0.88)
+
+folder2 = 1m: allow (4.35/0.88)
+
+folder2 = regional: allow (4.35/0.88)
+
+folder2 = flashplayer: allow (4.35/0.88)
+
+folder2 = 07: allow (4.35/0.88)
+
+folder2 = tbn: allow (4.35/0.88)
+
+folder2 = cookie: allow (4.35/0.88)
+
+url_core = cortefiel: deny (16.01/0.01)
+
+folder2 = Incoming: allow (4.38/0.89)
+
+folder2 = pidgets: allow (4.38/0.89)
+
+subdomain1 = s: allow (46.48/8.34)
+
+url_core = atemda AND
+content_type_MCT = text: deny (76.9/0.06)
+
+url_core = adcloud: deny (15.43/0.01)
+
+folder2 = urls AND
+time = 08:44:01: allow (4.31/0.02)
+
+folder2 = ss: allow (295.68/80.1)
+
+url_core = google-analytics AND
+client_address = 10.159.19.83: allow (87.81)
+
+subdomain1 = pixel: allow (24.49/3.62)
+
+subdomain1 = developer: allow (19.88/2.15)
+
+subdomain1 = imgs: allow (12.61/1.36)
+
+folder1 = vbulletin: allow (8.96/1.14)
+
+subdomain1 = secure-us: allow (11.29/1.22)
+
+subdomain1 = eu: allow (10.94/1.19)
+
+subdomain1 = theregister: allow (10.42/1.9)
+
+subdomain1 = abcdigital: allow (10.1/1.09)
+
+folder1 = t: allow (8.57/1.1)
+
+folder1 = ridefinder: allow (8.52/1.1)
+
+subdomain1 = clients3: allow (9.71/1.06)
+
+folder1 = juggler: allow (8.03/1.52)
+
+url_core = trafficmanager AND
+nonalphanumeric_chars_in_URL <= 30: allow (14.55)
+
+url_core = phpfreaks AND
+URL_length <= 82: allow (15.18/0.49)
+
+url_core = google-analytics AND
+client_address = 192.168.4.4: allow (32.88/1.14)
+
+folder1 = web: allow (7.71/1.01)
+
+folder1 = xjs: allow (7.18/0.94)
+
+subdomain1 = choices: allow (9.29/1.03)
+
+folder1 = 2008: allow (7.03/1.7)
+
+folder1 = re: allow (7.03/0.93)
+
+folder1 = clientscript: allow (6.99/1.3)
+
+url_core = twitter AND
+client_address = 10.159.219.11: allow (35.63/5.28)
+
+folder1 = 1: allow (78.31/21.94)
+
+folder1 = social: allow (59.57/16.18)
+
+folder1 = portal2 AND
+squid_hierarchy = DEFAULT_PARENT: allow (27.03/2.66)
+
+url_core = twitter: allow (108.95/16.31)
+
+folder1 = ads: deny (132.86/38.06)
+
+folder2 = themes: allow (67.25/21.23)
+
+url_core = elandroidelibre AND
+nonalphanumeric_chars_in_URL <= 13: deny (19.78/0.02)
+
+subdomain1 = otto: allow (9.37/1.02)
+
+folder2 = widgets: allow (16.1/5.01)
+
+folder2 = assets: allow (6.1/1.92)
+
+folder2 = iconos AND
+other_char_in_filename > 0: allow (5.74/0.47)
+
+folder2 = iview: allow (21.51/6.96)
+
+folder2 = js AND
+subdomain1 = img: allow (6.91/0.4)
+
+url_core = google-analytics AND
+client_address = 10.159.241.22: allow (21.08)
+
+folder1 = server AND
+url_has_subdomains > 0: deny (9.46/1.62)
+
+folder1 = adserver AND
+url_has_subdomains > 0: deny (71.64/12.25)
+
+folder2 = all: allow (17.66/5.9)
+
+folder2 = icons: allow (11.54/3.82)
+
+folder2 = Images: allow (6.3/2.02)
+
+folder2 = files: allow (5.65/1.89)
+
+folder2 = avg: allow (5.65/1.89)
+
+folder2 = js AND
+folder1 = ad: allow (4.87/0.43)
+
+folder2 = 04 AND
+digits_in_filename <= 2: allow (56.51/13.7)
+
+folder2 = XDA2013 AND
+letters_in_filename <= 7: allow (34.91/7.75)
+
+folder2 = mini: allow (9.33/3.38)
+
+folder2 = y: allow (9.33/3.38)
+
+folder2 = images AND
+folder1 = 1327352558: allow (6.73/0.63)
+
+folder2 = teknautas: allow (4.39/1.47)
+
+folder2 = 011713: allow (4.39/1.47)
+
+folder2 = assets-jqm: allow (3.74/0.74)
+
+folder2 = AIH: allow (3.74/0.74)
+
+folder2 = gtb: allow (3.74/0.74)
+
+folder2 = lib: allow (3.74/0.74)
+
+folder2 = smilies: allow (3.74/0.74)
+
+url_core = disqus AND
+num_parameters <= 1: deny (46.31/1.43)
+
+folder2 = images: allow (60.17/21.5)
+
+folder2 = linux: allow (3.89/0.78)
+
+folder2 = add2: allow (3.89/0.78)
+
+url_core = apple AND
+digits_in_filename > 3: deny (26.3/0.02)
+
+url_core = androidsis: deny (16.33/0.53)
+
+url_core = feedly AND
+URL_length <= 213: allow (12.87/0.26)
+
+url_core = scorecardresearch: allow (96.5/18.22)
+
+url_core = criteo AND
+nonalphanumeric_chars_in_URL <= 126: allow (16.22/1.19)
+
+url_core = google-analytics AND
+client_address = 10.159.232.20 AND
+nonalphanumeric_chars_in_URL > 112: deny (18.02/1.19)
+
+url_core = google-analytics: allow (146.75/15.25)
+
+folder2 = uploads AND
+squid_hierarchy = DIRECT: deny (79.15/9.35)
+
+url_core = googleusercontent: deny (13.04/3.12)
+
+url_core = edgesuite: deny (11.01/0.01)
+
+folder1 = safebrowsing AND
+http_method = POST: deny (53.46/0.62)
+
+url_core = google AND
+url_has_subdomains <= 0: allow (45.33/1.48)
+
+url_core = yldmgrimg: deny (10.83/0.01)
+
+url_core = vidayestilo: deny (10.06/0.01)
+
+url_core = mathtag: deny (9.5/1.6)
+
+url_core = nxtck: deny (9.27/0.66)
+
+url_core = euro-millions: deny (9.15/0.01)
+
+url_core = betrad: deny (9.11/1.6)
+
+url_core = uxmag: deny (9.07/0.01)
+
+url_core = black6 AND
+num_parameters > 3: deny (9.0/0.0)
+
+url_core = elconfidencial AND
+digits_in_filename <= 0: allow (9.88/1.68)
+
+url_core = yimg AND
+url_has_file_extension > 0: deny (11.0/0.01)
+
+url_core = adsrvr: deny (8.78/0.01)
+
+url_core = msadst: deny (8.68/0.01)
+
+url_core = advanseads: deny (8.51/0.01)
+
+url_core = 20min: deny (8.51/0.01)
+
+url_core = futbolenlatv: deny (8.48/0.01)
+
+folder2 = img: allow (28.89/9.19)
+
+folder2 = js AND
+url_core = googlesyndication AND
+letters_in_URL > 49: deny (4.02/0.09)
+
+folder2 = js: allow (17.39/3.16)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (4.02/1.47)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.97/1.45)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.92/1.43)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.86/1.41)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.81/1.39)
+
+folder2 = nuevo-as AND
+path_has_parameters > 0: deny (8.59/2.38)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.77/1.38)
+
+folder2 = imagenes: deny (4.59/1.7)
+
+folder2 = uploads: deny (3.77/1.4)
+
+folder2 = flash AND
+digits_in_filename <= 0: allow (3.45/1.14)
+
+folder2 = flash AND
+digits_in_filename <= 0: allow (3.43/1.13)
+
+folder2 = flash AND
+digits_in_filename <= 0: allow (3.4/1.12)
+
+folder2 = flash AND
+digits_in_filename > 0: deny (3.39/0.22)
+
+folder2 = d1029253 AND
+content_type_MCT = image: deny (9.11/1.51)
+
+folder2 = 04: deny (22.21/8.23)
+
+folder2 = 12735788: deny (11.63/4.31)
+
+folder2 = 3 AND
+num_subdomains <= 1: allow (7.88/2.37)
+
+folder2 = 3 AND
+num_subdomains <= 1: allow (7.73/2.33)
+
+folder2 = 3 AND
+num_subdomains > 1: deny (7.59/0.22)
+
+folder2 = pyv: deny (7.93/2.92)
+
+folder2 = publicidad: deny (7.35/2.7)
+
+folder2 = Stream: deny (6.77/2.49)
+
+folder2 = alacarta20: deny (5.29/1.94)
+
+folder2 = rps: deny (5.08/1.87)
+
+folder2 = web2-Zero AND
+digits_in_filename <= 0: allow (4.23/1.39)
+
+folder2 = web2-Zero AND
+digits_in_filename > 0: deny (4.23/0.27)
+
+folder2 = ads: deny (79.38/29.17)
+
+folder2 = 2012: deny (3.97/1.46)
+
+folder2 = album: deny (3.97/1.46)
+
+folder2 = 1: deny (3.38/1.24)
+
+folder2 = tmp: deny (3.38/1.24)
+
+folder2 = 522721: deny (3.38/1.24)
+
+folder2 = lmtt: allow (3.38/0.6)
+
+time = 08:56:46: deny (8.37/0.64)
+
+folder2 = 110314092950-1eb2e3375d024034b5f07dafe2ce85b2: allow (3.43/0.61)
+
+folder2 = galaxy-ace-gt-s5830-a-android-4-1-jelly-bean-con-rom-de-galaxy-s-2-2: allow (3.43/0.61)
+
+folder2 = dtds: allow (3.43/0.61)
+
+time = 09:58:23: deny (4.02/1.01)
+
+folder2 = 2010-07-01: allow (5.15/1.68)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.75/1.36)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.68/1.34)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.61/1.31)
+
+folder2 = ocasion: deny (2.81/1.03)
+
+folder2 = subidas: deny (2.64/0.97)
+
+folder2 = v2: allow (2.64/0.46)
+
+folder2 = 11137842: allow (2.64/0.46)
+
+folder2 = 7: allow (2.64/0.46)
+
+folder2 = cbsinteractive: allow (2.64/0.46)
+
+folder2 = editors: allow (2.64/0.46)
+
+folder2 = Portal: allow (2.64/0.46)
+
+folder2 = png: allow (2.64/0.46)
+
+time = 09:18:31: deny (3.91/1.23)
+
+time = 09:25:35: deny (3.76)
+
+time = 09:26:56: deny (3.53/0.44)
+
+time = 09:06:23: deny (3.41)
+
+time = 10:19:20: allow (3.25)
+
+time = 09:32:56: deny (3.19/0.6)
+
+time = 09:18:00: deny (3.18/0.18)
+
+time = 08:59:08: allow (3.09/0.77)
+
+time = 09:06:13 AND
+duration_milliseconds <= 50 AND
+duration_milliseconds <= 46: allow (3.09/0.77)
+
+time = 09:32:07: allow (4.45/1.96)
+
+time = 09:14:18: deny (3.09)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (4.05/1.47)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.96/1.44)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.87/1.41)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.79/1.38)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.7/1.35)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.62/1.32)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.54/1.29)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.46/1.26)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.38/1.23)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.31/1.2)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.23/1.18)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.16/1.15)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.09/1.12)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.02/1.1)
+
+folder2 = XDA2013 AND
+squid_hierarchy = DIRECT: deny (6.72/0.83)
+
+time = 09:25:38: deny (2.88/0.28)
+
+time = 09:14:58: allow (2.87)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.08/1.12)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (3.01/1.09)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (2.94/1.07)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (2.87/1.04)
+
+folder2 = t00 AND
+url_has_file_extension <= 0 AND
+http_reply_code = 200: allow (2.8/1.02)
+
+folder2 = delivery: deny (16.41/5.98)
+
+folder2 = bin: deny (13.13/4.79)
+
+time = 10:02:22: allow (2.65/0.84)
+
+time = 09:24:43: allow (2.57)
+
+time = 09:16:06: deny (2.46/0.77)
+
+time = 09:22:17: deny (2.45/0.13)
+
+time = 09:06:13 AND
+duration_milliseconds > 50: allow (2.41)
+
+: allow (450.17/173.88)
+
+Number of Rules  : 	1084
+
+
+Time taken to build model: 2034.02 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       32571               94.2994 %
+Incorrectly Classified Instances      1969                5.7006 %
+Kappa statistic                          0.8687
+Mean absolute error                      0.1369
+Root mean squared error                  0.2247
+Relative absolute error                 30.36   %
+Root relative squared error             47.311  %
+Coverage of cases (0.95 level)          99.9363 %
+Mean rel. region size (0.95 level)      81.3738 %
+Total Number of Instances            34540     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0,997    0,161    0,922      0,997    0,958      0,875    0,984     0,990     allow
+                 0,839    0,003    0,994      0,839    0,910      0,875    0,984     0,977     deny
+Weighted Avg.    0,943    0,106    0,947      0,943    0,942      0,875    0,984     0,985     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 22614    62 |     a = allow
+  1907  9957 |     b = deny
+
+
