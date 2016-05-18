@@ -38,9 +38,15 @@
 %---------------------------------------------------------------------
 
 
-% Ponemos el marcador en el PDF
+% Ponemos el marcador en el PDF al nivel adecuado, dependiendo
+% de su hubo partes en el documento o no (si las hay, queremos
+% que aparezca "al mismo nivel" que las partes.
 \ifpdf
-   \pdfbookmark{Fin}{fin}
+\ifx\tienePartesTeXiS\undefined
+   \pdfbookmark[0]{Fin}{fin}
+\else
+   \pdfbookmark[-1]{Fin}{fin}
+\fi
 \fi
 
 \thispagestyle{empty}\mbox{}
