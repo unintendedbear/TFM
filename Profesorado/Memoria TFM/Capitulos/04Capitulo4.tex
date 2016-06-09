@@ -25,6 +25,7 @@ Cabe puntualizar algunas consideraciones sobre las respuestas obtenidas:
   \item Ha habido un alumno o alumna de Bachillerato que ha contestado a toda la encuesta menos a la primera pregunta sobre su sexo. Por tanto, se han tenido en cuenta sus respuestas siempre y cuando estas no se representen en función al sexo de los alumnos y alumnas.
   \item En la pregunta ``\textit{Indica si algunas de las siguientes actividades han tenido lugar en tu colegio o instituto}'', han aparecido algunos resultados en blanco de manera que algunos alumnos o alumnas han respondido ``Sí'' cuando preocedía pero nada cuando no. Así pues, los huecos en blanco se han considerado como un ``No''.
   \item La pregunta sobre las calificaciones de los alumnos ha causado mucha confusión en las sesiones, ya que las preguntas sobre la cantidad de años que han cursado Tecnología o Informática deberían haber ido antes. Los alumnos marcaron notas en Informática aún cuando no la habían cursado. Por esta razón, se ha hecho una limpieza manual de esta columna en las ocasiones que un estudiante haya afirmado no haber cursado nunca la asignatura de Informática.
+  \item Algunos alumnos y alumnas que han respondido ``Sí'' a la pregunta ``\textit{¿Te planteas los estudios superiores en una carrera tecnológica?}'', también han marcado razones por las que  ``No'' la estudiarían. Estos casos se tratan en sus correspondientes apartados.
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -46,10 +47,15 @@ Es curioso, por otra parte, el cómo el 34\% de los encuestados en Ciclos Formati
 \figuraEx{Bitmap/eleccion.png}{width=\textwidth}{fig:eleccion}%
 {Distribución de elección de continuación, o no continuación, de estudios según el curso. Las opciones son distintas para cada curso y se han especificado en cada leyenda. Además, en cada columna, el orden de las partes sigue el orden de las etiquetas de la leyenda, comenzando por abajo por continuación con estudios superiores, y terminando con la búsqueda de trabajo.}{Distribución de elección de continuación, o no continuación, de estudios según el curso.}
 
-El interés por las ingenieras durante la etapa de educación secundaria se muestra en \ref{fig:interes}. Mientras que a los alumnos de E.S.O. se les ha preguntado por su pensamiento actual con ``¿Cuánto dirías que te interesa la ingeniería?'', a los demás se les preguntaba ``¿Cuánto dirías que te interesaba la ingeniería durante la E.S.O?''. La media en todos los casos es apenas superior a 3, siendo 3'10 en la E.S.O., 3'36 en Bachillerato y 3'12 en ciclos formativos. Las respuestas son aproximadas, a pesar de que los alumnos de cursos superiores - sobre todo en ciclos formativos - podrían no recordar qué pensaban cuando estaban en la E.S.O.. Así pues, podría pensarse también que algunos siguen teniendo esa opinión y es lo que han reflejado en la pregunta.
+El interés por las ingenieras durante la etapa de educación secundaria se muestra en \ref{fig:interes}. Mientras que a los alumnos de E.S.O. se les ha preguntado por su pensamiento actual con ``\textit{¿Cuánto dirías que te interesa la ingeniería?}'', a los demás se les preguntaba ``\textit{¿Cuánto dirías que te interesaba la ingeniería durante la E.S.O?}''. La media en todos los casos es apenas superior a 3, siendo 3'10 en la E.S.O., 3'36 en Bachillerato y 3'12 en ciclos formativos. Las respuestas son aproximadas, a pesar de que los alumnos de cursos superiores - sobre todo en ciclos formativos - podrían no recordar qué pensaban cuando estaban en la E.S.O.. Así pues, podría pensarse también que algunos siguen teniendo esa opinión y es lo que han reflejado en la pregunta.
 
 \figuraEx{Bitmap/interes.png}{width=0.85\textwidth}{fig:interes}%
 {Distribución del interés de los alumnos y alumnas por las ingenierías durante la etapa de la E.S.O., según el curso. A los alumnos de E.S.O. se les ha preguntado por su pensamiento actual, y a los demás por cómo pensaban cuando estaban en la E.S.O.}{Distribución del interés por las ingenierías durante la etapa de la E.S.O.}
+
+Ahora bien, como se ve en la Figura \ref{fig:interes_tech}, el interés por las nuevas tecnologías es muy superior al registrado por las ingenierías. De hecho, en los Ciclos Formativos no ha habido nadie que haya marcado ``Muy Poco'', y solamente una persona ha calificado su interés como 2 de 5.
+
+\figuraEx{Bitmap/interes_tech.png}{width=0.85\textwidth}{fig:interes_tech}%
+{Distribución del interés de los alumnos y alumnas por las nuevas tecnologías, entre las que se incluían móviles, televisores inteligentes y relojes inteligentes.}{Distribución del interés de los alumnos y alumnas por las nuevas tecnologías.}
 
 Por otra parte, resulta curioso el hecho de que no ha habido unanimidad en ningún curso a la hora de decir si se habían organizado en el centro charlas de mujeres ingenieras, o sobre su trabajo o su poca representación en las STEM. Mientras que en la E.S.O. y en los ciclos predomina el ``No'', en Bachiller gana el ``Sí''. Se debe tener en cuenta que las encuestas han tenido lugar tras la realización de una ``Semana de la Ciencia'' que este instituto realiza todos los años. Este año \citep{ieszv:blog}, solamente una de las conferencias estaba dada por una mujer, investigadora del departamento de Física Aplicada de la UGR, si bien otra investigadora del Instituto Andaluz de Ciencias de la Tierra dio un taller. Por tanto, aún teniendo la certeza de que al menos la primera actividad por las que se preguntaba debería responderse con ``Sí'', y siendo reciente, todas las respuestas siguen el mismo patrón, ya mencionado. Se hará un análisis más profundo en cada una de las siguientes secciones.
 
@@ -70,34 +76,89 @@ En la elaboración de este capítulo se tienen en cuenta los factores de influenci
 
 Por su parte, no parece que haya influencia en la cantidad de compañeros y compañeras que los estudiantes hayan tenido en sus cursos anteriores. Por contra, sí es notable el hecho de que la mayoría de alumnos de la E.S.O. encuestados aseguran haber tenido solamente profesoras en sus clases de tecnología. Este hecho concuerda con la información aportada sobre el centro en la Sección \ref{cap3:subsec:centro}, ya que el departamento de Tecnología está íntegramente formado por mujeres. No sólo eso, sino que las chicas que aseguran que continuarán con el Bachillerato de ciencias, un 43'33\% del total de chicas, afirman de manera unánime que siempre han tenido profesoras en la asignatura de tecnología. No pasa así con los chicos, que son más reacios a responder ``Todo mujeres'', ya que no lo marca ni la mitad del total de alumnos.
 
-Otro resultado curioso se presenta en la Tabla \ref{tab:interes_ESO}, ya que aunque a las chicas en general les interesen bastante las ingenierías, cuando se hace la distinción por elección post-E.S.O., el interés parece más bajo, a pesar de que en los chicos sube muy ligeramente. Esto puede deberse a que el la actualidad existen solamente dos ramas de Bachillerato: Ciencias, y Humanidades. Así pues, las chicas que han decidido hacer el Bachillerato de ciencias pueden estar interesadas en la rama de Ciencias de la Salud en lugar de en la técnica.
+Otro resultado curioso se presenta en la Tabla \ref{tab:interes_ESO}, ya que aunque a las chicas en general les interesen bastante las ingenierías, cuando se hace la distinción por elección post-E.S.O., el interés parece más bajo, a pesar de que en los chicos sube muy ligeramente. Esto puede deberse a que el la actualidad existen solamente dos ramas de Bachillerato: Ciencias, y Humanidades. Así pues, las chicas que han decidido hacer el Bachillerato de ciencias pueden estar interesadas en la rama de Ciencias de la Salud en lugar de en la técnica. Precisamente, el hecho de que las chicas que han marcado ``Otro tipo de Bachillerato'' como opción post-E.S.O. hayan valorado tanto las ingenierías (3'122, superior a la media), podría ser porque han entendido que ``Bachillerato de ciencias'' se refiera a la rama de la Salud y no al tecnológico. Sí resulta menos sorprendente que los chicos que van a estudiar otro tipo de bachillerato estén ligeramente menos interesados por las ingenierías.
 
 \begin{table}
-  \caption{Interés de los alumnos y alumnas de la E.S.O. de 1 a 5, donde 1 significa ``Muy Poco'' y 5 ``Muchísimo''}
+  \caption{Interés por las ingenierías de los alumnos y alumnas de la E.S.O. de 1 a 5, donde 1 significa ``Muy Poco'' y 5 ``Muchísimo''}
   \label{tab:interes_ESO}
 
   \begin{center}
-    \begin{tabular}{cc}
-      Tipo alumno/a & Interés [1 - 5] (media) \\
-      Chicos (total) & 3'097 \\
-      Chicas (total) & 3'083 \\
-      Chicos (que van a hacer el Bachillerato de ciencias) & 3'098 \\
-      Chicas (que van a hacer el Bachillerato de ciencias) & 2'961 \\
+    \begin{tabular}{|c|c|}
+    \hline
+      \textbf{Tipo alumno/a} & \textbf{Interés [1 - 5] (media)} \\ \hline
+      Chicos (total) & 3'097 \\ \hline
+      Chicas (total) & 3'083 \\ \hline
+      Chicos (que van a hacer el Bachillerato de ciencias) & 3'098 \\ \hline
+      Chicas (que van a hacer el Bachillerato de ciencias) & 2'961 \\ \hline
+      Chicos (que van a hacer otro Bachillerato) & 3'078 \\ \hline
+      Chicas (que van a hacer otro Bachillerato) & 3'122 \\
+    \hline
     \end{tabular}
   \end{center}
 \end{table}
 
-A continuación se analizan las notas en las asignaturas STEM. Se ha omitido Informática puesto que esta asignatura comienza a ser optativa en 4º de E.S.O., y muy pocos alumnos y alumnas de entre los encuestados han tenido la oportunidad de cursarla. En las Figuras \ref{fig:notasESOchicos} y \ref{fig:notasESOchicas} se puede comprobar la distribución de notas por asignatura por parte de los chicos y las chicas, respectivamente. En los casos en los que la columna no llega al 100\% es porque algún alumno no ha querido decir su nota, aunque esto solamente pasa en el gráfico de los chicos.
+De igual manera se representa en la tabla \ref{tab:interes_ESO_tech} el interés de los alumnos de secundaria por las nuevas tecnologías. El hecho de que estas puntuaciones sean, en general, más altas que las de la Tabla \ref{tab:interes_ESO} era de esperar tras analizar los factores en el Capítulo \ref{cap1:intro}, ya que los adolescentes parecen ser aficionados a las nuevas tecnologías independientemente de lo que quieran estudiar.
+
+\begin{table}
+  \caption{Interés por las nuevas tecnologías de los alumnos y alumnas de la E.S.O. de 1 a 5, donde 1 significa ``Muy Poco'' y 5 ``Muchísimo''}
+  \label{tab:interes_ESO_tech}
+
+  \begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+      \textbf{Tipo alumno/a} & \textbf{Interés [1 - 5]} (media) \\ \hline
+      Chicos (total) & 4'290 \\ \hline
+      Chicas (total) & 4'300 \\ \hline
+      Chicos (que van a hacer el Bachillerato de ciencias) & 4'300 \\ \hline
+      Chicas (que van a hacer el Bachillerato de ciencias) & 4'255 \\ \hline
+      Chicos (que van a hacer otro Bachillerato) & 4'294 \\ \hline
+      Chicas (que van a hacer otro Bachillerato) & 4'244 \\
+    \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+A continuación se analizan las notas en las asignaturas STEM. Se ha omitido Informática puesto que esta asignatura comienza a ser optativa en 4º de E.S.O., y muy pocos alumnos y alumnas de entre los encuestados han tenido la oportunidad de cursarla. En las Figuras \ref{fig:notasESOchicos} y \ref{fig:notasESOchicas} se puede comprobar la distribución de notas por asignatura por parte de los chicos y las chicas, respectivamente. En los casos en los que la columna no llega al 100\% es porque algún alumno no ha querido decir su nota, aunque esto solamente pasa en el gráfico de los chicos. Resulta curioso que precisamente en la Figura \ref{fig:notasESOchicos} sea donde más respuestas en blanco se hayan dejado, a la vez que no se registra ningún suspenso. No teniendo esto en cuenta, los chicos parecen tener notas más altas que las chicas, ya que ellas sí aseguran haber suspendido en alguna ocasión. Sin embargo, si lo tenemos en cuenta y no contamos a las chicas que afirman haber suspendido, las notas de las chicas en asignaturas STEM son, en media, mucho más altas que las de los chicos.
 
 \figuraEx{Bitmap/notasESOchicos.png}{width=0.85\textwidth}{fig:notasESOchicos}%
 {Distribución de las notas entre los alumnos de E.S.O. que van a continuar sus estudios con el Bachillerato de ciencias, para las notas de Matemáticas, Física y Tecnología. En los casos en los que la columna no llega al 100\% es debido a que algún alumno no ha querido decir su nota.}{Distribución de notas de alumnos de E.S.O. por asignatura STEM.}
 \figuraEx{Bitmap/notasESOchicas.png}{width=0.85\textwidth}{fig:notasESOchicas}%
 {Distribución de las notas entre las alumnas de E.S.O. que van a continuar sus estudios con el Bachillerato de ciencias, para las notas de Matemáticas, Física y Tecnología.}{Distribución de notas de alumnas de E.S.O. por asignatura STEM.}
 
+En cuanto a la relación entre la elección post-E.S.O. y lo informados que están los alumnos y alumnas sobre las salidas laborales de las ingenierías, se muestra en la Figura \ref{fig:salidas_bach}. En principio, la media es muy parecida, siendo 2'50 para los que escogen el Bachillerato de ciencias y 2'462 para los que escogen otro tipo de bachillerato. De modo que podría decirse que este factor no es determinante. Por otro lado, y como se ve en la Figura \ref{fig:opiniones_bach}, parece que los alumnos y alumnas que van a estudiar un Bachillerato de ciencias valoran mejor a los Ingenieros Informáticos. Podría destacarse el hecho de que el mayor porcentaje de estudiantes que están de acuerdo con la afirmación ``Ganan mucho dinero'' es precisamente el de los que van a estudiar otro tipo de bachillerato que no es el de ciencias.
+
+\figuraEx{Bitmap/salidas_bach.png}{width=0.85\textwidth}{fig:salidas_bach}%
+{Percepción del conocimiento que tienen los alumnos sobre las salidas laborales que tienen las ingenierías, y su relación con la elección que han hecho para después de la E.S.O.}{Tipo de Bachillerato escogido en función del conocimiento de las salidas laborales de las ingenierías.}
+\figuraEx{Bitmap/opinion_bach.png}{width=0.85\textwidth}{fig:opiniones_bach}%
+{Distribución de las opiniones sobre los Ingenieros Informáticos y su relación con el tipo de Bachillerato que los alumnos van a realizar tras la E.S.O.}{Opinión sobre los Ingenieros Informáticos en función del Bachillerato escogido.}
+
+Por último, se hace un análisis de las razones por las que los estudiantes de E.S.O. encuestados estudiarían, o no, una ingeniería. Cabe comenzar puntualizando que, de entre los que han respondido ``Sí'' a la pregunta ``\textit{¿Te planteas los estudios superiores en una carrera tecnológica?}'' varios han respondido que después de la E.S.O. tienen pensado realizar un Ciclo Formativo de Grado medio relacionado con la tecnología o la informática. Recordemos que tras la aprobación de la Ley Orgánica para la Mejora de la Calidad Educativa (LOMCE, \citep{lomce8}), a los Grados se puede acceder tanto desde Bachillerato como desde un Ciclo Formativo de Grado Superior, y a éste desde uno de Grado Medio. También, es importante tener en cuenta que 3 de los 17 que han respondido que sí, han dicho que estudiarían ``Otro tipo de bachillerato'' y no el de ciencias. Así pues, en total, casi el 27\% de los alumnos ha mostrado interés en realizar una ingeniería en el futuro.
+
+De manera un poco más profunda, vemos la Figura \ref{fig:ingsino_bach} para estudiar la perspectiva de género. Los números son los esperados, es decir, solamente un 33'33\% de las chicas que dicen que estudiarán un Bachillerato de ciencias piensan también estudiar una ingeniería. Sin embargo, este número es mejor que el global, ya que de los 17 alumnos que dicen querer estudiar una ingeniería, apenas el 29\% son chicas.
+
+\figuraEx{Bitmap/ingsino_bach.png}{width=0.85\textwidth}{fig:ingsino_bach}%
+{Distribución del sexo de los alumnos que harán un Bachillerato de ciencias después de la E.S.O., en función de si estudiarían o no una ingeniería en el futuro.}{Distribución del sexo de los alumnos en función de si estudiarían o no una ingeniería en el futuro.}
+
+Ya analizando más en profundidad las razones por las que los alumnos o las alumnas estudiarían o no una ingeniería en el futuro, se muestran las gráficas en las Figuras \ref{fig:razonesESO_chicos} y \ref{fig:razonesESO_chicas}. En el caso de los chicos las principales razones son, como se veía en la Sección \ref{cap1:sec:factores}, que los estudiantes se ven capaces de estudiar una ingeniería y que le ven salida laboral. En menor medida, se menciona el ser para ``frikis'' y el ser para hombres. Recordemos que son las razones por las que \textbf{sí} se estudiaría una carrera, y por tanto hay alumnos que ven estas características como algo positivo. En cuanto a las chicas, la capacidad para estudiarlas la ven por debajo de como se ven los chicos. Además, pasa como en las respuestas de los chicos, piensan que es ``para hombres'' o para ``frikis'' y esto lo ven como algo positivo por lo que estudiar una ingeniería.
+
+\figuraEx{Bitmap/razonesESO_chicos.png}{width=\textwidth}{fig:razonesESO_chicos}%
+{Distribución del peso de las razones por las que los chicos en E.S.O. sí estudiarían una ingeniería.}{Razones por las que los chicos en E.S.O. sí estudiarían una ingeniería.}
+\figuraEx{Bitmap/razonesESO_chicas.png}{width=\textwidth}{fig:razonesESO_chicos}%
+{Distribución del peso de las razones por las que las chicas en E.S.O. sí estudiarían una ingeniería.}{Razones por las que las chicas en E.S.O. sí estudiarían una ingeniería.}
+
+Por su parte, las razones por las que los alumnos y alumnas encuestados no estudiarían una ingeniería aparecen en las Figuras \ref{fig:razonesNOESO_chicos} y \ref{fig:razonesNOESO_chicas}. En ambas nos encontramos la situación contraria y que también se cumple con lo obtenido en el Capítulo \ref{cap1:intro}, es decir, que los alumnos y alumnas que no se ven capaces de estudiar una ingeniería, no tienen intención de realizarla. Sin embargo, parece que las chicas son más sensibles a pensar que son ellas las que no son capaces, mientras que los chicos piensan en su mayoría que simplemente son difíciles. Aquí, pues, vemos la falta de autoconfianza en las chicas que se concluía en los artículos estudiados. Finalmente, aunque en baja medida, las chicas que no estudiarían una ingeniería piensan que es para ``frikis'' y ``para hombres'', sumando estas dos razones por estereotipos más que el no verle salidas profesionales.
+
+\figuraEx{Bitmap/razonesNOESO_chicos.png}{width=\textwidth}{fig:razonesNOESO_chicos}%
+{Distribución del peso de las razones por las que los chicos en E.S.O. no estudiarían una ingeniería.}{Razones por las que los chicos en E.S.O. no estudiarían una ingeniería.}
+\figuraEx{Bitmap/razonesNOESO_chicas.png}{width=\textwidth}{fig:razonesNOESO_chicos}%
+{Distribución del peso de las razones por las que las chicas en E.S.O. no estudiarían una ingeniería.}{Razones por las que las chicas en E.S.O. no estudiarían una ingeniería.}
+
 %-------------------------------------------------------------------
 \section{Resultados en Bachillerato}
 %-------------------------------------------------------------------
 \label{cap4:sec:resbach}
+
+
 
 %-------------------------------------------------------------------
 \section{Resultados en Ciclos Formativos}
